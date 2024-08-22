@@ -17,7 +17,7 @@ const ModalComponent = ({ isOpen, onClose, type, setUser }) => {
         <h2>{type === 'login' ? 'Login' : 'Register'}</h2>
 
       {type === 'login' && <Login onClose={onClose} setUser={setUser} />}
-      {type === 'register' && <Register onClose={onClose} />}
+      {type === 'register' && <Register onClose={onClose} setUser={setUser} />}
     </Modal>
   );
 };

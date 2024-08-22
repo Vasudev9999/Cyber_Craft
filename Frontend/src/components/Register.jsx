@@ -12,16 +12,18 @@ function Register({ onClose, setUser }) {
     try {
       const response = await axios.post('http://localhost:8080/api/auth/register', { username, password, email });
       if (response.status === 200) {
-        // Set the user session
-        setUser(username); // Assuming username is used to set the user
-        setError('Registration successful');
+        setUser(username); // Set the user session in App component
         onClose(); // Close the modal
       } else {
         setError('Registration failed');
       }
     } catch (error) {
       console.error('Registration error:', error);
-      setError('Registration failed');
+      if (error.response && error.response.data) {
+        setError('Registration failed: ' + error.response.data); // Show the exact error message
+      } else {
+        setError('Registration failed');
+      }
     }
   };
 
