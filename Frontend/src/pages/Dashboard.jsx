@@ -2,7 +2,7 @@ import React from 'react';
 
 const Dashboard = ({ username }) => {
   return (
-    <div>
+    <div className="dashboard">
       <h1>Welcome to Cyber Craft</h1>
       {username ? (
         <p>Welcome, {username}!</p>

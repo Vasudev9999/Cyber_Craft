@@ -47,7 +47,6 @@ const App = () => {
     <Router>
       <div>
         <nav>
-          <Link to="/">Home</Link>
           {user ? (
             <>
               <Link to="/dashboard">Dashboard</Link>
@@ -74,9 +73,7 @@ const App = () => {
           type={modalType}
           setUser={setUser} // Pass setUser to update user state on login/register
         />
-        
       </div>
-      
     </Router>
   );
 };
