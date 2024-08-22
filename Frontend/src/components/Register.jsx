@@ -1,71 +1,41 @@
-// src/components/Register.jsx
 import React, { useState } from 'react';
+import axios from 'axios';
 
-const Register = () => {
+function Register({ onClose, setUser }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8080/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password, email }),
-      });
-
-      if (response.ok) {
-        alert('Registration successful');
-        // Optionally redirect to login
+      const response = await axios.post('http://localhost:8080/api/auth/register', { username, password, email });
+      if (response.status === 200) {
+        // Set the user session
+        setUser(username); // Assuming username is used to set the user
+        setError('Registration successful');
+        onClose(); // Close the modal
       } else {
-        alert('Registration failed');
+        setError('Registration failed');
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Registration error:', error);
+      setError('Registration failed');
     }
   };
 
   return (
     <div>
-      <h2>Register</h2>
       <form onSubmit={handleSubmit}>
-        <label>
-          Username:
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        <br />
-        <label>
-          Email:
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        <br />
+        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" required />
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
         <button type="submit">Register</button>
       </form>
+      {error && <p>{error}</p>}
     </div>
   );
-};
+}
 
 export default Register;

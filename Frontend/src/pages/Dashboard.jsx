@@ -1,11 +1,14 @@
-// src/pages/Dashboard.jsx
 import React from 'react';
 
-const Dashboard = () => {
+const Dashboard = ({ username }) => {
   return (
     <div>
-      <h1>Welcome to Your Dashboard</h1>
-      <p>This is your dashboard.</p>
+      <h1>Welcome to Cyber Craft</h1>
+      {username ? (
+        <p>Welcome, {username}!</p>
+      ) : (
+        <p>Welcome to Cyber Craft! Please log in to access your personalized dashboard.</p>
+      )}
     </div>
   );
 };
