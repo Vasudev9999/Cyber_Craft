@@ -15,21 +15,7 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
-/*
-    @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user, HttpSession session) {
-        try {
-            User registeredUser = userService.registerUser(user);
 
-            // Optionally log in the user after registration
-            session.setAttribute("username", registeredUser.getUsername());
-
-            return ResponseEntity.ok(registeredUser);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Registration failed: " + e.getMessage());
-        }
-    }
-    */
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user, HttpSession session) {

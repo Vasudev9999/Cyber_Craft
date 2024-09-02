@@ -14,7 +14,7 @@ function Login({ onClose, setUser }) {
     } catch (error) {
       alert('Invalid credentials');
     }
-  };
+  }; 
 
   return (
     <form onSubmit={handleSubmit} className="modal-form">

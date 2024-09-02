@@ -54,6 +54,7 @@ function Register({ onClose, setUser }) {
         <button type="submit">Register</button>
       </form>
       {error && <p className="error-message">{error}</p>}
+
     </div>
   );
 }
