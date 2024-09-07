@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
 import ModalComponent from './components/Modal';
+import Navbar from './components/Navigation/Navbar';
+import Footer from './components/Footer/Footer'; // Import Footer here
 import './App.css';
 import axios from 'axios';
+axios.defaults.withCredentials = true;
 
 const App = () => {
   const [user, setUser] = useState(null);
   const [modalType, setModalType] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  // Check session status when component mounts
   useEffect(() => {
     const checkSession = async () => {
       try {
@@ -45,25 +47,24 @@ const App = () => {
 
   return (
     <Router>
-      <div>
-        <nav>
-          {user ? (
-            <>
-              <Link to="/dashboard">Dashboard</Link>
-              <button onClick={handleLogout}>Logout</button>
-            </>
-          ) : (
-            <>
-              <button onClick={() => openModal('login')}>Login</button>
-              <button onClick={() => openModal('register')}>Register</button>
-            </>
-          )}
-        </nav>
+      <div className="app-container">
+        {/* Pass openModal, isLoggedIn, and handleLogout to Navbar */}
+        <Navbar 
+          openModal={openModal} 
+          isLoggedIn={!!user} 
+          handleLogout={handleLogout} 
+        />
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route
             path="/dashboard"
-            element={<Dashboard username={user} />}
+            element={
+              <Dashboard
+                username={user?.username}
+                openModal={openModal}
+                handleLogout={handleLogout}
+              />
+            }
           />
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -73,6 +74,7 @@ const App = () => {
           type={modalType}
           setUser={setUser} // Pass setUser to update user state on login/register
         />
+        <Footer /> {/* Add Footer here */}
       </div>
     </Router>
   );

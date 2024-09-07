@@ -1,0 +1,26 @@
+/* src/components/Footer.css */
+
+.footer {
+    background-color: #a01d57; /* Red color */
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    position: relative;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    font-size: 14px;
+    font-family: 'Arial', sans-serif;
+    height: 100px;
+  }
+  
+  .footer a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .footer a:hover {
+    text-decoration: underline;
+  }
+  
