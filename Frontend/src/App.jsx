@@ -5,6 +5,7 @@ import NotFound from './pages/NotFound';
 import ModalComponent from './components/Modal';
 import Navbar from './components/Navigation/Navbar';
 import Footer from './components/Footer/Footer'; // Import Footer here
+import PrebuildPC from './pages/PrebuildPC .jsx'; // Import PrebuildPC here
 import './App.css';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
@@ -65,6 +66,10 @@ const App = () => {
                 handleLogout={handleLogout}
               />
             }
+          />
+          <Route
+            path="/prebuild-pc"
+            element={<PrebuildPC />}
           />
           <Route path="*" element={<NotFound />} />
         </Routes>
