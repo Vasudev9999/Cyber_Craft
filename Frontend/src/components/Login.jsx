@@ -9,12 +9,12 @@ function Login({ onClose, setUser }) {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:8080/api/auth/login', { username, password });
-      setUser(username); // Update user state on successful login
+      setUser(response.data); // Update user state with full user data
       onClose(); // Close the modal
     } catch (error) {
       alert('Invalid credentials');
     }
-  }; 
+  };
 
   return (
     <form onSubmit={handleSubmit} className="modal-form">

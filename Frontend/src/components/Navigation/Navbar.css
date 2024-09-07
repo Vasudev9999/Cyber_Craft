@@ -1,13 +1,16 @@
-/* Ensure @import is at the very top */
+/* Navbar.css */
+
 @import url('https://fonts.googleapis.com/css2?family=Baskervville+SC&display=swap');
 
-/* Styles for the navbar component */
 .baskervville-sc-regular {
   font-family: "Baskervville SC", serif;
   font-weight: 400;
   font-style: normal;
 }
-
+.app-container {
+    padding-top: 60px; /* Adjust this value based on your navbar height */
+    box-sizing: border-box; /* Ensures padding is included in the element's total width and height */
+  }
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -20,7 +23,8 @@
   width: 100%;
   top: 0;
   transition: top 0.3s;
-  overflow: hidden; /* Prevents overflow issues */
+  /* Remove overflow: hidden; to allow dropdown visibility */
+  z-index: 1000; /* Ensure navbar is on top of other content */
   box-sizing: border-box; /* Ensures padding is included in the element's total width and height */
 }
 
@@ -101,12 +105,13 @@
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 100%;
+  top: 50px; /* Adjust as needed to position the dropdown below the profile icon */
   right: 0;
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  z-index: 1000;
+  z-index: 1000; /* Ensure dropdown is above other content */
+  min-width: 160px; /* Adjust width as needed */
 }
 
 .dropdown-item {
@@ -121,7 +126,7 @@
 }
 
 .dropdown-item:hover {
-  background-color: #f0f0f0;
+  background-color: #d57070;
 }
 
 .hamburger {
@@ -148,6 +153,9 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .app-container {
+        padding-top: 50px; /* Adjust this value for mobile view */
+      }
   .navbar {
     flex-direction: column;
     align-items: flex-start;
@@ -176,3 +184,23 @@
     display: flex;
   }
 }
+/* Existing styles */
+
+.navbar-links a {
+    color: black;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+  
+  .navbar-links a:hover {
+    font-size: 20px;
+  }
+  
+  .navbar-link.active {
+    font-size: 20px;
+    font-weight: bold;
+    color: #a01d57; /* Example color for active link */
+  }
+  

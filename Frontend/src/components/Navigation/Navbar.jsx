@@ -1,10 +1,14 @@
-import React from "react";
-import "./Navbar.css";
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import './Navbar.css';
 
-const Navbar = ({ isLoggedIn, openModal, handleLogout }) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  const [showNavbar, setShowNavbar] = React.useState(true);
+const Navbar = ({ openModal, isLoggedIn, handleLogout }) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showNavbar, setShowNavbar] = useState(true);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
   let lastScrollTop = 0;
+  const location = useLocation();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -13,19 +17,38 @@ const Navbar = ({ isLoggedIn, openModal, handleLogout }) => {
   const handleScroll = () => {
     const currentScrollTop = window.pageYOffset;
     if (currentScrollTop > lastScrollTop) {
+      // Scrolling down
       setShowNavbar(false);
     } else {
+      // Scrolling up
       setShowNavbar(true);
     }
-    lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop;
+    lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop; // For Mobile or negative scrolling
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
 
   return (
     <nav className={`navbar ${showNavbar ? "visible" : "hidden"}`}>
@@ -35,21 +58,35 @@ const Navbar = ({ isLoggedIn, openModal, handleLogout }) => {
       </div>
 
       <div className={`navbar-links ${isMobileMenuOpen ? "active" : ""}`}>
-        <a href="#prebuild-pc">Prebuild PC</a>
-        <a href="#custom-pc">Custom PC</a>
-        <a href="#cart">Cart</a>
+        <Link to="/dashboard" className={`navbar-link ${location.pathname === '/dashboard' ? 'active' : ''}`}>
+          Dashboard
+        </Link>
+        <Link to="/prebuild-pc" className={`navbar-link ${location.pathname === '/prebuild-pc' ? 'active' : ''}`}>
+          Prebuild PC
+        </Link>
+        <Link to="/custom-pc" className={`navbar-link ${location.pathname === '/custom-pc' ? 'active' : ''}`}>
+          Custom PC
+        </Link>
+        <Link to="/cart" className={`navbar-link ${location.pathname === '/cart' ? 'active' : ''}`}>
+          Cart
+        </Link>
       </div>
 
       <div className="navbar-auth">
         {isLoggedIn ? (
-          <>
+          <div className="profile-dropdown" ref={dropdownRef}>
             <img
-              src="src/assets/Profile_sample/download.jpeg"
+              src="src/assets/Profile_sample/download.png"
               alt="Profile Icon"
               className="profile-icon"
-              onClick={handleLogout}
+              onClick={toggleDropdown}
             />
-          </>
+            {isDropdownOpen && (
+              <div className="dropdown-menu">
+                <button className="dropdown-item" onClick={handleLogout}>Logout</button>
+              </div>
+            )}
+          </div>
         ) : (
           <>
             <button className="navbar-login" onClick={() => openModal('login')}>Login</button>

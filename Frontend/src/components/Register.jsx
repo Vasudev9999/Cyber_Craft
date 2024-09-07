@@ -12,18 +12,14 @@ function Register({ onClose, setUser }) {
     try {
       const response = await axios.post('http://localhost:8080/api/auth/register', { username, password, email });
       if (response.status === 200) {
-        setUser(username); // Set the user session in App component
+        setUser(response.data); // Update user state with full user data
         onClose(); // Close the modal
       } else {
         setError('Registration failed');
       }
     } catch (error) {
       console.error('Registration error:', error);
-      if (error.response && error.response.data) {
-        setError('Registration failed: ' + error.response.data); // Show the exact error message
-      } else {
-        setError('Registration failed');
-      }
+      setError(error.response?.data || 'Registration failed');
     }
   };
 
@@ -54,7 +50,6 @@ function Register({ onClose, setUser }) {
         <button type="submit">Register</button>
       </form>
       {error && <p className="error-message">{error}</p>}
-
     </div>
   );
 }
