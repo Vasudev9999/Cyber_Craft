@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css';
 
-const Navbar = ({ openModal, isLoggedIn, handleLogout }) => {
+const Navbar = ({ isLoggedIn, handleLogout }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -89,8 +89,8 @@ const Navbar = ({ openModal, isLoggedIn, handleLogout }) => {
           </div>
         ) : (
           <>
-            <button className="navbar-login" onClick={() => openModal('login')}>Login</button>
-            <button className="navbar-signup" onClick={() => openModal('register')}>Sign Up</button>
+            <Link className="navbar-login" to="/login">Login</Link>
+            <Link className="navbar-signup" to="/register">Sign Up</Link>
           </>
         )}
       </div>

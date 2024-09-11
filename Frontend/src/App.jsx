@@ -1,19 +1,19 @@
+// src/App.jsx
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
-import ModalComponent from './components/Modal';
+import LoginPage from './components/Login'; // Import the new LoginPage component
+import RegisterPage from './components/Register'; // Import the new RegisterPage component
 import Navbar from './components/Navigation/Navbar';
-import Footer from './components/Footer/Footer'; // Import Footer here
-import PrebuildPC from './pages/PrebuildPC .jsx'; // Import PrebuildPC here
+import Footer from './components/Footer/Footer';
+import PrebuildPC from './pages/PrebuildPC .jsx';
 import './App.css';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 const App = () => {
   const [user, setUser] = useState(null);
-  const [modalType, setModalType] = useState(null);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
     const checkSession = async () => {
@@ -34,24 +34,12 @@ const App = () => {
     } catch (error) {
       console.error('Logout error:', error);
     }
-    setModalIsOpen(false); // Close modal on logout
-  };
-
-  const openModal = (type) => {
-    setModalType(type);
-    setModalIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalIsOpen(false);
   };
 
   return (
     <Router>
       <div className="app-container">
-        {/* Pass openModal, isLoggedIn, and handleLogout to Navbar */}
         <Navbar 
-          openModal={openModal} 
           isLoggedIn={!!user} 
           handleLogout={handleLogout} 
         />
@@ -59,13 +47,15 @@ const App = () => {
           <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route
             path="/dashboard"
-            element={
-              <Dashboard
-                username={user?.username}
-                openModal={openModal}
-                handleLogout={handleLogout}
-              />
-            }
+            element={<Dashboard username={user?.username} />}
+          />
+          <Route
+            path="/login"
+            element={<LoginPage setUser={setUser} />}
+          />
+          <Route
+            path="/register"
+            element={<RegisterPage setUser={setUser} />}
           />
           <Route
             path="/prebuild-pc"
@@ -73,13 +63,7 @@ const App = () => {
           />
           <Route path="*" element={<NotFound />} />
         </Routes>
-        <ModalComponent
-          isOpen={modalIsOpen}
-          onClose={closeModal}
-          type={modalType}
-          setUser={setUser} // Pass setUser to update user state on login/register
-        />
-        <Footer /> {/* Add Footer here */}
+        <Footer />
       </div>
     </Router>
   );
