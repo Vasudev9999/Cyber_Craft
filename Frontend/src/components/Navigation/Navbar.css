@@ -150,7 +150,7 @@
 }
 
 .navbar.hidden {
-  top: -60px; /* Adjust based on your navbar height */
+  top: -300px; /* Adjust based on your navbar height */
 }
 
 /* Responsive Design */

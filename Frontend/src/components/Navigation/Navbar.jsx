@@ -67,6 +67,9 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
         <Link to="/custom-pc" className={`navbar-link ${location.pathname === '/custom-pc' ? 'active' : ''}`}>
           Custom PC
         </Link>
+        <Link to="/peripherals" className={`navbar-link ${location.pathname === '/peripherals' ? 'active' : ''}`}>
+          Other
+        </Link>
         <Link to="/cart" className={`navbar-link ${location.pathname === '/cart' ? 'active' : ''}`}>
           Cart
         </Link>
