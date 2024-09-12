@@ -50,6 +50,8 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+
+  
   return (
     <nav className={`navbar ${showNavbar ? "visible" : "hidden"}`}>
       <div className="navbar-logo">
