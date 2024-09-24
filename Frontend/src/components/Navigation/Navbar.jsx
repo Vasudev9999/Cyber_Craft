@@ -23,7 +23,7 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
       // Scrolling up
       setShowNavbar(true);
     }
-    lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop; // For Mobile or negative scrolling
+    lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop;
   };
 
   useEffect(() => {
@@ -50,29 +50,51 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-
-  
   return (
     <nav className={`navbar ${showNavbar ? "visible" : "hidden"}`}>
       <div className="navbar-logo">
-        <img src="src/assets/Company_logo/CC_logo.png" alt="Logo" />
-        <span>Cyber Craft</span>
+        <span>Cyber Craft</span> {/* Added Cyber Craft Text */}
       </div>
 
       <div className={`navbar-links ${isMobileMenuOpen ? "active" : ""}`}>
-        <Link to="/dashboard" className={`navbar-link ${location.pathname === '/dashboard' ? 'active' : ''}`}>
+        <Link
+          to="/dashboard"
+          className={`navbar-link ${
+            location.pathname === "/dashboard" ? "active" : ""
+          }`}
+        >
           Dashboard
         </Link>
-        <Link to="/prebuild-pc" className={`navbar-link ${location.pathname === '/prebuild-pc' ? 'active' : ''}`}>
+        <Link
+          to="/prebuild-pc"
+          className={`navbar-link ${
+            location.pathname === "/prebuild-pc" ? "active" : ""
+          }`}
+        >
           Prebuild PC
         </Link>
-        <Link to="/custom-pc" className={`navbar-link ${location.pathname === '/custom-pc' ? 'active' : ''}`}>
+        <Link
+          to="/custom-pc"
+          className={`navbar-link ${
+            location.pathname === "/custom-pc" ? "active" : ""
+          }`}
+        >
           Custom PC
         </Link>
-        <Link to="/peripherals" className={`navbar-link ${location.pathname === '/peripherals' ? 'active' : ''}`}>
+        <Link
+          to="/peripherals"
+          className={`navbar-link ${
+            location.pathname === "/peripherals" ? "active" : ""
+          }`}
+        >
           Other
         </Link>
-        <Link to="/cart" className={`navbar-link ${location.pathname === '/cart' ? 'active' : ''}`}>
+        <Link
+          to="/cart"
+          className={`navbar-link ${
+            location.pathname === "/cart" ? "active" : ""
+          }`}
+        >
           Cart
         </Link>
       </div>
@@ -88,14 +110,22 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
             />
             {isDropdownOpen && (
               <div className="dropdown-menu">
-                <button className="dropdown-item" onClick={handleLogout}>Logout</button>
+                <div className="dropdown-item">Profile</div>
+                <div className="dropdown-item">Manage</div>
+                <div className="dropdown-item logout" onClick={handleLogout}>
+                  Logout
+                </div>
               </div>
             )}
           </div>
         ) : (
           <>
-            <Link className="navbar-login" to="/login">Login</Link>
-            <Link className="navbar-signup" to="/register">Sign Up</Link>
+            <Link className="navbar-login" to="/login">
+              Login
+            </Link>
+            <Link className="navbar-signup" to="/register">
+              Sign Up
+            </Link>
           </>
         )}
       </div>

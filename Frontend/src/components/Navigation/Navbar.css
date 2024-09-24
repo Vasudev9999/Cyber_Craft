@@ -1,167 +1,137 @@
-/* Navbar.css 
-  one line for commit
-*/
-
-@import url('https://fonts.googleapis.com/css2?family=Baskervville+SC&display=swap');
-
-.baskervville-sc-regular {
-  font-family: "Baskervville SC", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-.app-container {
-    padding-top: 60px; /* Adjust this value based on your navbar height */
-    box-sizing: border-box; /* Ensures padding is included in the element's total width and height */
-  }
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: white;
-  padding: 15px 30px;
+  background-color: rgba(128, 128, 128, 0.2); /* Grey tint */
+  backdrop-filter: blur(10px);
+  padding: 5px 20px; /* Adjusted padding for 20px left and right margins */
+  border-radius: 50px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-family: 'Baskervville SC', serif;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  transition: top 0.3s;
-  /* Remove overflow: hidden; to allow dropdown visibility */
-  z-index: 1000; /* Ensure navbar is on top of other content */
-  box-sizing: border-box; /* Ensures padding is included in the element's total width and height */
+  font-family: 'IBM Plex Mono', monospace;
+  position: sticky;
+  top: 10px;
+  z-index: 1000;
+  transition: top 0.3s ease, margin-top 0.3s ease;
+  width: calc(100% - 40px); /* Full width minus left and right margins */
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
 }
 
 .navbar-logo {
-  display: flex;
-  align-items: center;
-}
-
-.navbar-logo img {
-  height: 40px;
-  margin-right: 10px;
-}
-
-.navbar-logo span {
-  font-size: 24px;
-  font-weight: bold;
+  font-weight: bolder; /* Bold font for Cyber Craft text */
+  font-size: 25px; /* Slightly larger font size for the logo */
   color: black;
 }
 
 .navbar-links {
   display: flex;
-  gap: 20px;
-  transition: all 0.3s ease;
+  gap: 40px; /* Spacing between links */
+  justify-content: center;
+  flex-grow: 1;
 }
 
 .navbar-links a {
   color: black;
-  text-decoration: none;
-  font-size: 18px;
-  font-weight: bold;
+  text-decoration: none; /* Remove underline */
+  font-size: 20px; /* Slightly increased font size */
+  font-weight: bold; /* Make links bold */
   transition: all 0.3s ease;
 }
 
-.navbar-links a:hover {
-  font-size: 20px;
+.navbar-link.active {
+  font-size: 21px; /* Larger font size for active link */
+  font-weight: bolder; /* Extra bold for active page */
 }
 
 .navbar-auth {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 20px; /* Spacing between login and signup buttons */
+  margin-left: auto; /* Keep buttons on the right side */
 }
 
-.navbar-login, .navbar-signup {
-  padding: 8px 20px;
-  background-color: black;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
+.navbar-login {
+  padding: 8px 16px;
+  background-color: black; /* Black background for login */
+  color: white; /* White text for login */
+  border: 2px solid black;
+  border-radius: 50px;
+  font-size: 14px;
   cursor: pointer;
-  font-weight: bold;
-  transition: opacity 0.3s ease;
-  white-space: nowrap; /* Prevents text from wrapping */
+  font-weight: bold; /* Make button font bold */
+  text-decoration: none; /* Remove underline */
+  transition: all 0.3s ease;
 }
 
 .navbar-signup {
-  background-color: #a01d57;
-}
-
-.navbar-login:hover, .navbar-signup:hover {
-  opacity: 0.8;
-}
-
-.profile-icon {
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.profile-dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-menu {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 50px; /* Adjust as needed to position the dropdown below the profile icon */
-  right: 0;
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  z-index: 1000; /* Ensure dropdown is above other content */
-  min-width: 160px; /* Adjust width as needed */
-}
-
-.dropdown-item {
-  padding: 10px 20px;
-  border: none;
+  padding: 8px 16px;
   background-color: white;
   color: black;
+  border: 2px solid black;
+  border-radius: 50px;
+  font-size: 14px;
   cursor: pointer;
-  text-align: left;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
+  font-weight: bold; /* Bold font for signup */
+  text-decoration: none; /* Remove underline */
+}
+
+.navbar-signup:hover {
+  background-color: black;
+  color: white;
+}
+
+.navbar-login:hover {
+  background-color: white;
+  color: black;
+}
+.profile-icon {
+  width: 40px; /* Set the width of the profile icon */
+  height: 40px; /* Set the height of the profile icon */
+  border-radius: 50%; /* Optional: makes the image circular */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  object-fit: cover; /* Ensure the image fits within the specified dimensions */
+}
+.dropdown-menu {
+  position: absolute; /* Position the dropdown menu correctly */
+  right: 10px; /* Align it to the right of the profile icon */
+  top: 100%; /* Place it below the profile icon */
+  background-color: rgb(0, 0, 0); /* Semi-transparent background */
+  border-radius: 18px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  z-index: 1001; /* Ensure it appears above other elements */
+  padding: 10px 0; /* Padding for dropdown */
+}
+
+
+/* Additional styles for dropdown items */
+.dropdown-item {
+  padding: 10px 20px; /* Adjust padding for dropdown items */
+  cursor: pointer; /* Change cursor to pointer */
+  font-weight: bold; /* Make font bold */
+  text-align: left; /* Align text to the left */
+  color: rgb(255, 255, 255); /* Text color for normal items */
+  transition: background-color 0.3s; /* Transition for hover effect */
 }
 
 .dropdown-item:hover {
-  background-color: #d57070;
+  background-color: rgba(155, 155, 155, 0.8); /* Hover effect */
 }
 
-.hamburger {
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
+.dropdown-item.logout {
+  color: red; /* Red color for logout */
 }
 
-.hamburger .bar {
-  width: 25px;
-  height: 3px;
-  background-color: black;
-  margin: 4px 0;
-  transition: 0.3s;
-}
-
-.navbar.visible {
-  top: 0;
-}
-
-.navbar.hidden {
-  top: -300px; /* Adjust based on your navbar height */
+.dropdown-item:last-child {
+  border-top: 1px solid rgba(0, 0, 0, 0.1); /* Optional: add a top border before the logout item */
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .app-container {
-        padding-top: 50px; /* Adjust this value for mobile view */
-      }
   .navbar {
     flex-direction: column;
     align-items: flex-start;
-    padding: 10px 20px; /* Adjust padding for smaller screens */
+    padding: 5px 20px;
   }
 
   .navbar-links {
@@ -178,31 +148,11 @@
 
   .navbar-auth {
     flex-direction: column;
-    gap: 10px;
-    margin-top: 10px;
+    gap: 8px;
+    margin-top: 5px;
   }
 
   .hamburger {
     display: flex;
   }
 }
-/* Existing styles */
-
-.navbar-links a {
-    color: black;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
-    transition: all 0.3s ease;
-  }
-  
-  .navbar-links a:hover {
-    font-size: 20px;
-  }
-  
-  .navbar-link.active {
-    font-size: 20px;
-    font-weight: bold;
-    color: #a01d57; /* Example color for active link */
-  }
-  
