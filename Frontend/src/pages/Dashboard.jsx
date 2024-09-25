@@ -9,35 +9,285 @@ const Dashboard = ({ username, openModal, handleLogout }) => {
       <div className="sale-banner">
         <h2>Indian Festival Sale is Live Now!</h2>
       </div>
-
-      {/* Two Flex Cards */}
-      <div className="card-container">
-        <div className="card">
-          <div className="card-image">
-            <img 
-              src={mountainPeaksImage} 
-              alt="Mountain Peaks During Night Time"
-            />
-          </div>
-        </div>
-
-        <div className="card">
-          <div className="card-image">
-            <img 
-              src="src\assets\antec-c8-banner.png" 
-              alt="Another Scenic View"
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Text below the cards */}
-      <div className="dashboard-text">
-        <p>
-          Don't miss out on our exclusive deals during the Indian Festival Sale! From the mountains to the forests, 
-          find the perfect getaway for you. Book now and experience nature like never before.
-        </p>
-      </div>
+      One thing I love about Medium is how multifaceted our knowledge base is,
+      and how many writers from all different stripes come to write here. We’re
+      trying toof it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.One
+      thing I love about Medium is how multifaceted our knowledge base is, and
+      how many writers from all different stripes come to write here. We’re
+      trying to build the world’s best (and best-organized) library of
+      incredible writing, across as many topics as possible. There’s so much of
+      it that sometimes I forget exactly how much expertise, compassion, care,
+      and knowledge we’re home to.One thing I love about Medium is how
+      multifaceted our knowledge base is, and how many writers from all
+      different stripes come to write here. We’re trying to build the world’s
+      best (and best-organized) library of incredible writing, across as many
+      topics as possible. There’s so much of it that sometimes I forget exactly
+      how much expertise, compassion, care, and knowledge we’re home to.
     </div>
   );
 };

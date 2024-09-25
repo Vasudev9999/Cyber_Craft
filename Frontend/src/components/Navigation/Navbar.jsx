@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = ({ isLoggedIn, handleLogout }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
   let lastScrollTop = 0;
   const location = useLocation();
 
@@ -27,76 +25,62 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
     };
   }, []);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
   return (
-    <nav className={`navbar ${showNavbar ? "visible" : "hidden"} ${isMobileMenuOpen ? "mobile-menu-open" : ""}`}>
-      <div className="navbar-logo">
-        <span>Cyber Craft</span>
-      </div>
+    <nav
+      className={`navbar ${showNavbar ? "visible" : "hidden"} ${
+        isMobileMenuOpen ? "mobile-menu-open" : ""
+      }`}
+    >
+      <div className="navbar-links">
+        <div className="navbar-logo">
+          <Link to="/dashboard">
+            <img src="src/assets/Company_logo/logo.png" alt="Company Logo" />
+          </Link>
+        </div>
 
-      <div className={`navbar-links ${isMobileMenuOpen ? "active" : ""}`}>
-        <Link to="/dashboard" className={`navbar-link ${location.pathname === "/dashboard" ? "active" : ""}`}>
-          Dashboard
-        </Link>
-        <Link to="/prebuild-pc" className={`navbar-link ${location.pathname === "/prebuild-pc" ? "active" : ""}`}>
+        <Link
+          to="/prebuild-pc"
+          className={`navbar-link ${
+            location.pathname === "/prebuild-pc" ? "active" : ""
+          }`}
+        >
           Prebuild PC
         </Link>
-        <Link to="/custom-pc" className={`navbar-link ${location.pathname === "/custom-pc" ? "active" : ""}`}>
+
+        <Link
+          to="/custom"
+          className={`navbar-link ${
+            location.pathname === "/custom" ? "active" : ""
+          }`}
+        >
           Custom PC
         </Link>
-        <Link to="/peripherals" className={`navbar-link ${location.pathname === "/peripherals" ? "active" : ""}`}>
-          Other
-        </Link>
-        <Link to="/cart" className={`navbar-link ${location.pathname === "/cart" ? "active" : ""}`}>
-          Cart
-        </Link>
-      </div>
 
-      <div className="navbar-auth">
-        {isLoggedIn ? (
-          <div className="profile-dropdown" ref={dropdownRef}>
-            <img
-              src="src/assets/Profile_sample/download.png"
-              alt="Profile Icon"
-              className="profile-icon"
-              onClick={toggleDropdown}
-            />
-            {isDropdownOpen && (
-              <div className="dropdown-menu">
-                <div className="dropdown-item">Profile</div>
-                <div className="dropdown-item">Manage</div>
-                <div className="dropdown-item logout" onClick={handleLogout}>
-                  Logout
-                </div>
-              </div>
-            )}
-          </div>
-        ) : (
-          <>
-            <Link className="navbar-login" to="/login">
-              Login
-            </Link>
-            <Link className="navbar-signup" to="/register">
-              Sign Up
-            </Link>
-          </>
-        )}
+        <Link
+          to="/monitor"
+          className={`navbar-link ${
+            location.pathname === "/monitor" ? "active" : ""
+          }`}
+        >
+          Monitor
+        </Link>
+
+        <Link
+          to="/gaming"
+          className={`navbar-link ${
+            location.pathname === "/gaming" ? "active" : ""
+          }`}
+        >
+          Gaming
+        </Link>
+
+        <Link to="/cart" className="navbar-cart">
+          <img src="src/assets/cart.png" alt="Cart" />
+        </Link>
+
+        <Link className="navbar-login" to="/login">
+          Login
+        </Link>
       </div>
 
       <div className="hamburger" onClick={toggleMobileMenu}>

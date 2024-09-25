@@ -1,147 +1,82 @@
 .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  background-color: rgba(5, 5, 5, 0.7) !important; /* Solid grey background */
-  backdrop-filter: blur(10px) !important; /* Remove blur */
-  /* background-color: rgba(246, 246, 246); /* Lighter grey tint */
-  /* backdrop-filter: blur(10px); */
-  padding: 5px 20px;
-  /* border-radius: 50px; */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-family: 'IBM Plex Mono', monospace;
+  background-color: rgb(245, 245, 247) !important;
+  padding: 10px 20px;
+  font-family: 'San Francisco', 'IBM Plex Mono', monospace;
   position: sticky;
-  top: 0px;
+  top: 0;
   z-index: 10;
+  width: 100%;
   transition: top 0.3s ease, margin-top 0.3s ease;
-  width: calc(100% - 40px); /* Full width minus left and right margins */
-  margin-left: auto;
-  margin-right: auto;
-  height: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-
 .navbar-logo {
-  font-weight: bolder; /* Bold font for Cyber Craft text */
-  font-size: 25px; /* Slightly larger font size for the logo */
-  margin-left: 30px;
-  color: rgb(255, 255, 255);
+  margin-right: auto;
+}
+
+.navbar-logo img {
+  height: 24px;
+  width: auto;
 }
 
 .navbar-links {
   display: flex;
-  gap: 40px; /* Spacing between links */
-  justify-content: center;
-  flex-grow: 1;
+  align-items: center;
+  gap: 40px;
 }
 
-.navbar-links a {
-  color: rgb(255, 255, 255);
-  text-decoration: none; /* Remove underline */
-  font-size: 18px; /* Slightly increased font size */
-  /* font-weight: bold; */
+.navbar-link {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  font-size: 16px;
   transition: all 0.3s ease;
+}
+
+.navbar-link:hover {
+  color: rgb(0, 0, 0); /* No blue hover effect */
 }
 
 .navbar-link.active {
-  font-size: 18px; /* Larger font size for active link */
-  font-weight: bolder; /* Extra bold for active page */
-}
-
-.navbar-auth {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px; /* Spacing between login and signup buttons */
-  margin-left: auto; /* Keep buttons on the right side */
-}
-
-.navbar-login,
-.navbar-signup {
-  padding: 8px 16px;
-  border-radius: 50px;
-  font-size: 15px;  
-  justify-content: space-between;
-  align-items: center;
-  height: 14px;
-  cursor: pointer;
-  font-weight: bold; /* Make button font bold */
-  text-decoration: none; /* Remove underline */
-  transition: all 0.3s ease;
+  font-size: 20px; /* Active link styling */
 }
 
 .navbar-login {
-  background-color: (black); /* Black background for login */
-  color: white; /* White text for login */
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  font-size: 16px;
+  margin-left: 20px;
 }
 
-.navbar-signup {
-  background-color: (white);
-  color: rgb(255, 255, 255);
-  /* border: 1px solid black; */
+.navbar-cart img {
+  height: 24px;
+  width: auto;
 }
 
-.navbar-signup:hover {
-  background-color: black;
-  color: white;
-}
-
-.navbar-login:hover {
-  background-color: white;
-  color: black;
-}
-
-.hamburger {
-  display: none; /* Hide hamburger by default */
-  flex-direction: column;
-  cursor: pointer;
-}
-
-.hamburger .bar {
-  height: 3px;
-  width: 25px;
-  background-color: black;
-  margin: 3px 0;
-}
-
-/* Responsive Design */
+/* Mobile Styling */
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
     align-items: flex-start;
-    padding: 5px 10px; /* Adjust padding */
+    padding: 10px;
   }
 
   .navbar-links {
-    display: none; /* Hide links initially */
+    display: none;
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
-    width: 100%; /* Full width */
+    width: 100%;
   }
 
   .navbar-links.active {
-    display: flex; /* Show links when active */
-  }
-
-  .navbar-auth {
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 5px;
+    display: flex;
   }
 
   .hamburger {
-    display: flex; /* Show hamburger on mobile */
+    display: flex;
+    cursor: pointer;
   }
-}
-.navbar.mobile-menu-open {
-  background-color: rgba(128, 128, 128, 1); /* Solid grey background */
-  backdrop-filter: none; /* Remove blur */
-}
-
-/* Ensure the blurred background is still applied when the menu is closed */
-.navbar:not(.mobile-menu-open) {
-  background-color: rgba(128, 128, 128, 0.2); /* Grey tint */
-  backdrop-filter: blur(10px);
 }

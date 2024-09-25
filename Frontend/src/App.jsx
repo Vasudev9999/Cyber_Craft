@@ -39,28 +39,19 @@ const App = () => {
   return (
     <Router>
       <div className="app-container">
-        <Navbar 
-          isLoggedIn={!!user} 
-          handleLogout={handleLogout} 
-        />
+        <Navbar isLoggedIn={!!user} handleLogout={handleLogout} />
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route
             path="/dashboard"
             element={<Dashboard username={user?.username} />}
           />
-          <Route
-            path="/login"
-            element={<LoginPage setUser={setUser} />}
-          />
+          <Route path="/login" element={<LoginPage setUser={setUser} />} />
           <Route
             path="/register"
             element={<RegisterPage setUser={setUser} />}
           />
-          <Route
-            path="/prebuild-pc"
-            element={<PrebuildPC />}
-          />
+          <Route path="/prebuild-pc" element={<PrebuildPC />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
