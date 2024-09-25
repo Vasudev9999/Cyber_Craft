@@ -20,6 +20,7 @@
   height: 20px;
 }
 
+
 .navbar-logo {
   font-weight: bolder; /* Bold font for Cyber Craft text */
   font-size: 25px; /* Slightly larger font size for the logo */
@@ -38,7 +39,7 @@
   color: rgb(255, 255, 255);
   text-decoration: none; /* Remove underline */
   font-size: 18px; /* Slightly increased font size */
-  font-weight: bold; /* Make links bold */
+  /* font-weight: bold; */
   transition: all 0.3s ease;
 }
 

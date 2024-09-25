@@ -1,86 +1,70 @@
 .dashboard-container {
-    padding: 0; /* Remove padding */
+    padding: 0;
     background-color: #f4f4f4;
     min-height: 100vh;
-    align-items: center; /* Center vertically */
-    justify-content: center; /* Center horizontally */
-    margin: 0; /* Remove margin */
-}
-.dashboard-image {
-    width: 100%; /* Makes the image responsive */
-    height: auto; /* Maintains aspect ratio */
-    max-height: 100vh; /* Limit max height to 100% of the viewport */
-    object-fit: cover; /* Ensures the image covers the area without distortion */
-    margin: 0; /* Remove all margin */
-    margin-top: 0; /* Ensure no margin at the top */
-    border-radius: 0; /* Optional: no rounded corners */
+    margin: 0;
 }
 
-/* Additional existing styles */
-h1 {
+/* Full-width sale banner */
+.sale-banner {
+    background-color: #1e0060;
+    color: #fff;
     text-align: center;
-    margin-bottom: 20px;
-    color: #333;
+    padding: 2px 0;
+    font-size: 10px;
+    width: 100%;
+    margin: 0;
 }
 
+.sale-banner h2 {
+    margin: 0;
+}
+
+/* Card Styles */
 .card-container {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    justify-content: space-between; /* No gap between cards */
+    padding: 0;
+    margin: 0;
+    width: 100%;
 }
 
 .card {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-}
-
-.card-image {
     flex: 1;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: none; /* Remove shadow */
+    margin: 0; /* No margin between cards */
 }
 
 .card-image img {
     width: 100%;
     height: auto;
+    display: block;
 }
 
+/* Remove card content (text) */
 .card-content {
-    flex: 2;
-    padding: 20px;
+    display: none;
 }
 
-.card-content h2 {
-    margin: 0;
-    font-size: 1.5em;
-    color: #ffcc00; /* Highlight color for the title */
-}
-
-.card-content p {
-    margin-top: 10px;
-    line-height: 1.5;
-}
-
-/* Specific card styles */
-.dark-card {
-    background-color: #000;
-    color: #fff;
-}
-
-.light-card {
-    background-color: #fff;
-    color: #000;
+/* Text below the cards */
+.dashboard-text {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 1.2em;
+    color: #333;
+    padding: 0 20px;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .card {
+    .card-container {
         flex-direction: column;
     }
 
-    .card-image {
-        max-width: 100%;
+    .card {
+        width: 100%;
+        margin-bottom: 20px;
     }
 }
