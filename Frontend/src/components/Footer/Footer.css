@@ -1,26 +1,36 @@
 /* src/components/Footer.css */
 
 .footer {
-    background-color: #a01d57; /* Red color */
-    color: white;
-    text-align: center;
-    padding: 20px 0;
-    position: relative;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    font-size: 14px;
-    font-family: 'Arial', sans-serif;
-    height: 100px;
+  background-color: rgba(128, 128, 128, 0.2); /* Grey tint similar to the navbar */
+  backdrop-filter: blur(10px); /* Adding a blur effect */
+  color: black; /* Change text color to black for contrast */
+  text-align: center;
+  padding: 20px 0;
+  position: relative;
+  left: 0;
+  bottom: 0;
+  width: calc(100% - 40px); /* Full width minus left and right margins */
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 14px;
+  font-family: 'IBM Plex Mono', monospace; /* Matching font family */
+  height: 100px;
+}
+
+.footer a {
+  color: black; /* Change link color to match navbar */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.footer a:hover {
+  text-decoration: underline; /* Hover effect for links */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer {
+      padding: 15px; /* Adjust padding for smaller screens */
+      font-size: 12px; /* Adjust font size for smaller screens */
   }
-  
-  .footer a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  .footer a:hover {
-    text-decoration: underline;
-  }
-  
+}

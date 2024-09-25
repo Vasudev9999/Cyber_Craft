@@ -1,0 +1,86 @@
+.dashboard-container {
+    padding: 0; /* Remove padding */
+    background-color: #f4f4f4;
+    min-height: 100vh;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    margin: 0; /* Remove margin */
+}
+.dashboard-image {
+    width: 100%; /* Makes the image responsive */
+    height: auto; /* Maintains aspect ratio */
+    max-height: 100vh; /* Limit max height to 100% of the viewport */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+    margin: 0; /* Remove all margin */
+    margin-top: 0; /* Ensure no margin at the top */
+    border-radius: 0; /* Optional: no rounded corners */
+}
+
+/* Additional existing styles */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.card-image {
+    flex: 1;
+}
+
+.card-image img {
+    width: 100%;
+    height: auto;
+}
+
+.card-content {
+    flex: 2;
+    padding: 20px;
+}
+
+.card-content h2 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #ffcc00; /* Highlight color for the title */
+}
+
+.card-content p {
+    margin-top: 10px;
+    line-height: 1.5;
+}
+
+/* Specific card styles */
+.dark-card {
+    background-color: #000;
+    color: #fff;
+}
+
+.light-card {
+    background-color: #fff;
+    color: #000;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .card {
+        flex-direction: column;
+    }
+
+    .card-image {
+        max-width: 100%;
+    }
+}

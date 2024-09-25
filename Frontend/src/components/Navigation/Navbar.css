@@ -2,26 +2,29 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgba(128, 128, 128, 0.2); /* Grey tint */
-  backdrop-filter: blur(10px);
-  padding: 5px 20px; /* Adjusted padding for 20px left and right margins */
-  border-radius: 50px;
+  background-color: rgba(5, 5, 5, 0.7) !important; /* Solid grey background */
+  backdrop-filter: blur(10px) !important; /* Remove blur */
+  /* background-color: rgba(246, 246, 246); /* Lighter grey tint */
+  /* backdrop-filter: blur(10px); */
+  padding: 5px 20px;
+  /* border-radius: 50px; */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   font-family: 'IBM Plex Mono', monospace;
   position: sticky;
-  top: 10px;
-  z-index: 1000;
+  top: 0px;
+  z-index: 10;
   transition: top 0.3s ease, margin-top 0.3s ease;
   width: calc(100% - 40px); /* Full width minus left and right margins */
   margin-left: auto;
   margin-right: auto;
-  height: auto;
+  height: 20px;
 }
 
 .navbar-logo {
   font-weight: bolder; /* Bold font for Cyber Craft text */
   font-size: 25px; /* Slightly larger font size for the logo */
-  color: black;
+  margin-left: 30px;
+  color: rgb(255, 255, 255);
 }
 
 .navbar-links {
@@ -32,48 +35,50 @@
 }
 
 .navbar-links a {
-  color: black;
+  color: rgb(255, 255, 255);
   text-decoration: none; /* Remove underline */
-  font-size: 20px; /* Slightly increased font size */
+  font-size: 18px; /* Slightly increased font size */
   font-weight: bold; /* Make links bold */
   transition: all 0.3s ease;
 }
 
 .navbar-link.active {
-  font-size: 21px; /* Larger font size for active link */
+  font-size: 18px; /* Larger font size for active link */
   font-weight: bolder; /* Extra bold for active page */
 }
 
 .navbar-auth {
   display: flex;
   align-items: center;
-  gap: 20px; /* Spacing between login and signup buttons */
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px; /* Spacing between login and signup buttons */
   margin-left: auto; /* Keep buttons on the right side */
 }
 
-.navbar-login {
+.navbar-login,
+.navbar-signup {
   padding: 8px 16px;
-  background-color: black; /* Black background for login */
-  color: white; /* White text for login */
-  border: 2px solid black;
   border-radius: 50px;
-  font-size: 14px;
+  font-size: 15px;  
+  justify-content: space-between;
+  align-items: center;
+  height: 14px;
   cursor: pointer;
   font-weight: bold; /* Make button font bold */
   text-decoration: none; /* Remove underline */
   transition: all 0.3s ease;
 }
 
+.navbar-login {
+  background-color: (black); /* Black background for login */
+  color: white; /* White text for login */
+}
+
 .navbar-signup {
-  padding: 8px 16px;
-  background-color: white;
-  color: black;
-  border: 2px solid black;
-  border-radius: 50px;
-  font-size: 14px;
-  cursor: pointer;
-  font-weight: bold; /* Bold font for signup */
-  text-decoration: none; /* Remove underline */
+  background-color: (white);
+  color: rgb(255, 255, 255);
+  /* border: 1px solid black; */
 }
 
 .navbar-signup:hover {
@@ -85,45 +90,18 @@
   background-color: white;
   color: black;
 }
-.profile-icon {
-  width: 40px; /* Set the width of the profile icon */
-  height: 40px; /* Set the height of the profile icon */
-  border-radius: 50%; /* Optional: makes the image circular */
-  cursor: pointer; /* Change cursor to pointer on hover */
-  object-fit: cover; /* Ensure the image fits within the specified dimensions */
-}
-.dropdown-menu {
-  position: absolute; /* Position the dropdown menu correctly */
-  right: 10px; /* Align it to the right of the profile icon */
-  top: 100%; /* Place it below the profile icon */
-  background-color: rgb(0, 0, 0); /* Semi-transparent background */
-  border-radius: 18px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
-  z-index: 1001; /* Ensure it appears above other elements */
-  padding: 10px 0; /* Padding for dropdown */
+
+.hamburger {
+  display: none; /* Hide hamburger by default */
+  flex-direction: column;
+  cursor: pointer;
 }
 
-
-/* Additional styles for dropdown items */
-.dropdown-item {
-  padding: 10px 20px; /* Adjust padding for dropdown items */
-  cursor: pointer; /* Change cursor to pointer */
-  font-weight: bold; /* Make font bold */
-  text-align: left; /* Align text to the left */
-  color: rgb(255, 255, 255); /* Text color for normal items */
-  transition: background-color 0.3s; /* Transition for hover effect */
-}
-
-.dropdown-item:hover {
-  background-color: rgba(155, 155, 155, 0.8); /* Hover effect */
-}
-
-.dropdown-item.logout {
-  color: red; /* Red color for logout */
-}
-
-.dropdown-item:last-child {
-  border-top: 1px solid rgba(0, 0, 0, 0.1); /* Optional: add a top border before the logout item */
+.hamburger .bar {
+  height: 3px;
+  width: 25px;
+  background-color: black;
+  margin: 3px 0;
 }
 
 /* Responsive Design */
@@ -131,19 +109,19 @@
   .navbar {
     flex-direction: column;
     align-items: flex-start;
-    padding: 5px 20px;
+    padding: 5px 10px; /* Adjust padding */
   }
 
   .navbar-links {
-    display: none;
+    display: none; /* Hide links initially */
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
-    width: 100%;
+    width: 100%; /* Full width */
   }
 
   .navbar-links.active {
-    display: flex;
+    display: flex; /* Show links when active */
   }
 
   .navbar-auth {
@@ -153,6 +131,16 @@
   }
 
   .hamburger {
-    display: flex;
+    display: flex; /* Show hamburger on mobile */
   }
+}
+.navbar.mobile-menu-open {
+  background-color: rgba(128, 128, 128, 1); /* Solid grey background */
+  backdrop-filter: none; /* Remove blur */
+}
+
+/* Ensure the blurred background is still applied when the menu is closed */
+.navbar:not(.mobile-menu-open) {
+  background-color: rgba(128, 128, 128, 0.2); /* Grey tint */
+  backdrop-filter: blur(10px);
 }

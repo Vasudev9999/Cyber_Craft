@@ -16,13 +16,7 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
 
   const handleScroll = () => {
     const currentScrollTop = window.pageYOffset;
-    if (currentScrollTop > lastScrollTop) {
-      // Scrolling down
-      setShowNavbar(false);
-    } else {
-      // Scrolling up
-      setShowNavbar(true);
-    }
+    setShowNavbar(currentScrollTop < lastScrollTop || currentScrollTop === 0);
     lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop;
   };
 
@@ -51,50 +45,25 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
   };
 
   return (
-    <nav className={`navbar ${showNavbar ? "visible" : "hidden"}`}>
+    <nav className={`navbar ${showNavbar ? "visible" : "hidden"} ${isMobileMenuOpen ? "mobile-menu-open" : ""}`}>
       <div className="navbar-logo">
-        <span>Cyber Craft</span> {/* Added Cyber Craft Text */}
+        <span>Cyber Craft</span>
       </div>
 
       <div className={`navbar-links ${isMobileMenuOpen ? "active" : ""}`}>
-        <Link
-          to="/dashboard"
-          className={`navbar-link ${
-            location.pathname === "/dashboard" ? "active" : ""
-          }`}
-        >
+        <Link to="/dashboard" className={`navbar-link ${location.pathname === "/dashboard" ? "active" : ""}`}>
           Dashboard
         </Link>
-        <Link
-          to="/prebuild-pc"
-          className={`navbar-link ${
-            location.pathname === "/prebuild-pc" ? "active" : ""
-          }`}
-        >
+        <Link to="/prebuild-pc" className={`navbar-link ${location.pathname === "/prebuild-pc" ? "active" : ""}`}>
           Prebuild PC
         </Link>
-        <Link
-          to="/custom-pc"
-          className={`navbar-link ${
-            location.pathname === "/custom-pc" ? "active" : ""
-          }`}
-        >
+        <Link to="/custom-pc" className={`navbar-link ${location.pathname === "/custom-pc" ? "active" : ""}`}>
           Custom PC
         </Link>
-        <Link
-          to="/peripherals"
-          className={`navbar-link ${
-            location.pathname === "/peripherals" ? "active" : ""
-          }`}
-        >
+        <Link to="/peripherals" className={`navbar-link ${location.pathname === "/peripherals" ? "active" : ""}`}>
           Other
         </Link>
-        <Link
-          to="/cart"
-          className={`navbar-link ${
-            location.pathname === "/cart" ? "active" : ""
-          }`}
-        >
+        <Link to="/cart" className={`navbar-link ${location.pathname === "/cart" ? "active" : ""}`}>
           Cart
         </Link>
       </div>
