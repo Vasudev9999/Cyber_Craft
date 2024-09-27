@@ -1,7 +1,7 @@
 /* src/components/Footer.css */
 
 .footer {
-  background-color: rgba(128, 128, 128, 0.2); /* Grey tint similar to the navbar */
+  background-color: rgba(255, 255, 255, 0.2); /* Grey tint similar to the navbar */
   backdrop-filter: blur(10px); /* Adding a blur effect */
   color: black; /* Change text color to black for contrast */
   text-align: center;
@@ -9,7 +9,7 @@
   position: relative;
   left: 0;
   bottom: 0;
-  width: calc(100% - 40px); /* Full width minus left and right margins */
+  width: 100%; /* Full width minus left and right margins */
   margin-left: auto;
   margin-right: auto;
   font-size: 14px;

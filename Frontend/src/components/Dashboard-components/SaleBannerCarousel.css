@@ -1,0 +1,66 @@
+/* Sale banner container */
+.sale-banner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 70px;
+    background-color: #ffffff;
+    color: #505050;
+}
+
+/* Sale banner text */
+.sale-banner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Sale text style */
+.sale-text {
+    font-size: 18px; /* Smaller text */
+    font-weight: bold;
+    opacity: 0; /* Start invisible for animation */
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Fade in animation */
+.fade-in {
+    opacity: 1;
+}
+
+/* Fade out animation */
+.fade-out {
+    opacity: 0;
+}
+
+/* Arrow button styles */
+.arrow {
+    background: none;
+    border: none;
+    color: #505050;
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: color 0.3s;
+    z-index: 1;
+}
+
+/* Adjust arrow positions */
+.left-arrow {
+    left: 30%; /* Closer to the text */
+}
+
+.right-arrow {
+    right: 30%; /* Closer to the text */
+}
+
+/* Hover effect for arrows */
+.arrow:hover {
+    color: #000000;
+}

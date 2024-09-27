@@ -1,0 +1,17 @@
+/* Import the Fredoka font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..600;1,100..900&display=swap');
+.title-text-card {
+  padding: 20px;             /* Padding around the text */
+  border-radius: 50px;       /* Rounded corners */
+  text-align: center;        /* Center the text */
+  margin: 130px auto auto 100px;         /* Center the card with some margin */
+  max-width: 600px;          /* Set a maximum width for the card */
+  background-color: #f4f4f4; /* Light grey background for the card */
+}
+
+.title-text-card h1 {
+  font-size: 2.5rem;   
+  color: #535353;               /* Dark grey text color */
+  margin: 0;                 /* Remove default margins */
+  font-family: 'Montserrat', sans-serif; /* Apply the Fredoka font */
+}

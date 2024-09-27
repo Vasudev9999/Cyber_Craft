@@ -1,0 +1,21 @@
+.contact-text-card {
+    padding: 15px;                /* Padding around the card */
+    border-radius: 20px;         /* Rounded corners */
+    text-align: center;           /* Center the text */
+    margin: 20px;                 /* Margin for spacing */
+    flex: 0 0 30%;                /* Flex property for width */
+  }
+  
+  .banner {
+    width: 100%;                  /* Full width of the card */
+    height: auto;                /* Adjust height as needed */
+    border-radius: 20px;          /* Rounded corners for the banner */
+    overflow: hidden;             /* Ensure no overflow */
+  }
+  
+  .banner-image {
+    width: 100%;                  /* Full width of the banner */
+    height: auto;                 /* Maintain aspect ratio */
+    border-radius:20px;          /* Rounded corners for the image */
+  }
+  
