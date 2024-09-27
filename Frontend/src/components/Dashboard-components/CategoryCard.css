@@ -17,7 +17,7 @@
 
 .category-image {
     width: 100%; /* Full width for the image */
-    height: 80px; /* Fixed height to maintain uniformity */
+    height: 86px; /* Fixed height to maintain uniformity */
     object-fit: cover; /* Ensure the image maintains aspect ratio */
     margin-bottom: 5px; /* Small margin between the image and the text */
 }

@@ -11,6 +11,7 @@
   position: sticky;
   top: 0px;
   z-index: 10;
+  height: 10px;
   width: 100%;
   transition: top 0.3s ease, margin-top 0.3s ease;
 }
@@ -20,7 +21,7 @@
 }
 
 .navbar-logo img {
-  height: 24px;
+  height: 20px;
   width: auto;
 }
 
@@ -33,7 +34,7 @@
 .navbar-link {
   color: rgb(0, 0, 0);
   text-decoration: none;
-  font-size: 16px;
+  font-size: 11 px;
   transition: all 0.3s ease;
   font-family: 'Fredoka', sans-serif; /* Apply Fredoka font */
 }
@@ -58,6 +59,48 @@
   height: 24px;
   width: auto;
 }
+.navbar-user {
+  position: relative;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Dropdown styling */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 8px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.navbar-user:hover .dropdown-menu {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Dropdown button */
+.dropdown-menu button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  text-decoration: none;
+  color: black;
+}
+
+.dropdown-menu button:hover {
+  color: rgb(255, 0, 0);
+}
+
+
 
 /* Mobile Styling */
 @media (max-width: 768px) {

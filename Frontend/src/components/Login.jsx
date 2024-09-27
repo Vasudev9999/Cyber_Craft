@@ -14,12 +14,21 @@ const LoginPage = ({ setUser }) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:8080/api/auth/login', { username, password });
-      setUser(response.data); // Update user state with full user data
-      navigate('/dashboard'); // Redirect to dashboard
+      
+      console.log(response.data); // Debugging line to check the returned data
+      if (response.data.username) {
+        setUser({ username: response.data.username }); // Store the username in the state
+        navigate('/dashboard'); // Redirect to the dashboard
+      } else {
+        setError('Invalid credentials');
+      }
     } catch (error) {
+      console.error('Login error:', error);
       setError('Invalid credentials');
     }
   };
+
+  
 
   return (
     <div className="login-page">

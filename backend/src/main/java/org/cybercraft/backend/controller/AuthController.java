@@ -9,40 +9,54 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpSession;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired
     private UserService userService;
 
-
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user, HttpSession session) {
         try {
             User registeredUser = userService.registerUser(user);
-
-            // Set session attribute to log in the user after registration
-            session.setAttribute("username", registeredUser.getUsername());
-
+            session.setAttribute("username", registeredUser.getUsername()); // Set session attribute
             return ResponseEntity.ok(registeredUser);
         } catch (Exception e) {
-            // Log the error for debugging
             System.err.println("Registration failed: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Registration failed: " + e.getMessage());
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody User user, HttpSession session) {
+    public ResponseEntity<Object> loginUser(@RequestBody User user, HttpSession session) {
         boolean isAuthenticated = userService.loginUser(user.getUsername(), user.getPassword());
         if (isAuthenticated) {
             session.setAttribute("username", user.getUsername()); // Set session attribute
-            return ResponseEntity.ok("Login successful");
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Login successful");
+            response.put("username", user.getUsername()); // Include the username in the response
+            return ResponseEntity.ok(response); // Return a JSON response
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.singletonMap("message", "Invalid credentials"));
         }
     }
+
+//    @PostMapping("/login")
+//    public ResponseEntity<String> loginUser(@RequestBody User user, HttpSession session) {
+//        boolean isAuthenticated = userService.loginUser(user.getUsername(), user.getPassword());
+//        if (isAuthenticated) {
+//            session.setAttribute("username", user.getUsername()); // Set session attribute
+//            return ResponseEntity.ok("Login successful");
+//        } else {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+//        }
+//    }
 
     @PostMapping("/logout")
     public ResponseEntity<String> logoutUser(HttpSession session) {
@@ -54,9 +68,10 @@ public class AuthController {
     public ResponseEntity<?> checkSession(HttpSession session) {
         String username = (String) session.getAttribute("username");
         if (username != null) {
-            return ResponseEntity.ok(username);
+            return ResponseEntity.ok(username); // Returning plain username
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not logged in");
         }
     }
+
 }

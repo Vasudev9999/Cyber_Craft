@@ -24,7 +24,7 @@
     font-size: 18px; /* Smaller text */
     font-weight: bold;
     opacity: 0; /* Start invisible for animation */
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.51s ease-in-out;
 }
 
 /* Fade in animation */
