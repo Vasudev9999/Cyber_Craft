@@ -1,42 +1,53 @@
+/* Remove default margins and paddings */
 html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
+body {
+  overflow-x: hidden; /* Keep the scroll effect while preventing horizontal overflow */
+}
+
+/* Ensure the app container doesn't exceed the viewport width */
 .app-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden; /* Specifically target the container if it causes overflow */
 }
 
+/* Footer should only take up the available width */
 footer {
-    margin-top: auto; /* Pushes footer to the bottom */
+  margin-top: auto; /* Push footer to the bottom */
+  width: 100%; /* Ensure footer spans the full width without overflow */
 }
-/* App.css */
+
+/* Keyframe animations */
 @keyframes fadeIn {
-    from {
+  from {
       opacity: 0;
       transform: translateY(20px);
-    }
-    to {
+  }
+  to {
       opacity: 1;
       transform: translateY(0);
-    }
   }
-  
-  .fade-in {
-    animation: fadeIn 0.8s ease-in-out;
-  }
-  
-  .fade-in-delayed {
-    animation: fadeIn 1.2s ease-in-out;
-  }
-  
-  .app-container {
-    opacity: 0;
-    animation: fadeIn 1s ease-in-out forwards;
-    animation-delay: 0.2s;
-  }
-  
+}
+
+/* Fade-in effects for various elements */
+.fade-in {
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.fade-in-delayed {
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+/* Fade-in animation for the app container */
+.app-container {
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+  animation-delay: 0.2s;
+}
