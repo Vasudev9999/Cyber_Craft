@@ -1,0 +1,41 @@
+.whats-new-section {
+    margin-left: 100px; /* Left margin */
+    margin-bottom: 30px;
+  }
+  
+  .whats-new-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: left;
+  }
+  
+  .whats-new-card-container {
+    display: flex;
+    overflow-x: scroll; /* Horizontal scroll for overflowing content */
+    padding-bottom: 15px;
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+  }
+  
+  /* Styling for each individual card */
+  .whats-new-card {
+    flex: 0 0 auto; /* Ensures the cards don't shrink */
+    margin-right: 15px;
+    transition: transform 0.3s ease-in-out; /* Smooth transition on hover */
+    cursor: pointer;
+  }
+  
+  .whats-new-card:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover */
+  }
+  
+  .whats-new-card-image {
+    width: 250px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+  }
+  
