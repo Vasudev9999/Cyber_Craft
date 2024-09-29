@@ -14,7 +14,7 @@
   }
   
   .banner-image {
-    width: 100%;                  /* Full width of the banner */
+    width: 70%;                  /* Full width of the banner */
     height: auto;                 /* Maintain aspect ratio */
     border-radius:20px;          /* Rounded corners for the image */
   }

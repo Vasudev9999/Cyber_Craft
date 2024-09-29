@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './ContactTextDashboard.css'; // Importing the CSS file for styles
-import bannerImage from '../../assets/professional-esports-gamer-back-side-view-rejoices-victory-generative-ai.jpg'; // Correct the import path
+import bannerGif from '../../assets/custom-pc-gif.gif'; // Update the import path for the GIF
 
 const ContactTextDashboard = () => {
   const [scale, setScale] = useState(1); // Initial scale for the image
@@ -23,8 +23,8 @@ const ContactTextDashboard = () => {
     <div className="contact-text-card">
       <div className="banner">
         <img
-          src={bannerImage}
-          alt="Banner"
+          src={bannerGif} 
+          alt="Custom PC Gif"
           className="banner-image"
           style={{ transform: `scale(${scale})` }} // Apply the scaling effect
         />

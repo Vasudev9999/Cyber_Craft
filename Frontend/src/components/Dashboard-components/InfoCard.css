@@ -1,0 +1,50 @@
+.info-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #eaeaea;
+    border-radius: 15px;
+    margin: 100px 20px 0 20px;
+    padding: 20px; /* Add padding for internal spacing */
+}
+
+.info-card-image {
+    flex: 0 0 40%; /* Set image container to 40% */
+    
+}
+
+.info-card-image img {
+    width: 90%; /* Make image take full width of the container */
+    height: auto;
+    border-radius: 8px;
+}
+
+.info-card-text {
+    flex: 0 0 50%; /* Set text container to 60% */
+    padding-right: 80px; /* Space between image and text */
+}
+
+.info-card-text h1 {
+    margin-bottom: 10px; /* Optional: adjust margin for heading */
+}
+
+.info-card-text p {
+    font-size: 26px;
+    color: hsl(0, 0%, 20%);
+}
+
+.arrow-container {
+    display: flex; /* Flexbox for the arrow */
+    align-items: center; /* Center arrow vertically */
+    cursor: pointer;
+}
+
+.arrow {
+    font-size: 24px; /* Arrow font size */
+    color: #007BFF; /* Blue color for the arrow */
+    transition: transform 0.3s; /* Smooth transform on hover */
+}
+
+.arrow:hover {
+    transform: translateX(5px); /* Slight move effect on hover */
+}

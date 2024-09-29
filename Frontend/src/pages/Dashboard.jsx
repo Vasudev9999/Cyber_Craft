@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+// src/pages/Dashboard.jsx
+import React, { useState } from "react";
 import "./Dashboard.css"; // Importing the CSS file
 import SaleBannerCarousel from "../components/Dashboard-components/SaleBannerCarousel"; // Importing SaleBannerCarousel component
 import TitleTextDashboard from "../components/Dashboard-components/TitleTextDashboard"; // Importing TitleTextDashboard component
 import ContactTextDashboard from "../components/Dashboard-components/ContactTextDashboard"; // Importing ContactTextDashboard component
 import CategoryCard from "../components/Dashboard-components/CategoryCard"; // Importing CategoryCard component
+import InfoCard from "../components/Dashboard-components/InfoCard"; // Corrected path to InfoCard component
 import customPCImage from "../assets/product-catagory/custom-pc-image.png"; // Corrected image path
 import prebuiltPCImage from "../assets/product-catagory/prebuild-pc-image.png"; // Corrected image path
 import keyboardImage from "../assets/product-catagory/keyboard-image.png"; // Corrected image path
@@ -21,38 +23,21 @@ const Dashboard = ({ username, openModal, handleLogout }) => {
     { image: ip2, name: "Prebuilt PC" },
     { image: ip3, name: "Keyboard" },
     { image: ip4, name: "Monitor" },
-    { image: ip4, name: "Monitor" },
-    { image: ip4, name: "Monitor" },
-    { image: ip4, name: "Monitor" },
-    { image: ip4, name: "Monitor" },
-    { image: ip4, name: "Monitor" },
   ];
-  const [scrollEffect, setScrollEffect] = useState(0); // State to track the scroll value
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const scrollAmount = Math.min(scrollTop / 20, 500); // Change the scroll rate and set a max
-      setScrollEffect(scrollAmount); // Set the amount by which the cards should move
-    };
-
-    window.addEventListener("scroll", handleScroll); // Add scroll event listener
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll); // Cleanup the event listener
-    };
-  }, []);
+  const [scrollEffect] = useState(0); // State to track the scroll value
 
   return (
     <div className="dashboard-container">
       {/* Full-width banner */}
       <SaleBannerCarousel />
+
       {/* Flex container for title and contact cards */}
       <div className="text-card-container" style={{ display: "flex" }}>
-        <div style={{ flex: "0 0 40%" }}>
+        <div style={{ flex: "0 0 30%" }}>
           <TitleTextDashboard />
         </div>
-        <div style={{ flex: "0 0 60%" }}>
+        <div style={{ flex: "0 0 70%" }}>
           <ContactTextDashboard />
         </div>
       </div>
@@ -73,7 +58,12 @@ const Dashboard = ({ username, openModal, handleLogout }) => {
       </div>
 
       <WhatsNewCardSection cards={cards} />
-      
+    
+        
+      {/* Info Card */}
+      <InfoCard />
+
+    
     </div>
   );
 };

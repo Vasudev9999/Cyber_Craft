@@ -17,6 +17,7 @@
     align-items: center;
     position: relative;
     overflow: hidden;
+    width: 100%; /* Ensure the banner takes full width */
 }
 
 /* Sale text style */
@@ -37,30 +38,4 @@
     opacity: 0;
 }
 
-/* Arrow button styles */
-.arrow {
-    background: none;
-    border: none;
-    color: #505050;
-    font-size: 24px;
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: color 0.3s;
-    z-index: 1;
-}
-
-/* Adjust arrow positions */
-.left-arrow {
-    left: 30%; /* Closer to the text */
-}
-
-.right-arrow {
-    right: 30%; /* Closer to the text */
-}
-
-/* Hover effect for arrows */
-.arrow:hover {
-    color: #000000;
-}
+/* Arrow button styles - Remove these styles */
