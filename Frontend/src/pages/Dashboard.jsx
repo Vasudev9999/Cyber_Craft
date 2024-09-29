@@ -23,6 +23,18 @@ const Dashboard = ({ username, openModal, handleLogout }) => {
     { image: ip2, name: "Prebuilt PC" },
     { image: ip3, name: "Keyboard" },
     { image: ip4, name: "Monitor" },
+    { image: ip1, name: "Custom PC" },
+    { image: ip2, name: "Prebuilt PC" },
+    { image: ip3, name: "Keyboard" },
+    { image: ip4, name: "Monitor" },
+    { image: ip1, name: "Custom PC" },
+    { image: ip2, name: "Prebuilt PC" },
+    { image: ip3, name: "Keyboard" },
+    { image: ip4, name: "Monitor" },
+    { image: ip1, name: "Custom PC" },
+    { image: ip2, name: "Prebuilt PC" },
+    { image: ip3, name: "Keyboard" },
+    { image: ip4, name: "Monitor" },
   ];
 
   const [scrollEffect] = useState(0); // State to track the scroll value

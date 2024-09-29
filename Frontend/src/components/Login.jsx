@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
-import { FaGoogle, FaFacebookF, FaTwitter } from 'react-icons/fa'; // Import icons
+import { FaGoogle, FaFacebookF, FaTwitter } from 'react-icons/fa';
 
 const LoginPage = ({ setUser }) => {
   const [username, setUsername] = useState('');
@@ -14,11 +14,12 @@ const LoginPage = ({ setUser }) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:8080/api/auth/login', { username, password });
+      const userData = response.data;
       
-      console.log(response.data); // Debugging line to check the returned data
-      if (response.data.username) {
-        setUser({ username: response.data.username }); // Store the username in the state
-        navigate('/dashboard'); // Redirect to the dashboard
+      if (userData.username) {
+        setUser({ username: userData.username });
+        sessionStorage.setItem("isAdmin", userData.username === "admin"); // Check if the user is admin and store in session
+        navigate('/dashboard');
       } else {
         setError('Invalid credentials');
       }
@@ -27,8 +28,6 @@ const LoginPage = ({ setUser }) => {
       setError('Invalid credentials');
     }
   };
-
-  
 
   return (
     <div className="login-page">
@@ -68,8 +67,6 @@ const LoginPage = ({ setUser }) => {
           />
         </div>
         <div className="checkbox-group">
-          {" "}
-          {/* Apply the checkbox-group class here */}
           <input type="checkbox" id="remember-me" />
           <label htmlFor="remember-me">Remember Me</label>
         </div>

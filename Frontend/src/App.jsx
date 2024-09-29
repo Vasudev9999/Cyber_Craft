@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
 import LoginPage from './components/Login'; // Import the new LoginPage component
@@ -7,6 +7,7 @@ import RegisterPage from './components/Register'; // Import the new RegisterPage
 import Navbar from './components/Navigation/Navbar';
 import Footer from './components/Footer/Footer';
 import PrebuildPC from './pages/PrebuildPC .jsx';
+import AddProduct from './pages/AddProduct.jsx';
 import './App.css';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
@@ -17,20 +18,19 @@ const App = () => {
   // Check if a session exists on component mount
   useEffect(() => {
     const checkSession = async () => {
-        try {
-            const response = await axios.get('http://localhost:8080/api/auth/check-session');
-            if (response.data) {
-                setUser({ username: response.data }); // Adjusting to set user object correctly
-            } else {
-                setUser(null); // No user session
-            }
-        } catch (error) {
-            setUser(null); // No user session
+      try {
+        const response = await axios.get('http://localhost:8080/api/auth/check-session');
+        if (response.data) {
+          setUser({ username: response.data }); // Adjusting to set user object correctly
+        } else {
+          setUser(null); // No user session
         }
+      } catch (error) {
+        setUser(null); // No user session
+      }
     };
     checkSession();
-}, []);
-
+  }, []);
 
   // Handle user logout
   const handleLogout = async () => {
@@ -47,6 +47,7 @@ const App = () => {
       <div className="app-container">
         {/* Pass user and handleLogout to Navbar */}
         <Navbar user={user} handleLogout={handleLogout} />
+
         <Routes>
           {/* Redirect root to dashboard */}
           <Route path="/" element={<Navigate to="/dashboard" />} />
@@ -57,12 +58,34 @@ const App = () => {
           <Route path="/login" element={<LoginPage setUser={setUser} />} />
           <Route path="/register" element={<RegisterPage setUser={setUser} />} />
           <Route path="/prebuild-pc" element={<PrebuildPC />} />
+          <Route path="/add-product" element={<AddProduct />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+
         <Footer />
       </div>
     </Router>
   );
+};
+
+// This component uses the useNavigate hook properly inside a component under Router
+const AddProductButton = ({ user }) => {
+  const navigate = useNavigate();
+
+  const handleAddProductClick = () => {
+    navigate('/add-product');
+  };
+
+  if (user?.username === 'admin') {
+    return (
+      <div className="add-product-button-container">
+        <button className="add-product-button" onClick={handleAddProductClick}>
+          Add Product
+        </button>
+      </div>
+    );
+  }
+  return null;
 };
 
 export default App;
