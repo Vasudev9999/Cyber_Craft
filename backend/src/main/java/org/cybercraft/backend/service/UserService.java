@@ -14,13 +14,29 @@ public class UserService {
     private UserRepository userRepository;
 
     public User registerUser(User user) {
-        // Save user with plain text password
         return userRepository.save(user);
     }
 
     public boolean loginUser(String username, String password) {
         User user = userRepository.findByUsername(username);
-        // Compare passwords directly
         return user != null && user.getPassword().equals(password);
     }
+
+    public boolean isAdmin(String username) {
+        User user = userRepository.findByUsername(username);
+        return user != null && "admin".equals(user.getUsername());
+    }
+//    @Autowired
+//    private UserRepository userRepository;
+//
+//    public User registerUser(User user) {
+//        // Save user with plain text password
+//        return userRepository.save(user);
+//    }
+//
+//    public boolean loginUser(String username, String password) {
+//        User user = userRepository.findByUsername(username);
+//        // Compare passwords directly
+//        return user != null && user.getPassword().equals(password);
+//    }
 }

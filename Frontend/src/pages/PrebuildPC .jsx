@@ -1,79 +1,106 @@
-import React, { useState } from "react";
-import "./PrebuildPC.css";
+import React, { useState, useEffect } from 'react';
+import './PrebuildPC.css';
+import ProductList from './ProductList';
+import AddProductModal from './AddProductModal';
 
 const PrebuildPC = () => {
+  const [products, setProducts] = useState([]);
   const [filters, setFilters] = useState({
-    usage: "",
-    pricing: "",
-    processor: "",
-    graphicCard: "",
-    storage: "",
+    name: '',
+    category: '',
+    processor: '',
+    ram: '',
+    graphicsCard: '',
+    storage: '',
+    minPrice: '',
+    maxPrice: ''
   });
+  const [isAdmin, setIsAdmin] = useState(false); // State to track if user is admin
+  const [showAddProduct, setShowAddProduct] = useState(false);
+
+  useEffect(() => {
+    fetchProducts();
+    checkAdminStatus();
+  }, [filters]);
+
+  const fetchProducts = async () => {
+    const query = new URLSearchParams(filters).toString();
+    const response = await fetch(`http://localhost:8080/api/products/filter?${query}`);
+    const data = await response.json();
+    setProducts(data);
+  };
+
+  const checkAdminStatus = async () => {
+    const response = await fetch('http://localhost:8080/api/auth/check-admin', {
+      method: 'GET',
+      credentials: 'include', // This ensures the session is included in the request
+    });
+    if (response.ok) {
+      const data = await response.json();
+      setIsAdmin(data.isAdmin); // Set the admin status
+    } else {
+      setIsAdmin(false);
+    }
+  };
 
   const handleFilterChange = (e) => {
     setFilters({
       ...filters,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     });
-  };
-
-  const handleSearch = () => {
-    console.log("Searching with filters:", filters);
-    // Here you can add your API call to search from the database using these filter values.
   };
 
   return (
     <div className="prebuild-pc">
-      <div className="header">
-        <h1>Prebuilt PCs</h1>
-        <input
-          type="text"
-          className="search-bar"
-          placeholder="Search Prebuilt PCs"
-        />
-      </div>
-
-      <div className="filters">
-        <div className="filter-item">
-          <label htmlFor="usage">Usage</label>
-          <select name="usage" id="usage" onChange={handleFilterChange}>
-            <option value="">Select Usage</option>
-            <option value="gaming">Gaming</option>
-            <option value="workstation">Workstation</option>
-          </select>
-        </div>
-
-        <div className="filter-item">
-          <label htmlFor="processor">Processor</label>
-          <select name="processor" id="processor" onChange={handleFilterChange}>
-            <option value="">Select Processor</option>
-            <option value="intel">Intel</option>
-            <option value="amd">AMD</option>
-          </select>
-        </div>
-
-        <div className="filter-item">
-          <label htmlFor="graphicCard">Graphics Card</label>
-          <select name="graphicCard" id="graphicCard" onChange={handleFilterChange}>
-            <option value="">Select Graphics Card</option>
-            <option value="nvidia">NVIDIA</option>
-            <option value="amd">AMD</option>
-          </select>
-        </div>
-
-        <div className="filter-item">
-          <label htmlFor="storage">Storage</label>
-          <select name="storage" id="storage" onChange={handleFilterChange}>
-            <option value="">Select Storage</option>
-            <option value="500GB">500GB</option>
-            <option value="1TB">1TB</option>
-          </select>
-        </div>
-
-        <button className="filter-button" onClick={handleSearch}>
-          Search
-        </button>
-      </div>
+      <input
+        type="text"
+        name="name"
+        placeholder="Search..."
+        value={filters.name}
+        onChange={handleFilterChange}
+      />
+      <select name="category" value={filters.category} onChange={handleFilterChange}>
+        <option value="">All Categories</option>
+        <option value="gaming">Gaming</option>
+        <option value="workstation">Workstation</option>
+      </select>
+      <select name="processor" value={filters.processor} onChange={handleFilterChange}>
+        <option value="">All Processors</option>
+        <option value="intel">Intel</option>
+        <option value="amd">AMD</option>
+      </select>
+      <select name="ram" value={filters.ram} onChange={handleFilterChange}>
+        <option value="">All RAM</option>
+        <option value="8GB">8GB</option>
+        <option value="16GB">16GB</option>
+      </select>
+      <select name="graphicsCard" value={filters.graphicsCard} onChange={handleFilterChange}>
+        <option value="">All Graphics Cards</option>
+        <option value="nvidia">NVIDIA</option>
+        <option value="amd">AMD</option>
+      </select>
+      <select name="storage" value={filters.storage} onChange={handleFilterChange}>
+        <option value="">All Storage</option>
+        <option value="256GB">256GB</option>
+        <option value="512GB">512GB</option>
+      </select>
+      <input
+        type="number"
+        name="minPrice"
+        placeholder="Min Price"
+        value={filters.minPrice}
+        onChange={handleFilterChange}
+      />
+      <input
+        type="number"
+        name="maxPrice"
+        placeholder="Max Price"
+        value={filters.maxPrice}
+        onChange={handleFilterChange}
+      />
+      <ProductList products={products} />
+      {isAdmin && <button onClick={() => setShowAddProduct(true)}>Add Item</button>}
+      {showAddProduct && <AddProductModal onClose={() => setShowAddProduct(false)} />}
     </div>
   );
 };

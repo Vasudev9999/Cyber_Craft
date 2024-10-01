@@ -1,97 +1,19 @@
 .prebuild-pc {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .search-bar {
-    width: 300px;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .filters {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .filter-item {
-    display: flex;
-    flex-direction: column;
-    width: 18%;
-  }
-  
-  .filter-item label {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .filter-item select {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .search-button {
-    display: block;
-    margin: 20px auto;
-    padding: 10px 20px;
-    font-size: 18px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .search-button:hover {
-    background-color: #0056b3;
-  }
-  
-  hr {
-    margin: 40px 0;
-  }
-  
-  .product-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  
-  .product-card {
-    width: 30%;
-    margin-bottom: 20px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  .product-card img {
-    max-width: 100%;
-    border-radius: 5px;
-    margin-bottom: 15px;
-  }
-  
-  .product-card h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-  
-  .product-card p {
-    font-size: 16px;
-    margin-bottom: 10px;
-  }
-  
+  padding: 20px;
+}
+
+.prebuild-pc input,
+.prebuild-pc select {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.prebuild-pc button {
+  margin: 10px;
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+}

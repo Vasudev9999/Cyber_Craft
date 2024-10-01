@@ -47,16 +47,14 @@ public class AuthController {
         }
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<String> loginUser(@RequestBody User user, HttpSession session) {
-//        boolean isAuthenticated = userService.loginUser(user.getUsername(), user.getPassword());
-//        if (isAuthenticated) {
-//            session.setAttribute("username", user.getUsername()); // Set session attribute
-//            return ResponseEntity.ok("Login successful");
-//        } else {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
-//        }
-//    }
+    @GetMapping("/check-admin")
+    public ResponseEntity<Map<String, Boolean>> checkAdmin(HttpSession session) {
+        String username = (String) session.getAttribute("username");
+        boolean isAdmin = userService.isAdmin(username);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("isAdmin", isAdmin);
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping("/logout")
     public ResponseEntity<String> logoutUser(HttpSession session) {
@@ -73,5 +71,4 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not logged in");
         }
     }
-
 }

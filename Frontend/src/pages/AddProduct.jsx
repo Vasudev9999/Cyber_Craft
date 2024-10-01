@@ -1,123 +1,53 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import './AddProduct.css';
 
 const AddProduct = () => {
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [processor, setProcessor] = useState("");
-  const [graphicsCard, setGraphicsCard] = useState("");
-  const [ram, setRam] = useState("");
-  const [storage, setStorage] = useState("");
+  const [product, setProduct] = useState({
+    name: '',
+    description: '',
+    price: '',
+    category: '',
+    processor: '',
+    ram: '',
+    graphicsCard: '',
+    storage: '',
+    imageUrl: ''
+  });
 
-  const handleAddProduct = async (e) => {
+  const handleChange = (e) => {
+    setProduct({
+      ...product,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      const response = await axios.post("http://localhost:8080/api/products", {
-        name,
-        price,
-        description,
-        imageUrl,
-        processor,
-        graphicsCard,
-        ram,
-        storage,
-      });
-      console.log("Product added successfully:", response.data);
-    } catch (error) {
-      console.error("Error adding product:", error);
+    const response = await fetch('http://localhost:8080/api/products/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(product)
+    });
+    if (response.ok) {
+      alert('Product added successfully');
     }
   };
 
   return (
-    <div className="add-product-page">
-      <h2>Add New Product</h2>
-      <form onSubmit={handleAddProduct}>
-        <div className="form-group">
-          <label htmlFor="name">Product Name</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="price">Price</label>
-          <input
-            type="text"
-            id="price"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="description">Description</label>
-          <input
-            type="text"
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="imageUrl">Image URL</label>
-          <input
-            type="text"
-            id="imageUrl"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="processor">Processor</label>
-          <input
-            type="text"
-            id="processor"
-            value={processor}
-            onChange={(e) => setProcessor(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="graphicsCard">Graphics Card</label>
-          <input
-            type="text"
-            id="graphicsCard"
-            value={graphicsCard}
-            onChange={(e) => setGraphicsCard(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="ram">RAM</label>
-          <input
-            type="text"
-            id="ram"
-            value={ram}
-            onChange={(e) => setRam(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="storage">Storage</label>
-          <input
-            type="text"
-            id="storage"
-            value={storage}
-            onChange={(e) => setStorage(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Add Product</button>
-      </form>
-    </div>
+    <form className="add-product" onSubmit={handleSubmit}>
+      <input type="text" name="name" placeholder="Name" value={product.name} onChange={handleChange} />
+      <input type="text" name="description" placeholder="Description" value={product.description} onChange={handleChange} />
+      <input type="number" name="price" placeholder="Price" value={product.price} onChange={handleChange} />
+      <input type="text" name="category" placeholder="Category" value={product.category} onChange={handleChange} />
+      <input type="text" name="processor" placeholder="Processor" value={product.processor} onChange={handleChange} />
+      <input type="text" name="ram" placeholder="RAM" value={product.ram} onChange={handleChange} />
+      <input type="text" name="graphicsCard" placeholder="Graphics Card" value={product.graphicsCard} onChange={handleChange} />
+      <input type="text" name="storage" placeholder="Storage" value={product.storage} onChange={handleChange} />
+      <input type="text" name="imageUrl" placeholder="Image URL" value={product.imageUrl} onChange={handleChange} />
+      <button type="submit">Add Product</button>
+    </form>
   );
 };
 
