@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './RegisterPage.css';
-import { FaGoogle, FaFacebookF, FaTwitter } from 'react-icons/fa'; // Import icons
+import { FaGoogle, FaFacebookF, FaTwitter } from 'react-icons/fa';
 
 const RegisterPage = ({ setUser }) => {
   const [username, setUsername] = useState('');
@@ -16,8 +16,10 @@ const RegisterPage = ({ setUser }) => {
     try {
       const response = await axios.post('http://localhost:8080/api/auth/register', { username, password, email });
       if (response.status === 200) {
-        setUser(response.data); // Update user state with full user data
-        navigate('/dashboard'); // Redirect to dashboard
+        setUser(response.data);
+        sessionStorage.setItem('username', response.data.username); // Store username in sessionStorage
+        sessionStorage.setItem('token', response.data.token); // Store token in sessionStorage
+        navigate('/dashboard');
       } else {
         setError('Registration failed');
       }

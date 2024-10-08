@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
-import Dashboard from './pages/Dashboard';
-import NotFound from './pages/NotFound';
-import LoginPage from './components/Login'; // Import the new LoginPage component
-import RegisterPage from './components/Register'; // Import the new RegisterPage component
-import Navbar from './components/Navigation/Navbar';
-import Footer from './components/Footer/Footer';
-import PrebuildPC from './pages/PrebuildPC .jsx';
-import AddProduct from './pages/AddProduct.jsx';
+import Dashboard from './pages/Dashboard'; // Ensure this path is correct
+import NotFound from './pages/NotFound'; // Ensure this path is correct
+import LoginPage from './components/Login'; // Ensure this path is correct
+import RegisterPage from './components/Register'; // Ensure this path is correct
+import Navbar from './components/Navigation/Navbar'; // Ensure this path is correct
+import Footer from './components/Footer/Footer'; // Ensure this path is correct
+import AddProduct from './pages/AddProduct'; // Ensure this path is correct
+import PrebuildPC from './pages/PrebuildPC';
 import './App.css';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
@@ -19,14 +19,23 @@ const App = () => {
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/auth/check-session');
-        if (response.data) {
-          setUser({ username: response.data }); // Adjusting to set user object correctly
-        } else {
-          setUser(null); // No user session
+        const token = sessionStorage.getItem('token');
+        if (token) {
+          const response = await axios.get('http://localhost:8080/api/auth/check-session', {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          if (response.data) {
+            setUser({ username: response.data });
+          } else {
+            setUser(null);
+            sessionStorage.removeItem('username');
+            sessionStorage.removeItem('token');
+          }
         }
       } catch (error) {
-        setUser(null); // No user session
+        setUser(null);
+        sessionStorage.removeItem('username');
+        sessionStorage.removeItem('token');
       }
     };
     checkSession();
@@ -37,6 +46,9 @@ const App = () => {
     try {
       await axios.post('http://localhost:8080/api/auth/logout'); // Logout endpoint
       setUser(null);
+      sessionStorage.removeItem('username'); // Remove username from sessionStorage
+      sessionStorage.removeItem('token'); // Remove token from sessionStorage
+      window.location.reload();
     } catch (error) {
       console.error('Logout error:', error);
     }

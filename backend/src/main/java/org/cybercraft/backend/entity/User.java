@@ -15,6 +15,12 @@ public class User {
     private Long id;
 
     private String username;
+
+    @Column(nullable = false)
     private String password;
+
     private String email;
+
+    @Transient // Exclude from serialization
+    private String token; // For storing JWT after login
 }

@@ -18,7 +18,8 @@ const LoginPage = ({ setUser }) => {
       
       if (userData.username) {
         setUser({ username: userData.username });
-        sessionStorage.setItem("isAdmin", userData.username === "admin"); // Check if the user is admin and store in session
+        sessionStorage.setItem('username', userData.username); // Store username in sessionStorage
+        sessionStorage.setItem('token', userData.token); // Store token in sessionStorage
         navigate('/dashboard');
       } else {
         setError('Invalid credentials');

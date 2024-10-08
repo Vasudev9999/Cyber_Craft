@@ -28,28 +28,31 @@ const AddProductModal = ({ onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (imageFile) {
-      const formData = new FormData();
-      formData.append('file', imageFile);
-      const imageResponse = await fetch('http://localhost:8080/api/products/upload', {
-        method: 'POST',
-        body: formData
-      });
-      const imageData = await imageResponse.json();
-      product.imageUrl = imageData.path;
+
+    const formData = new FormData();
+    formData.append("file", imageFile);
+    formData.append("product", JSON.stringify(product)); // Append the product details
+
+    try {
+        const response = await fetch('http://localhost:8080/api/products/add', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            const newProduct = await response.json();
+            // Handle success (e.g., close modal, refresh product list)
+            location.reload();
+            onClose(); // Close the modal after successful addition
+            
+        } else {
+            // Handle error
+            console.error('Failed to add product');
+        }
+    } catch (error) {
+        console.error('Error:', error);
     }
-    const response = await fetch('http://localhost:8080/api/products/add', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(product)
-    });
-    if (response.ok) {
-      alert('Product added successfully');
-      onClose();
-    }
-  };
+};
 
   return (
     <div className="modal">

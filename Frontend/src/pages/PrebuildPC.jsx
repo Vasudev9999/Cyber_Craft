@@ -3,7 +3,7 @@ import './PrebuildPC.css';
 import ProductList from './ProductList';
 import AddProductModal from './AddProductModal';
 
-const PrebuildPC = () => {
+const PrebuildPC= () => {
   const [products, setProducts] = useState([]);
   const [filters, setFilters] = useState({
     name: '',
@@ -15,7 +15,7 @@ const PrebuildPC = () => {
     minPrice: '',
     maxPrice: ''
   });
-  const [isAdmin, setIsAdmin] = useState(false); // State to track if user is admin
+  const [isAdmin, setIsAdmin] = useState(false);
   const [showAddProduct, setShowAddProduct] = useState(false);
 
   useEffect(() => {
@@ -33,11 +33,11 @@ const PrebuildPC = () => {
   const checkAdminStatus = async () => {
     const response = await fetch('http://localhost:8080/api/auth/check-admin', {
       method: 'GET',
-      credentials: 'include', // This ensures the session is included in the request
+      credentials: 'include',
     });
     if (response.ok) {
       const data = await response.json();
-      setIsAdmin(data.isAdmin); // Set the admin status
+      setIsAdmin(data.isAdmin);
     } else {
       setIsAdmin(false);
     }
