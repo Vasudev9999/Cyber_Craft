@@ -1,3 +1,4 @@
+// AuthController.java
 package org.cybercraft.backend.controller;
 
 import org.cybercraft.backend.entity.User;
@@ -55,6 +56,20 @@ public class AuthController {
         if (userService.validateToken(token)) {
             String username = userService.getUsernameFromToken(token);
             return ResponseEntity.ok(username);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid session");
+        }
+    }
+
+    @GetMapping("/check-admin")
+    public ResponseEntity<?> checkAdmin(HttpSession session) {
+        String token = (String) session.getAttribute("token");
+        if (userService.validateToken(token)) {
+            String username = userService.getUsernameFromToken(token);
+            boolean isAdmin = userService.isAdmin(username);
+            Map<String, Boolean> response = new HashMap<>();
+            response.put("isAdmin", isAdmin);
+            return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid session");
         }

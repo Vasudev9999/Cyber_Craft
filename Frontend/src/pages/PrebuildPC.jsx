@@ -1,9 +1,10 @@
+// PrebuildPC.js
 import React, { useState, useEffect } from 'react';
 import './PrebuildPC.css';
 import ProductList from './ProductList';
 import AddProductModal from './AddProductModal';
 
-const PrebuildPC= () => {
+const PrebuildPC = () => {
   const [products, setProducts] = useState([]);
   const [filters, setFilters] = useState({
     name: '',

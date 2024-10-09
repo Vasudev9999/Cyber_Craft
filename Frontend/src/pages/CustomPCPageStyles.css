@@ -1,0 +1,83 @@
+/* Custom PC Page Styles */
+.custom-pc-page-container {
+    padding: 20px;
+  }
+  
+  .custom-pc-page-price-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .custom-pc-page-price-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .custom-pc-page-warning {
+    color: red;
+    font-size: 18px;
+    margin-top: 10px;
+  }
+  
+  .custom-pc-page-content-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .custom-pc-page-image-and-dropdowns {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+  }
+  
+  .custom-pc-page-left-side {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .custom-pc-page-cabinet-image {
+    max-width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+  }
+  
+  .custom-pc-page-right-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .custom-pc-page-component-select {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .custom-pc-page-component-select label {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  
+  .custom-pc-page-component-select select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .custom-pc-page-content-container {
+      flex-direction: column;
+    }
+  
+    .custom-pc-page-image-and-dropdowns {
+      flex-direction: column;
+    }
+  
+    .custom-pc-page-left-side,
+    .custom-pc-page-right-side {
+      width: 100%;
+    }
+  }
+  

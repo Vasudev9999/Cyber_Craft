@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Dashboard from './pages/Dashboard'; // Ensure this path is correct
 import NotFound from './pages/NotFound'; // Ensure this path is correct
 import LoginPage from './components/Login'; // Ensure this path is correct
@@ -7,7 +7,9 @@ import RegisterPage from './components/Register'; // Ensure this path is correct
 import Navbar from './components/Navigation/Navbar'; // Ensure this path is correct
 import Footer from './components/Footer/Footer'; // Ensure this path is correct
 import AddProduct from './pages/AddProduct'; // Ensure this path is correct
-import PrebuildPC from './pages/PrebuildPC';
+import PrebuildPC from './pages/PrebuildPC'; // Ensure this path is correct
+import CustomPC from './pages/CustomPC'; // Ensure this path is correct
+import CustomPCPage from './pages/CustomPCPage'; // Ensure this path is correct
 import './App.css';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
@@ -63,13 +65,12 @@ const App = () => {
         <Routes>
           {/* Redirect root to dashboard */}
           <Route path="/" element={<Navigate to="/dashboard" />} />
-          <Route
-            path="/dashboard"
-            element={<Dashboard username={user?.username} />}
-          />
+          <Route path="/dashboard" element={<Dashboard username={user?.username} />} />
           <Route path="/login" element={<LoginPage setUser={setUser} />} />
           <Route path="/register" element={<RegisterPage setUser={setUser} />} />
           <Route path="/prebuild-pc" element={<PrebuildPC />} />
+          <Route path="/custom" element={<CustomPC />} />
+          <Route path="/custom-pc-page" element={<CustomPCPage />} />
           <Route path="/add-product" element={<AddProduct />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -78,26 +79,6 @@ const App = () => {
       </div>
     </Router>
   );
-};
-
-// This component uses the useNavigate hook properly inside a component under Router
-const AddProductButton = ({ user }) => {
-  const navigate = useNavigate();
-
-  const handleAddProductClick = () => {
-    navigate('/add-product');
-  };
-
-  if (user?.username === 'admin') {
-    return (
-      <div className="add-product-button-container">
-        <button className="add-product-button" onClick={handleAddProductClick}>
-          Add Product
-        </button>
-      </div>
-    );
-  }
-  return null;
 };
 
 export default App;
