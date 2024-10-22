@@ -35,13 +35,13 @@ public class ProductController {
             Product product = objectMapper.readValue(productJson, Product.class);
 
             // Set the imageUrl in the product
-            product.setImageUrl(imageName); // Set the image name or path as required
+            product.setImageUrl(imageName);
 
-            // Save product with imageUrl as the image name only
+            // Save product with imageUrl
             Product savedProduct = productService.addProduct(product);
             return ResponseEntity.ok(savedProduct);
         } catch (Exception e) {
-            e.printStackTrace(); // Log the exception for debugging
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -59,9 +59,30 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product updatedProduct) {
-        Product product = productService.updateProduct(id, updatedProduct);
-        return product != null ? ResponseEntity.ok(product) : ResponseEntity.notFound().build();
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestParam(value = "file", required = false) MultipartFile file, @RequestParam("product") String productJson) {
+        try {
+            // First, upload the image and get the image name if a new file is provided
+            String imageName = null;
+            if (file != null && !file.isEmpty()) {
+                imageName = uploadImage(file).getBody().get("name");
+            }
+
+            // Convert the product JSON string to Product object
+            ObjectMapper objectMapper = new ObjectMapper();
+            Product updatedProduct = objectMapper.readValue(productJson, Product.class);
+
+            // Set the new imageUrl in the product if a new image was uploaded
+            if (imageName != null) {
+                updatedProduct.setImageUrl(imageName);
+            }
+
+            // Update product with new details
+            Product savedProduct = productService.updateProduct(id, updatedProduct);
+            return ResponseEntity.ok(savedProduct);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PostMapping("/upload")
@@ -83,11 +104,11 @@ public class ProductController {
             Files.write(path, file.getBytes());
 
             Map<String, String> response = new HashMap<>();
-            response.put("name", fileName); // Only return the image name
+            response.put("name", fileName);
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            e.printStackTrace(); // Log the exception for debugging
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -107,9 +128,9 @@ public class ProductController {
             @RequestParam(required = false) String graphicsCard,
             @RequestParam(required = false) String storage,
             @RequestParam(required = false) Double minPrice,
-            @RequestParam(required = false) Double maxPrice) {
-
-        List<Product> products = productService.filterProducts(name, category, processor, ram, graphicsCard, storage, minPrice, maxPrice);
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) String sortOrder) {
+        List<Product> products = productService.filterProducts(name, category, processor, ram, graphicsCard, storage, minPrice, maxPrice, sortOrder);
         return ResponseEntity.ok(products);
     }
 }

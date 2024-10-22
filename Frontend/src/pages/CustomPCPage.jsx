@@ -24,7 +24,7 @@ const CustomPCPage = () => {
   const [totalBudget, setTotalBudget] = useState(0);
   const [warningMessage, setWarningMessage] = useState("");
 
-  const maxBudget = 120000;
+  const maxBudget = 150000;
   const midRangeBudget = 80000;
   const highEndBudget = 150000;
 

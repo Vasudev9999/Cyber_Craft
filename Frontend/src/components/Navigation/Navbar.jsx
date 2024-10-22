@@ -75,7 +75,7 @@ const Navbar = ({ user, handleLogout }) => {
             </span>
             {isDropdownOpen && (
               <div className="dropdown-menu">
-                <button onClick={handleLogout}>Logout</button>
+                <button id="logout-button" onClick={handleLogout}>Logout</button>
               </div>
             )}
           </div>

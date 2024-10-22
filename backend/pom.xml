@@ -64,6 +64,33 @@
 		</dependency>
 
 
+			<!-- Selenium WebDriver Dependency -->
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-java</artifactId>
+				<version>4.8.0</version>
+			</dependency>
+
+			<!-- WebDriverManager for managing browser drivers -->
+			<dependency>
+				<groupId>io.github.bonigarcia</groupId>
+				<artifactId>webdrivermanager</artifactId>
+				<version>5.3.0</version>
+			</dependency>
+
+			<!-- TestNG Dependency (optional if you are running tests using TestNG) -->
+			<dependency>
+				<groupId>org.testng</groupId>
+				<artifactId>testng</artifactId>
+				<version>7.7.0</version>
+				<scope>test</scope>
+			</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-devtools-v85</artifactId>
+			<version>4.19.1</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -134,7 +161,17 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M5</version>
+			</plugin>
 		</plugins>
+
+			<!-- Maven Surefire Plugin for running tests -->
+
 	</build>
 
 </project>

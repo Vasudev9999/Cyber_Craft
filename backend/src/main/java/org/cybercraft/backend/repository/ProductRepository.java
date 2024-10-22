@@ -1,6 +1,7 @@
 package org.cybercraft.backend.repository;
 
 import org.cybercraft.backend.entity.Product;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -20,5 +21,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             + "AND (?7 IS NULL OR p.price >= ?7) "
             + "AND (?8 IS NULL OR p.price <= ?8)")
     List<Product> findProductsWithFilters(String name, String category, String processor, String ram,
-                                          String graphicsCard, String storage, Double minPrice, Double maxPrice);
+                                          String graphicsCard, String storage, Double minPrice, Double maxPrice, Sort sort);
 }

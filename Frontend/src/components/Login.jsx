@@ -1,4 +1,3 @@
-// LoginPage.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -72,7 +71,7 @@ const LoginPage = ({ setUser }) => {
           <input type="checkbox" id="remember-me" />
           <label htmlFor="remember-me">Remember Me</label>
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" id="login-btn">Login</button> {/* Added ID here */}
       </form>
       {error && <p className="error-message">{error}</p>}
       <a href="/forgot-password" className="forgot-password">

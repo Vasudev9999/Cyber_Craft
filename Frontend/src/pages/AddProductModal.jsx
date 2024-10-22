@@ -31,28 +31,25 @@ const AddProductModal = ({ onClose }) => {
 
     const formData = new FormData();
     formData.append("file", imageFile);
-    formData.append("product", JSON.stringify(product)); // Append the product details
+    formData.append("product", JSON.stringify(product));
 
     try {
-        const response = await fetch('http://localhost:8080/api/products/add', {
-            method: 'POST',
-            body: formData
-        });
+      const response = await fetch('http://localhost:8080/api/products/add', {
+        method: 'POST',
+        body: formData
+      });
 
-        if (response.ok) {
-            const newProduct = await response.json();
-            // Handle success (e.g., close modal, refresh product list)
-            location.reload();
-            onClose(); // Close the modal after successful addition
-            
-        } else {
-            // Handle error
-            console.error('Failed to add product');
-        }
+      if (response.ok) {
+        const newProduct = await response.json();
+        location.reload();
+        onClose();
+      } else {
+        console.error('Failed to add product');
+      }
     } catch (error) {
-        console.error('Error:', error);
+      console.error('Error:', error);
     }
-};
+  };
 
   return (
     <div className="modal">
@@ -60,7 +57,7 @@ const AddProductModal = ({ onClose }) => {
         <span className="close" onClick={onClose}>&times;</span>
         <form className="add-product" onSubmit={handleSubmit}>
           <input type="text" name="name" placeholder="Name" value={product.name} onChange={handleChange} />
-          <input type="text" name="description" placeholder="Description" value={product.description} onChange={handleChange} />
+          <textarea name="description" placeholder="Description" value={product.description} onChange={handleChange} />
           <input type="number" name="price" placeholder="Price" value={product.price} onChange={handleChange} />
           <input type="text" name="category" placeholder="Category" value={product.category} onChange={handleChange} />
           <input type="text" name="processor" placeholder="Processor" value={product.processor} onChange={handleChange} />

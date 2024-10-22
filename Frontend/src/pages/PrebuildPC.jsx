@@ -1,8 +1,8 @@
-// PrebuildPC.js
 import React, { useState, useEffect } from 'react';
 import './PrebuildPC.css';
 import ProductList from './ProductList';
 import AddProductModal from './AddProductModal';
+import EditProductModal from './EditProductModal';
 
 const PrebuildPC = () => {
   const [products, setProducts] = useState([]);
@@ -16,16 +16,19 @@ const PrebuildPC = () => {
     minPrice: '',
     maxPrice: ''
   });
+  const [sortOrder, setSortOrder] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
   const [showAddProduct, setShowAddProduct] = useState(false);
+  const [showEditProduct, setShowEditProduct] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     fetchProducts();
     checkAdminStatus();
-  }, [filters]);
+  }, [filters, sortOrder]);
 
   const fetchProducts = async () => {
-    const query = new URLSearchParams(filters).toString();
+    const query = new URLSearchParams({ ...filters, sortOrder }).toString();
     const response = await fetch(`http://localhost:8080/api/products/filter?${query}`);
     const data = await response.json();
     setProducts(data);
@@ -51,6 +54,15 @@ const PrebuildPC = () => {
     });
   };
 
+  const handleSortChange = (e) => {
+    setSortOrder(e.target.value);
+  };
+
+  const handleEditProduct = (product) => {
+    setSelectedProduct(product);
+    setShowEditProduct(true);
+  };
+
   return (
     <div className="prebuild-pc">
       <input
@@ -74,6 +86,8 @@ const PrebuildPC = () => {
         <option value="">All RAM</option>
         <option value="8GB">8GB</option>
         <option value="16GB">16GB</option>
+        <option value="32GB">32GB</option>
+        <option value="64GB">64GB</option>
       </select>
       <select name="graphicsCard" value={filters.graphicsCard} onChange={handleFilterChange}>
         <option value="">All Graphics Cards</option>
@@ -84,6 +98,7 @@ const PrebuildPC = () => {
         <option value="">All Storage</option>
         <option value="256GB">256GB</option>
         <option value="512GB">512GB</option>
+        <option value="1TB">1TB</option>
       </select>
       <input
         type="number"
@@ -99,9 +114,15 @@ const PrebuildPC = () => {
         value={filters.maxPrice}
         onChange={handleFilterChange}
       />
-      <ProductList products={products} />
+      <select value={sortOrder} onChange={handleSortChange}>
+        <option value="">Sort by Price</option>
+        <option value="asc">Low to High</option>
+        <option value="desc">High to Low</option>
+      </select>
+      <ProductList products={products} isAdmin={isAdmin} onEditProduct={handleEditProduct} />
       {isAdmin && <button onClick={() => setShowAddProduct(true)}>Add Item</button>}
       {showAddProduct && <AddProductModal onClose={() => setShowAddProduct(false)} />}
+      {showEditProduct && <EditProductModal product={selectedProduct} onClose={() => setShowEditProduct(false)} />}
     </div>
   );
 };

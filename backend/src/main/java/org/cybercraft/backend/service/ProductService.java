@@ -3,6 +3,7 @@ package org.cybercraft.backend.service;
 import org.cybercraft.backend.entity.Product;
 import org.cybercraft.backend.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +20,14 @@ public class ProductService {
 
     public List<Product> filterProducts(String name, String category, String processor,
                                         String ram, String graphicsCard, String storage,
-                                        Double minPrice, Double maxPrice) {
-        return productRepository.findProductsWithFilters(name, category, processor, ram, graphicsCard, storage, minPrice, maxPrice);
+                                        Double minPrice, Double maxPrice, String sortOrder) {
+        Sort sort = Sort.by("price");
+        if ("desc".equalsIgnoreCase(sortOrder)) {
+            sort = sort.descending();
+        } else {
+            sort = sort.ascending();
+        }
+        return productRepository.findProductsWithFilters(name, category, processor, ram, graphicsCard, storage, minPrice, maxPrice, sort);
     }
 
     public List<Product> getAllProducts() {
