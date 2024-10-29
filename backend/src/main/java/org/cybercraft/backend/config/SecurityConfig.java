@@ -15,10 +15,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable) // Disabling CSRF for testing (enable in production)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/**", "/api/auth/register", "/api/auth/login", "/api/auth/**", "/api/products","/api/products/add", "/api/auth/check-admin" ).permitAll() // Allow public access to register and login endpoints
-                        .requestMatchers("/api/components").permitAll() // Allow all users to add products
-                        .requestMatchers("/api/products").permitAll() // Allow all users to add products
-                        .requestMatchers("/api/products/add").permitAll() // Allow all users to add products
+                        .requestMatchers("/api/**", "/api/auth/register", "/api/auth/login", "/api/auth/**", "/api/products", "/api/products/add", "/api/auth/check-admin").permitAll() // Allow public access to register and login endpoints
+                        .requestMatchers("/api/products/filter").permitAll() // Allow public access to filter endpoint
                         .anyRequest().authenticated() // All other endpoints require authentication
                 )
                 .sessionManagement(session -> session
