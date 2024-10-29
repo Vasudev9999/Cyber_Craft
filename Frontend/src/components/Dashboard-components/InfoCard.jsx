@@ -17,8 +17,8 @@ const InfoCard = () => {
           efficiency and power. Whether you’re gaming, creating, or working, our
           PCs will deliver beyond your expectations.
         </p>
-        <div class="arrow-container">
-          <span class="arrow">Get info →</span>
+        <div className="arrow-container">
+          <span className="arrow">Get info →</span>
         </div>
       </div>
     </div>

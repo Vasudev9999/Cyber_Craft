@@ -55,9 +55,9 @@
   padding: 10px 20px;
   margin: 10px 5px;
   font-weight: bold;
-  background-color: #b0b0b0;
+  background-color: #ededed;
   color: rgb(0, 0, 0);
-  border: none;
+  /* border: dotted black 3px ; */
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -65,8 +65,8 @@
 
 .product-item .buy-now:hover,
 .product-item .edit:hover {
-  background-color: #8a8a8a;
-  color: #010101;
-  transition: transform 0.2s;
-  transform: scale(1.1);
+  background-color: #000000;
+  color: #ffffff;
+  transition: transform 0.5s;
+  transform: scale(1.04);
 }

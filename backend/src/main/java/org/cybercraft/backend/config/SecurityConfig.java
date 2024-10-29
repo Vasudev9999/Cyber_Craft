@@ -13,15 +13,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // Disabling CSRF for testing (enable in production)
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/**", "/api/auth/register", "/api/auth/login", "/api/auth/**", "/api/products", "/api/products/add", "/api/auth/check-admin").permitAll() // Allow public access to register and login endpoints
-                        .requestMatchers("/api/products/filter").permitAll() // Allow public access to filter endpoint
-                        .anyRequest().authenticated() // All other endpoints require authentication
+                        .requestMatchers("/api/**", "/api/cart", "/api/cart/**", "/api/auth/register", "/api/auth/login", "/api/products").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
-                        .sessionFixation().none() // Do not create a new session upon login
-                        .maximumSessions(1) // Allow only 1 session per user
+                        .sessionFixation().none()
+                        .maximumSessions(1)
                 );
         return http.build();
     }

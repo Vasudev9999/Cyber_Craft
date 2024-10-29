@@ -1,0 +1,42 @@
+.cart {
+    padding: 20px;
+  }
+  
+  .cart h1 {
+    font-size: 2em;
+  }
+  
+  .cart ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .cart li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .cart img {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+  }
+  
+  .cart h2 {
+    margin: 0;
+  }
+  
+  .cart p {
+    margin: 5px 0;
+  }
+  
+  .cart button {
+    margin-top: 10px;
+  }
+  
+  .checkout {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1em;
+  }
