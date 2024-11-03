@@ -15,7 +15,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/**", "/api/cart", "/api/cart/**", "/api/auth/register", "/api/auth/login", "/api/products").permitAll()
+                        .requestMatchers("/api/**","/api/auth/register", "/api/auth/login", "/api/products").permitAll()
+                        .requestMatchers("/api/cart/**").authenticated() // Restrict cart access to authenticated users
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

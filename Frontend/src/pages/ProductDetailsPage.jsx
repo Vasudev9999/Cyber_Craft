@@ -28,7 +28,27 @@ const ProductDetailsPage = () => {
     fetchProduct();
   }, [productId]);
 
+  const checkAuth = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/auth/check-session', {
+        method: 'GET',
+        credentials: 'include',
+      });
+      return response.ok;
+    } catch (error) {
+      console.error('Error checking authentication status:', error);
+      return false;
+    }
+  };
+
   const addToCart = async () => {
+    const isAuthenticated = await checkAuth();
+    if (!isAuthenticated) {
+      alert('You need to login first.');
+      navigate('/login');
+      return;
+    }
+
     try {
       const response = await fetch(`http://localhost:8080/api/cart/add/${product.id}`, {
         method: 'POST',
@@ -36,7 +56,7 @@ const ProductDetailsPage = () => {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify(1), // Add quantity as needed
+        body: JSON.stringify(1),
       });
       if (response.ok) {
         alert('Product added to cart successfully');
@@ -74,7 +94,7 @@ const ProductDetailsPage = () => {
 
         <div className="action-buttons">
           <button className="btn add-to-cart" onClick={addToCart}>Add to Cart</button>
-          <button className="btn buy-now">Buy Now</button>
+          <button className="btn buy-now" onClick={addToCart}>Buy Now</button>
         </div>
 
         <div className="description-container">
@@ -82,7 +102,7 @@ const ProductDetailsPage = () => {
           <p>{product.description}</p>
         </div>
 
-        <button className="back-button" onClick={() => navigate('/prebuild-pc')}>
+        <button className="back-button" onClick={() => navigate('/')}>
           Back to Products
         </button>
       </div>
