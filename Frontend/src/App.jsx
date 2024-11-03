@@ -1,4 +1,3 @@
-// src/App.jsx
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
@@ -29,7 +28,7 @@ const App = () => {
             headers: { Authorization: `Bearer ${token}` }
           });
           if (response.data) {
-            setUser({ username: response.data });
+            setUser({ id: response.data.userId, username: response.data.username });
           } else {
             setUser(null);
             sessionStorage.removeItem('username');
@@ -66,12 +65,12 @@ const App = () => {
           <Route path="/dashboard" element={<Dashboard username={user?.username} />} />
           <Route path="/login" element={<LoginPage setUser={setUser} />} />
           <Route path="/register" element={<RegisterPage setUser={setUser} />} />
-          <Route path="/prebuild-pc" element={<PrebuildPC />} />
+          <Route path="/prebuild-pc" element={<PrebuildPC user={user} />} />
           <Route path="/custom" element={<CustomPC />} />
           <Route path="/custom-pc-page" element={<CustomPCPage />} />
           <Route path="/add-product" element={<AddProduct />} />
-          <Route path="/product/:productId" element={<ProductDetailsPage />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/product/:productId" element={<ProductDetailsPage user={user} />} />
+          <Route path="/cart" element={<Cart user={user} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />

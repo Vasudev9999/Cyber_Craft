@@ -20,6 +20,7 @@ const LoginPage = ({ setUser }) => {
         setUser({ username: userData.username });
         sessionStorage.setItem('username', userData.username); // Store username in sessionStorage
         sessionStorage.setItem('token', userData.token); // Store token in sessionStorage
+        localStorage.setItem('user', JSON.stringify(response.data)); // Store user data
         navigate('/dashboard');
       } else {
         setError('Invalid credentials');

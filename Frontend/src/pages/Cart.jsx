@@ -1,76 +1,82 @@
-import React, { useState, useEffect } from 'react';
+// Cart.jsx
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import './Cart.css';
+import { useNavigate } from 'react-router-dom';
 
-const Cart = ({ userId }) => {
+const Cart = ({ user }) => {
   const [cartItems, setCartItems] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const navigate = useNavigate();
+  const imagePath = '/src/assets/product-images/';
 
   useEffect(() => {
-    const fetchCartItems = async () => {
-      try {
-        const response = await fetch(`http://localhost:8080/api/cart/${userId}`, {
-          method: 'GET',
-          credentials: 'include',
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setCartItems(data.products || []);
-          setTotalPrice(data.totalPrice || 0);
-        } else {
-          console.error('Failed to fetch cart items:', response.status, response.statusText);
-        }
-      } catch (error) {
-        console.error('Error fetching cart items:', error);
-      }
-    };
+    if (user) {
+      fetchCart();
+    } else {
+      navigate('/login');
+    }
+  }, [user]);
 
-    fetchCartItems();
-  }, [userId]);
-
-  const handleRemoveItem = async (productId) => {
+  const fetchCart = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/cart/${userId}/remove/${productId}`, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
-      if (response.ok) {
-        setCartItems(cartItems.filter(item => item.id !== productId));
-      } else {
-        console.error('Failed to remove item from cart:', response.status, response.statusText);
+      const response = await axios.get('http://localhost:8080/api/cart', { withCredentials: true });
+      if (response.status === 200) {
+        setCartItems(response.data);
       }
+    } catch (error) {
+      console.error('Error fetching cart:', error);
+    }
+  };
+
+  const removeFromCart = async (itemId) => {
+    try {
+      await axios.post('http://localhost:8080/api/cart/remove', null, {
+        params: { itemId },
+        withCredentials: true,
+      });
+      // Remove the item from the local state
+      setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
     } catch (error) {
       console.error('Error removing item from cart:', error);
     }
   };
 
-  const handleCheckout = () => {
-    // Implement checkout functionality
-    alert('Proceeding to checkout...');
-  };
+  if (cartItems.length === 0) {
+    return (
+      <div className="cart">
+        <h2>Your Cart</h2>
+        <p>Your cart is empty.</p>
+      </div>
+    );
+  }
+
+  const totalPrice = cartItems.reduce(
+    (total, item) => total + item.product.price * item.quantity,
+    0
+  );
 
   return (
     <div className="cart">
-      <h1>Shopping Cart</h1>
-      {cartItems.length === 0 ? (
-        <p>Your cart is empty.</p>
-      ) : (
-        <div>
-          <ul>
-            {cartItems.map(item => (
-              <li key={item.id}>
-                <img src={`src/assets/product-images/${item.imageUrl}`} alt={item.name} />
-                <div>
-                  <h2>{item.name}</h2>
-                  <p>₹{item.price}</p>
-                  <button onClick={() => handleRemoveItem(item.id)}>Remove</button>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <h3>Total Price: ₹{totalPrice}</h3>
-          <button className="checkout" onClick={handleCheckout}>Proceed to Checkout</button>
-        </div>
-      )}
+      <h2>Your Cart</h2>
+      <div className="cart-items">
+        {cartItems.map((item) => (
+          <div key={item.id} className="cart-item">
+            <img
+              src={`${imagePath}${item.product.imageUrl}`}
+              alt={item.product.name}
+              className="cart-item-image"
+            />
+            <div className="cart-item-details">
+              <h3>{item.product.name}</h3>
+              <p>Price: ₹{item.product.price}</p>
+              <p>Quantity: {item.quantity}</p>
+              <button onClick={() => removeFromCart(item.id)}>Remove</button>
+            </div>
+          </div>
+        ))}
+      </div>
+      <h3 className="cart-total">Total Price: ₹{totalPrice}</h3>
+      <button className="checkout-button">Proceed to Checkout</button>
     </div>
   );
 };

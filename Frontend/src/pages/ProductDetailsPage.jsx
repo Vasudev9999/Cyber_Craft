@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './ProductDetailsPage.css';
+import axios from 'axios';
 
-const ProductDetailsPage = () => {
+const ProductDetailsPage = ({ user }) => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const navigate = useNavigate();
@@ -11,13 +12,11 @@ const ProductDetailsPage = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/products/${productId}`, {
-          method: 'GET',
-          credentials: 'include',
+        const response = await axios.get(`http://localhost:8080/api/products/${productId}`, {
+          withCredentials: true,
         });
-        if (response.ok) {
-          const data = await response.json();
-          setProduct(data);
+        if (response.status === 200) {
+          setProduct(response.data);
         } else {
           console.error('Failed to fetch product details:', response.statusText);
         }
@@ -28,43 +27,29 @@ const ProductDetailsPage = () => {
     fetchProduct();
   }, [productId]);
 
-  const checkAuth = async () => {
-    try {
-      const response = await fetch('http://localhost:8080/api/auth/check-session', {
-        method: 'GET',
-        credentials: 'include',
-      });
-      return response.ok;
-    } catch (error) {
-      console.error('Error checking authentication status:', error);
-      return false;
-    }
-  };
-
   const addToCart = async () => {
-    const isAuthenticated = await checkAuth();
-    if (!isAuthenticated) {
+    if (!user) {
       alert('You need to login first.');
       navigate('/login');
       return;
     }
 
     try {
-      const response = await fetch(`http://localhost:8080/api/cart/add/${product.id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(1),
-      });
-      if (response.ok) {
-        alert('Product added to cart successfully');
-      } else {
-        console.error('Failed to add product to cart:', response.statusText);
-      }
+      await axios.post(
+        'http://localhost:8080/api/cart/add',
+        null,
+        {
+          params: {
+            productId: product.id,
+            quantity: 1,
+          },
+          withCredentials: true,
+        }
+      );
+      alert('Product added to cart.');
     } catch (error) {
-      console.error('Error adding product to cart:', error);
+      console.error('Error adding to cart:', error);
+      alert('Failed to add product to cart.');
     }
   };
 

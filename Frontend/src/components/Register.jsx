@@ -19,6 +19,8 @@ const RegisterPage = ({ setUser }) => {
         setUser(response.data);
         sessionStorage.setItem('username', response.data.username); // Store username in sessionStorage
         sessionStorage.setItem('token', response.data.token); // Store token in sessionStorage
+        localStorage.setItem('user', JSON.stringify(response.data)); // Store user data
+
         navigate('/dashboard');
       } else {
         setError('Registration failed');

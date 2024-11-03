@@ -1,4 +1,3 @@
-// AuthController.java
 package org.cybercraft.backend.controller;
 
 import org.cybercraft.backend.entity.User;
@@ -39,6 +38,7 @@ public class AuthController {
             User loggedInUser = userService.userRepository.findByUsername(user.getUsername());
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Login successful");
+            response.put("userId", loggedInUser.getId());
             response.put("username", loggedInUser.getUsername());
             response.put("token", loggedInUser.getToken()); // Return JWT token
 
@@ -55,7 +55,11 @@ public class AuthController {
         String token = (String) session.getAttribute("token");
         if (userService.validateToken(token)) {
             String username = userService.getUsernameFromToken(token);
-            return ResponseEntity.ok(username);
+            User user = userService.userRepository.findByUsername(username);
+            Map<String, Object> response = new HashMap<>();
+            response.put("userId", user.getId());
+            response.put("username", username);
+            return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid session");
         }
