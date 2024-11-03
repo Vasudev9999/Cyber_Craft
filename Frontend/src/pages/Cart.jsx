@@ -1,11 +1,12 @@
-// Cart.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Cart.css';
 import { useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
 
 const Cart = ({ user }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [removingItem, setRemovingItem] = useState(null);
   const navigate = useNavigate();
   const imagePath = '/src/assets/product-images/';
 
@@ -29,15 +30,19 @@ const Cart = ({ user }) => {
   };
 
   const removeFromCart = async (itemId) => {
+    setRemovingItem(itemId);
     try {
       await axios.post('http://localhost:8080/api/cart/remove', null, {
         params: { itemId },
         withCredentials: true,
       });
-      // Remove the item from the local state
-      setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+      setTimeout(() => {
+        setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+        setRemovingItem(null);
+      }, 300);
     } catch (error) {
       console.error('Error removing item from cart:', error);
+      setRemovingItem(null);
     }
   };
 
@@ -60,7 +65,10 @@ const Cart = ({ user }) => {
       <h2>Your Cart</h2>
       <div className="cart-items">
         {cartItems.map((item) => (
-          <div key={item.id} className="cart-item">
+          <div
+            key={item.id}
+            className={classNames("cart-item", { "swipe-out": removingItem === item.id })}
+          >
             <img
               src={`${imagePath}${item.product.imageUrl}`}
               alt={item.product.name}
@@ -69,9 +77,10 @@ const Cart = ({ user }) => {
             <div className="cart-item-details">
               <h3>{item.product.name}</h3>
               <p>Price: ₹{item.product.price}</p>
-              <p>Quantity: {item.quantity}</p>
-              <button onClick={() => removeFromCart(item.id)}>Remove</button>
             </div>
+            <button onClick={() => removeFromCart(item.id)} className="remove-button">
+              Remove
+            </button>
           </div>
         ))}
       </div>
