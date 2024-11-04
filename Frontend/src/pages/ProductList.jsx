@@ -1,3 +1,4 @@
+// ProductList.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ProductList.css';
@@ -26,7 +27,7 @@ const ProductList = ({ products, isAdmin, onEditProduct, onDeleteProduct, onAddT
           <p className="price">₹{product.price}</p>
           <button onClick={() => onAddToCart(product.id)}>Add to Cart</button>
           <button className="buy-now" onClick={() => handleBuyNow(product.id)}>More</button>
-          {isAdmin && (
+          {isAdmin && ( // Conditionally render Edit and Delete buttons for admin only
             <>
               <button className="edit" onClick={() => onEditProduct(product)}>
                 Edit

@@ -1,3 +1,4 @@
+// App.jsx
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
@@ -14,6 +15,7 @@ import ProductDetailsPage from './pages/ProductDetailsPage';
 import Cart from './pages/Cart';
 import './App.css';
 import axios from 'axios';
+
 axios.defaults.withCredentials = true;
 
 const App = () => {
@@ -28,7 +30,11 @@ const App = () => {
             headers: { Authorization: `Bearer ${token}` }
           });
           if (response.data) {
-            setUser({ id: response.data.userId, username: response.data.username });
+            setUser({
+              id: response.data.userId,
+              username: response.data.username,
+              isAdmin: response.data.isAdmin // Ensure isAdmin is included
+            });
           } else {
             setUser(null);
             sessionStorage.removeItem('username');
@@ -68,7 +74,7 @@ const App = () => {
           <Route path="/prebuild-pc" element={<PrebuildPC user={user} />} />
           <Route path="/custom" element={<CustomPC />} />
           <Route path="/custom-pc-page" element={<CustomPCPage />} />
-          <Route path="/add-product" element={<AddProduct />} />
+          <Route path="/add-product" element={<AddProduct user={user} />} /> {/* Pass user if needed */}
           <Route path="/product/:productId" element={<ProductDetailsPage user={user} />} />
           <Route path="/cart" element={<Cart user={user} />} />
           <Route path="*" element={<NotFound />} />

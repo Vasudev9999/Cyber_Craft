@@ -1,8 +1,11 @@
+// PrebuildPC.jsx
 import React, { useState, useEffect } from 'react';
 import './PrebuildPC.css';
 import ProductList from './ProductList';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import AddProductModal from './AddProductModal';
+import EditProductModal from './EditProductModal';
 
 const PrebuildPC = ({ user }) => {
   const [products, setProducts] = useState([]);
@@ -13,25 +16,26 @@ const PrebuildPC = ({ user }) => {
     ram: '',
     storage: '',
     sortBy: '',
-    search: ''
+    search: '',
   });
-
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [editProduct, setEditProduct] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchProducts();
+    // eslint-disable-next-line
   }, [filters]);
 
   const fetchProducts = async () => {
     try {
-      // Construct the query string from the filters
       const query = Object.keys(filters)
         .filter((key) => filters[key])
         .map((key) => `${key}=${encodeURIComponent(filters[key])}`)
         .join('&');
 
       const response = await axios.get(`http://localhost:8080/api/products?${query}`, {
-        withCredentials: true
+        withCredentials: true,
       });
 
       if (response.status === 200) {
@@ -70,10 +74,49 @@ const PrebuildPC = ({ user }) => {
     }
   };
 
-
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
+  };
+
+  // Handler to open AddProductModal
+  const handleAddProduct = () => {
+    setIsAddModalOpen(true);
+  };
+
+  // Handler to close AddProductModal
+  const handleCloseAddModal = () => {
+    setIsAddModalOpen(false);
+    fetchProducts(); // Refresh products after adding
+  };
+
+  // Handler to open EditProductModal
+  const handleEditProduct = (product) => {
+    setEditProduct(product);
+  };
+
+  // Handler to close EditProductModal
+  const handleCloseEditModal = () => {
+    setEditProduct(null);
+    fetchProducts(); // Refresh products after editing
+  };
+
+  // Handler to delete a product
+  const handleDeleteProduct = async (productId) => {
+    try {
+      const response = await axios.delete(`http://localhost:8080/api/products/${productId}`, {
+        withCredentials: true,
+      });
+      if (response.status === 204) {
+        alert('Product deleted successfully.');
+        fetchProducts();
+      } else {
+        alert('Failed to delete product.');
+      }
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      alert('Error deleting product.');
+    }
   };
 
   return (
@@ -146,12 +189,24 @@ const PrebuildPC = ({ user }) => {
             placeholder="Search by name"
           />
         </label>
+
+        {user?.isAdmin && (
+          <button className="add-product-button" onClick={handleAddProduct}>
+            Add Product
+          </button>
+        )}
       </div>
 
       <ProductList
         products={products}
+        isAdmin={user?.isAdmin}
         onAddToCart={addToCart}
+        onEditProduct={handleEditProduct}
+        onDeleteProduct={handleDeleteProduct}
       />
+
+      {isAddModalOpen && <AddProductModal onClose={handleCloseAddModal} />}
+      {editProduct && <EditProductModal product={editProduct} onClose={handleCloseEditModal} />}
     </div>
   );
 };

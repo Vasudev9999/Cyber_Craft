@@ -17,9 +17,11 @@ const LoginPage = ({ setUser }) => {
       const userData = response.data;
       
       if (userData.username) {
-        setUser({ username: userData.username });
+        const isAdmin = username === 'admin'; // Check if the user is admin
+        setUser({ username, isAdmin });
         sessionStorage.setItem('username', userData.username); // Store username in sessionStorage
         sessionStorage.setItem('token', userData.token); // Store token in sessionStorage
+        sessionStorage.setItem('isAdmin', isAdmin); // Store isAdmin status in sessionStorage
         localStorage.setItem('user', JSON.stringify(response.data)); // Store user data
         navigate('/dashboard');
       } else {
@@ -72,7 +74,7 @@ const LoginPage = ({ setUser }) => {
           <input type="checkbox" id="remember-me" />
           <label htmlFor="remember-me">Remember Me</label>
         </div>
-        <button type="submit" id="login-btn">Login</button> {/* Added ID here */}
+        <button type="submit" id="login-btn">Login</button>
       </form>
       {error && <p className="error-message">{error}</p>}
       <a href="/forgot-password" className="forgot-password">

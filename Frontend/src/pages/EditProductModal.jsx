@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './AddProductModal.css';
+import './EditProductModal.css';
+import axios from 'axios';
 
 const EditProductModal = ({ product, onClose }) => {
   const [updatedProduct, setUpdatedProduct] = useState(product);
@@ -12,7 +13,7 @@ const EditProductModal = ({ product, onClose }) => {
   const handleChange = (e) => {
     setUpdatedProduct({
       ...updatedProduct,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -30,19 +31,23 @@ const EditProductModal = ({ product, onClose }) => {
     formData.append("product", JSON.stringify(updatedProduct));
 
     try {
-      const response = await fetch(`http://localhost:8080/api/products/${updatedProduct.id}`, {
-        method: 'PUT',
-        body: formData
+      const response = await axios.put(`http://localhost:8080/api/products/${updatedProduct.id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        withCredentials: true,
       });
 
-      if (response.ok) {
-        location.reload();
+      if (response.status === 200) {
+        alert('Product updated successfully.');
         onClose();
       } else {
         console.error('Failed to update product');
+        alert('Failed to update product.');
       }
     } catch (error) {
       console.error('Error:', error);
+      alert('Error updating product.');
     }
   };
 
@@ -50,16 +55,77 @@ const EditProductModal = ({ product, onClose }) => {
     <div className="modal">
       <div className="modal-content">
         <span className="close" onClick={onClose}>&times;</span>
-        <form className="add-product" onSubmit={handleSubmit}>
-          <input type="text" name="name" placeholder="Name" value={updatedProduct.name} onChange={handleChange} />
-          <textarea name="description" placeholder="Description" value={updatedProduct.description} onChange={handleChange} />
-          <input type="number" name="price" placeholder="Price" value={updatedProduct.price} onChange={handleChange} />
-          <input type="text" name="category" placeholder="Category" value={updatedProduct.category} onChange={handleChange} />
-          <input type="text" name="processor" placeholder="Processor" value={updatedProduct.processor} onChange={handleChange} />
-          <input type="text" name="ram" placeholder="RAM" value={updatedProduct.ram} onChange={handleChange} />
-          <input type="text" name="graphicsCard" placeholder="Graphics Card" value={updatedProduct.graphicsCard} onChange={handleChange} />
-          <input type="text" name="storage" placeholder="Storage" value={updatedProduct.storage} onChange={handleChange} />
-          <input type="file" name="image" onChange={handleImageChange} />
+        <form className="edit-product" onSubmit={handleSubmit}>
+          <h2>Edit Product</h2>
+          <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            value={updatedProduct.name}
+            onChange={handleChange}
+            required
+          />
+          <textarea
+            name="description"
+            placeholder="Description"
+            value={updatedProduct.description}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="number"
+            name="price"
+            placeholder="Price"
+            value={updatedProduct.price}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="category"
+            placeholder="Category"
+            value={updatedProduct.category}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="processor"
+            placeholder="Processor"
+            value={updatedProduct.processor}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="ram"
+            placeholder="RAM"
+            value={updatedProduct.ram}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="graphicsCard"
+            placeholder="Graphics Card"
+            value={updatedProduct.graphicsCard}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="storage"
+            placeholder="Storage"
+            value={updatedProduct.storage}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="file"
+            name="image"
+            onChange={handleImageChange}
+            accept="image/*"
+          />
           <button type="submit">Update Product</button>
         </form>
       </div>
