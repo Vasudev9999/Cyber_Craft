@@ -1,0 +1,40 @@
+/* src/pages/Invoice.css (Optional: Styling for Invoice Component) */
+.invoice-container {
+    padding: 20px;
+  }
+  
+  .invoice-products {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .invoice-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .invoice-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    margin-right: 15px;
+  }
+  
+  .invoice-info p {
+    margin: 2px 0;
+  }
+  
+  .invoice-total {
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .download-button {
+    padding: 10px 20px;
+    background-color: #2196F3;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin-top: 20px;
+  }

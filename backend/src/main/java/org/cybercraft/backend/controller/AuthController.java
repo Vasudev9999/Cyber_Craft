@@ -1,3 +1,4 @@
+// src/main/java/org/cybercraft/backend/controller/AuthController.java
 package org.cybercraft.backend.controller;
 
 import org.cybercraft.backend.entity.User;
@@ -24,7 +25,7 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@RequestBody User user, HttpSession session) {
         try {
             User registeredUser = userService.registerUser(user);
-            session.setAttribute("token", registeredUser.getToken()); // Store token in session
+            session.setAttribute("token", registeredUser.getToken());
             return ResponseEntity.ok(registeredUser);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Registration failed: " + e.getMessage());
@@ -40,13 +41,12 @@ public class AuthController {
             response.put("message", "Login successful");
             response.put("userId", loggedInUser.getId());
             response.put("username", loggedInUser.getUsername());
-            response.put("token", loggedInUser.getToken()); // Return JWT token
+            response.put("token", loggedInUser.getToken());
 
-            // Save token in session
             session.setAttribute("token", loggedInUser.getToken());
             return ResponseEntity.ok(response);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid credentials");
         }
     }
 

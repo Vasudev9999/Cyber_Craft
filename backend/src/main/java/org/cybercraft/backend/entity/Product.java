@@ -1,10 +1,12 @@
+// src/main/java/org/cybercraft/backend/entity/Product.java
 package org.cybercraft.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Setter
 @Getter
@@ -27,6 +29,14 @@ public class Product {
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<CartItem> cartItems;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<OrderItem> orderItems;
 
     @PrePersist
     public void prePersist() {

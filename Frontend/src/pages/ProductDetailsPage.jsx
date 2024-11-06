@@ -1,3 +1,4 @@
+// ProductDetailsPage.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './ProductDetailsPage.css';
@@ -53,6 +54,8 @@ const ProductDetailsPage = ({ user }) => {
     }
   };
 
+  
+
   if (!product) {
     return <p>Loading product details...</p>;
   }
@@ -79,7 +82,7 @@ const ProductDetailsPage = ({ user }) => {
 
         <div className="action-buttons">
           <button className="btn add-to-cart" onClick={addToCart}>Add to Cart</button>
-          <button className="btn buy-now" onClick={addToCart}>Buy Now</button>
+          <button className="btn buy-now" onClick={() => navigate('/checkout')}>Buy Now</button>
         </div>
 
         <div className="description-container">
@@ -87,7 +90,7 @@ const ProductDetailsPage = ({ user }) => {
           <p>{product.description}</p>
         </div>
 
-        <button className="back-button" onClick={() => navigate('/')}>
+        <button className="back-button" onClick={() => navigate('/prebuild-pc')}>
           Back to Products
         </button>
       </div>

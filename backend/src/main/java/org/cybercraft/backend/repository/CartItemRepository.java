@@ -1,4 +1,4 @@
-// CartItemRepository.java
+// src/main/java/org/cybercraft/backend/repository/CartItemRepository.java
 package org.cybercraft.backend.repository;
 
 import org.cybercraft.backend.entity.CartItem;

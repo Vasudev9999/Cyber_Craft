@@ -141,7 +141,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+    public ResponseEntity<Product> getProductById(@PathVariable Long id) throws Exception {
         Product product = productService.getProductById(id);
         return product != null ? ResponseEntity.ok(product) : ResponseEntity.notFound().build();
     }

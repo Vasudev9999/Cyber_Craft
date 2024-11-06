@@ -1,4 +1,4 @@
-// UserService.java
+// src/main/java/org/cybercraft/backend/service/UserService.java
 package org.cybercraft.backend.service;
 
 import org.cybercraft.backend.entity.User;
@@ -6,10 +6,11 @@ import org.cybercraft.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public class UserService {
     public UserRepository userRepository;
 
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    private Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256); // Generate a secure key
+    private Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     public User registerUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -44,12 +45,13 @@ public class UserService {
 
     public boolean isAdmin(String username) {
         User user = userRepository.findByUsername(username);
-        return user != null && "admin".equals(user.getUsername());
+        return user != null && "admin".equalsIgnoreCase(user.getUsername());
     }
 
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("username", user.getUsername());
+        claims.put("isAdmin", isAdmin(user.getUsername()));
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(user.getUsername())
@@ -69,6 +71,27 @@ public class UserService {
     }
 
     public String getUsernameFromToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token).getBody().getSubject();
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(SECRET_KEY)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public User getUserFromToken(String token) {
+        String username = getUsernameFromToken(token);
+        if (username != null) {
+            return userRepository.findByUsername(username);
+        }
+        return null;
+    }
+
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId).orElse(null);
     }
 }

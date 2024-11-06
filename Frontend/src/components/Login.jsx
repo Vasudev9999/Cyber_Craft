@@ -1,3 +1,4 @@
+// src/components/LoginPage.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -17,12 +18,12 @@ const LoginPage = ({ setUser }) => {
       const userData = response.data;
       
       if (userData.username) {
-        const isAdmin = username === 'admin'; // Check if the user is admin
+        const isAdmin = username === 'admin';
         setUser({ username, isAdmin });
-        sessionStorage.setItem('username', userData.username); // Store username in sessionStorage
-        sessionStorage.setItem('token', userData.token); // Store token in sessionStorage
-        sessionStorage.setItem('isAdmin', isAdmin); // Store isAdmin status in sessionStorage
-        localStorage.setItem('user', JSON.stringify(response.data)); // Store user data
+        sessionStorage.setItem('username', userData.username);
+        sessionStorage.setItem('token', userData.token);
+        sessionStorage.setItem('isAdmin', isAdmin);
+        localStorage.setItem('user', JSON.stringify(response.data));
         navigate('/dashboard');
       } else {
         setError('Invalid credentials');

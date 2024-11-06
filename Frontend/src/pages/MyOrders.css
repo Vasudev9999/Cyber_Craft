@@ -1,0 +1,32 @@
+/* src/pages/MyOrders.css */
+.my-orders {
+    padding: 20px;
+  }
+  
+  .back-button {
+    padding: 8px 16px;
+    margin-bottom: 20px;
+    background-color: #ddd;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .orders-list {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .order-card {
+    padding: 15px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  
+  .order-card:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .error {
+    color: red;
+  }

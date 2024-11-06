@@ -1,7 +1,8 @@
-// User.java
+// src/main/java/org/cybercraft/backend/entity/User.java
 package org.cybercraft.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,15 +20,20 @@ public class User {
 
     private String username;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false)
     private String password;
 
     private String email;
 
-    @Transient // Exclude from serialization
-    private String token; // For storing JWT after login
+    @Transient
+    private String token;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonIgnore // Added to prevent infinite recursion
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<CartItem> cart;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Order> orders;
 }

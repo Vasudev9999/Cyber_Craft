@@ -1,3 +1,4 @@
+// src/pages/Cart.jsx (Final Updated with Proper Checkout Navigation)
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Cart.css';
@@ -16,7 +17,7 @@ const Cart = ({ user }) => {
     } else {
       navigate('/login');
     }
-  }, [user]);
+  }, [user, navigate]);
 
   const fetchCart = async () => {
     try {
@@ -46,46 +47,52 @@ const Cart = ({ user }) => {
     }
   };
 
-  if (cartItems.length === 0) {
-    return (
-      <div className="cart">
-        <h2>Your Cart</h2>
-        <p>Your cart is empty.</p>
-      </div>
-    );
-  }
-
   const totalPrice = cartItems.reduce(
     (total, item) => total + item.product.price * item.quantity,
     0
   );
 
+  const proceedToCheckout = () => {
+    navigate('/checkout');
+  };
+
   return (
     <div className="cart">
       <h2>Your Cart</h2>
-      <div className="cart-items">
-        {cartItems.map((item) => (
-          <div
-            key={item.id}
-            className={classNames("cart-item", { "swipe-out": removingItem === item.id })}
-          >
-            <img
-              src={`${imagePath}${item.product.imageUrl}`}
-              alt={item.product.name}
-              className="cart-item-image"
-            />
-            <div className="cart-item-details">
-              <h3>{item.product.name}</h3>
-              <p>Price: ₹{item.product.price}</p>
+      {cartItems.length === 0 ? (
+        <p>Your cart is empty.</p>
+      ) : (
+        <div className="cart-items">
+          {cartItems.map((item) => (
+            <div
+              key={item.id}
+              className={classNames('cart-item', { 'swipe-out': removingItem === item.id })}
+            >
+              <img
+                src={`${imagePath}${item.product.imageUrl}`}
+                alt={item.product.name}
+                className="cart-item-image"
+              />
+              <div className="cart-item-details">
+                <h3>{item.product.name}</h3>
+                <p>Price: ₹{item.product.price.toFixed(2)}</p>
+                <p>Quantity: {item.quantity}</p>
+              </div>
+              <button onClick={() => removeFromCart(item.id)} className="remove-button">
+                Remove
+              </button>
             </div>
-            <button onClick={() => removeFromCart(item.id)} className="remove-button">
-              Remove
-            </button>
-          </div>
-        ))}
-      </div>
-      <h3 className="cart-total">Total Price: ₹{totalPrice}</h3>
-      <button className="checkout-button">Proceed to Checkout</button>
+          ))}
+        </div>
+      )}
+      {cartItems.length > 0 && (
+        <>
+          <h3 className="cart-total">Total Price: ₹{totalPrice.toFixed(2)}</h3>
+          <button className="checkout-button" onClick={proceedToCheckout}>
+            Proceed to Checkout
+          </button>
+        </>
+      )}
     </div>
   );
 };
