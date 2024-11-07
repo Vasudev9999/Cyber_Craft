@@ -1,3 +1,5 @@
+/* src/styles/CustomPCPageStyles.css */
+
 .custom-pc-page-container {
   display: flex;
   flex-direction: column;
@@ -12,6 +14,19 @@
 .custom-pc-page-warning {
   color: red;
   font-weight: bold;
+}
+
+.add-to-cart-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007acc;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.add-to-cart-button:hover {
+  background-color: #005f99;
 }
 
 .custom-pc-page-content-container {

@@ -75,6 +75,14 @@ const ProductDetailsPage = ({ user }) => {
             <tr><td><strong>RAM</strong></td><td>{product.ram}</td></tr>
             <tr><td><strong>Graphics Card</strong></td><td>{product.graphicsCard}</td></tr>
             <tr><td><strong>Storage</strong></td><td>{product.storage}</td></tr>
+            <tr><td><strong>Cabinet</strong></td><td>{product.cabinet}</td></tr>
+            <tr><td><strong>Case Fan</strong></td><td>{product.casefan}</td></tr>
+            <tr><td><strong>CPU Cooler</strong></td><td>{product.cpucooler}</td></tr>
+            <tr><td><strong>HDD</strong></td><td>{product.hdd}</td></tr>
+            <tr><td><strong>Mod Cable</strong></td><td>{product.modcable}</td></tr>
+            <tr><td><strong>Motherboard</strong></td><td>{product.motherboard}</td></tr>
+            <tr><td><strong>Power Supply</strong></td><td>{product.powersupply}</td></tr>
+            <tr><td><strong>SSD</strong></td><td>{product.ssd}</td></tr>
             <tr><td><strong>Price</strong></td><td>₹{product.price}</td></tr>
             <tr><td><strong>Created At</strong></td><td>{new Date(product.createdAt).toLocaleDateString()}</td></tr>
           </tbody>
@@ -97,5 +105,6 @@ const ProductDetailsPage = ({ user }) => {
     </div>
   );
 };
+
 
 export default ProductDetailsPage;

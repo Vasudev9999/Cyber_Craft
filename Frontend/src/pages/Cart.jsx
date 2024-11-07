@@ -1,4 +1,4 @@
-// src/pages/Cart.jsx (Final Updated with Proper Checkout Navigation)
+// src/pages/Cart.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Cart.css';
@@ -77,6 +77,14 @@ const Cart = ({ user }) => {
                 <h3>{item.product.name}</h3>
                 <p>Price: ₹{item.product.price.toFixed(2)}</p>
                 <p>Quantity: {item.quantity}</p>
+                <p>Cabinet: {item.product.cabinet}</p>
+                <p>Case Fan: {item.product.casefan}</p>
+                <p>CPU Cooler: {item.product.cpucooler}</p>
+                <p>HDD: {item.product.hdd}</p>
+                <p>Mod Cable: {item.product.modcable}</p>
+                <p>Motherboard: {item.product.motherboard}</p>
+                <p>Power Supply: {item.product.powersupply}</p>
+                <p>SSD: {item.product.ssd}</p>
               </div>
               <button onClick={() => removeFromCart(item.id)} className="remove-button">
                 Remove

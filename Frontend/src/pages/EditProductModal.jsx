@@ -1,3 +1,4 @@
+// EditProductModal.jsx
 import React, { useState, useEffect } from 'react';
 import './EditProductModal.css';
 import axios from 'axios';
@@ -117,6 +118,70 @@ const EditProductModal = ({ product, onClose }) => {
             name="storage"
             placeholder="Storage"
             value={updatedProduct.storage}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="cabinet"
+            placeholder="Cabinet"
+            value={updatedProduct.cabinet}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="casefan"
+            placeholder="Case Fan"
+            value={updatedProduct.casefan}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="cpucooler"
+            placeholder="CPU Cooler"
+            value={updatedProduct.cpucooler}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="hdd"
+            placeholder="HDD"
+            value={updatedProduct.hdd}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="modcable"
+            placeholder="Mod Cable"
+            value={updatedProduct.modcable}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="motherboard"
+            placeholder="Motherboard"
+            value={updatedProduct.motherboard}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="powersupply"
+            placeholder="Power Supply"
+            value={updatedProduct.powersupply}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="ssd"
+            placeholder="SSD"
+            value={updatedProduct.ssd}
             onChange={handleChange}
             required
           />

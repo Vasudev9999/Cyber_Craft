@@ -1,9 +1,12 @@
+// src/components/CustomPCPage.jsx
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import './CustomPCPageStyles.css';
+import axios from 'axios';
 
 const CustomPCPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const preselectedConfig = location.state?.preselectedConfig || {};
 
   const [components, setComponents] = useState({});
@@ -70,11 +73,36 @@ const CustomPCPage = () => {
     }
   }, [selectedComponents]);
 
+  const handleAddToCart = () => {
+    // Prepare the product data
+    const productData = {
+      name: 'Custom PC',
+      price: totalBudget,
+      description: 'Custom built PC with selected components',
+      category: 'Custom PC',
+      imageUrl: 'custom_pc_image.jpg', // You can set an appropriate image
+      components: selectedComponents,
+    };
+
+    // Send a request to the backend to create a new product and add it to the cart
+    axios.post('http://localhost:8080/api/products/custom', productData, { withCredentials: true })
+      .then(response => {
+        // Redirect to the cart page
+        navigate('/cart');
+      })
+      .catch(error => {
+        console.error('Error adding custom PC to cart:', error);
+        alert('Please log in to add items to your cart.');
+        navigate('/login');
+      });
+  };
+
   return (
     <div className="custom-pc-page-container">
       <div className="custom-pc-page-price-container">
         <h2>Total Price: ₹{totalBudget}</h2>
         {warningMessage && <p className="custom-pc-page-warning">{warningMessage}</p>}
+        <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
       </div>
 
       <div className="custom-pc-page-content-container">

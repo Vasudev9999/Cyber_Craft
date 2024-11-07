@@ -1,3 +1,4 @@
+// AddProductModal.jsx
 import React, { useState } from 'react';
 import './AddProductModal.css';
 import axios from 'axios';
@@ -12,6 +13,14 @@ const AddProductModal = ({ onClose }) => {
     ram: '',
     graphicsCard: '',
     storage: '',
+    cabinet: '',
+    casefan: '',
+    cpucooler: '',
+    hdd: '',
+    modcable: '',
+    motherboard: '',
+    powersupply: '',
+    ssd: '',
     imageUrl: '',
   });
   const [imageFile, setImageFile] = useState(null);
@@ -72,14 +81,14 @@ const AddProductModal = ({ onClose }) => {
             placeholder="Name"
             value={product.name}
             onChange={handleChange}
-            // required
+            required
           />
           <textarea
             name="description"
             placeholder="Description"
             value={product.description}
             onChange={handleChange}
-            // required
+            required
           />
           <input
             type="number"
@@ -87,7 +96,7 @@ const AddProductModal = ({ onClose }) => {
             placeholder="Price"
             value={product.price}
             onChange={handleChange}
-            // required
+            required
           />
           <input
             type="text"
@@ -95,7 +104,7 @@ const AddProductModal = ({ onClose }) => {
             placeholder="Category"
             value={product.category}
             onChange={handleChange}
-            // required
+            required
           />
           <input
             type="text"
@@ -103,7 +112,7 @@ const AddProductModal = ({ onClose }) => {
             placeholder="Processor"
             value={product.processor}
             onChange={handleChange}
-            // required
+            required
           />
           <input
             type="text"
@@ -111,7 +120,7 @@ const AddProductModal = ({ onClose }) => {
             placeholder="RAM"
             value={product.ram}
             onChange={handleChange}
-            // required
+            required
           />
           <input
             type="text"
@@ -119,7 +128,7 @@ const AddProductModal = ({ onClose }) => {
             placeholder="Graphics Card"
             value={product.graphicsCard}
             onChange={handleChange}
-            // required
+            required
           />
           <input
             type="text"
@@ -127,14 +136,78 @@ const AddProductModal = ({ onClose }) => {
             placeholder="Storage"
             value={product.storage}
             onChange={handleChange}
-            // required
+            required
+          />
+          <input
+            type="text"
+            name="cabinet"
+            placeholder="Cabinet"
+            value={product.cabinet}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="casefan"
+            placeholder="Case Fan"
+            value={product.casefan}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="cpucooler"
+            placeholder="CPU Cooler"
+            value={product.cpucooler}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="hdd"
+            placeholder="HDD"
+            value={product.hdd}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="modcable"
+            placeholder="Mod Cable"
+            value={product.modcable}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="motherboard"
+            placeholder="Motherboard"
+            value={product.motherboard}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="powersupply"
+            placeholder="Power Supply"
+            value={product.powersupply}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="ssd"
+            placeholder="SSD"
+            value={product.ssd}
+            onChange={handleChange}
+            required
           />
           <input
             type="file"
             name="image"
             onChange={handleImageChange}
             accept="image/*"
-            // required
+            required
           />
           <button type="submit">Add Product</button>
         </form>

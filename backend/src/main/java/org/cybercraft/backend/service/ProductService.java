@@ -1,3 +1,4 @@
+// src/main/java/org/cybercraft/backend/service/ProductService.java
 package org.cybercraft.backend.service;
 
 import org.cybercraft.backend.entity.Product;
@@ -41,7 +42,7 @@ public class ProductService {
         return null;
     }
 
-    public List<Product> getFilteredProducts(String category, String processor, String graphicsCard, String ram, String storage, String sortBy, String search) {
+    public List<Product> getFilteredProducts(String category, String processor, String graphicsCard, String ram, String storage, String cabinet, String casefan, String cpucooler, String hdd, String modcable, String motherboard, String powersupply, String ssd, String sortBy, String search) {
         List<Product> products = productRepository.findAll();
 
         if (category != null && !category.isEmpty()) {
@@ -74,6 +75,30 @@ public class ProductService {
         }
         if (storage != null && !storage.isEmpty()) {
             products = products.stream().filter(p -> p.getStorage().equalsIgnoreCase(storage)).collect(Collectors.toList());
+        }
+        if (cabinet != null && !cabinet.isEmpty()) {
+            products = products.stream().filter(p -> p.getCabinet().equalsIgnoreCase(cabinet)).collect(Collectors.toList());
+        }
+        if (casefan != null && !casefan.isEmpty()) {
+            products = products.stream().filter(p -> p.getCasefan().equalsIgnoreCase(casefan)).collect(Collectors.toList());
+        }
+        if (cpucooler != null && !cpucooler.isEmpty()) {
+            products = products.stream().filter(p -> p.getCpucooler().equalsIgnoreCase(cpucooler)).collect(Collectors.toList());
+        }
+        if (hdd != null && !hdd.isEmpty()) {
+            products = products.stream().filter(p -> p.getHdd().equalsIgnoreCase(hdd)).collect(Collectors.toList());
+        }
+        if (modcable != null && !modcable.isEmpty()) {
+            products = products.stream().filter(p -> p.getModcable().equalsIgnoreCase(modcable)).collect(Collectors.toList());
+        }
+        if (motherboard != null && !motherboard.isEmpty()) {
+            products = products.stream().filter(p -> p.getMotherboard().equalsIgnoreCase(motherboard)).collect(Collectors.toList());
+        }
+        if (powersupply != null && !powersupply.isEmpty()) {
+            products = products.stream().filter(p -> p.getPowersupply().equalsIgnoreCase(powersupply)).collect(Collectors.toList());
+        }
+        if (ssd != null && !ssd.isEmpty()) {
+            products = products.stream().filter(p -> p.getSsd().equalsIgnoreCase(ssd)).collect(Collectors.toList());
         }
         if (search != null && !search.isEmpty()) {
             products = products.stream().filter(p -> p.getName().toLowerCase().contains(search.toLowerCase())).collect(Collectors.toList());

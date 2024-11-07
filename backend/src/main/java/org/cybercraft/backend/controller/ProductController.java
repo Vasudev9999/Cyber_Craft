@@ -1,3 +1,4 @@
+// src/main/java/org/cybercraft/backend/controller/ProductController.java
 package org.cybercraft.backend.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -88,6 +89,30 @@ public class ProductController {
             if (productNode.has("storage")) {
                 existingProduct.setStorage(productNode.get("storage").asText());
             }
+            if (productNode.has("cabinet")) {
+                existingProduct.setCabinet(productNode.get("cabinet").asText());
+            }
+            if (productNode.has("casefan")) {
+                existingProduct.setCasefan(productNode.get("casefan").asText());
+            }
+            if (productNode.has("cpucooler")) {
+                existingProduct.setCpucooler(productNode.get("cpucooler").asText());
+            }
+            if (productNode.has("hdd")) {
+                existingProduct.setHdd(productNode.get("hdd").asText());
+            }
+            if (productNode.has("modcable")) {
+                existingProduct.setModcable(productNode.get("modcable").asText());
+            }
+            if (productNode.has("motherboard")) {
+                existingProduct.setMotherboard(productNode.get("motherboard").asText());
+            }
+            if (productNode.has("powersupply")) {
+                existingProduct.setPowersupply(productNode.get("powersupply").asText());
+            }
+            if (productNode.has("ssd")) {
+                existingProduct.setSsd(productNode.get("ssd").asText());
+            }
 
             // Check if a new image file is provided and update image URL
             if (file != null && !file.isEmpty()) {
@@ -134,9 +159,17 @@ public class ProductController {
             @RequestParam(required = false) String graphicsCard,
             @RequestParam(required = false) String ram,
             @RequestParam(required = false) String storage,
+            @RequestParam(required = false) String cabinet,
+            @RequestParam(required = false) String casefan,
+            @RequestParam(required = false) String cpucooler,
+            @RequestParam(required = false) String hdd,
+            @RequestParam(required = false) String modcable,
+            @RequestParam(required = false) String motherboard,
+            @RequestParam(required = false) String powersupply,
+            @RequestParam(required = false) String ssd,
             @RequestParam(required = false) String sortBy,
             @RequestParam(required = false) String search) {
-        List<Product> products = productService.getFilteredProducts(category, processor, graphicsCard, ram, storage, sortBy, search);
+        List<Product> products = productService.getFilteredProducts(category, processor, graphicsCard, ram, storage, cabinet, casefan, cpucooler, hdd, modcable, motherboard, powersupply, ssd, sortBy, search);
         return ResponseEntity.ok(products);
     }
 

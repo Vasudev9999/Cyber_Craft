@@ -27,6 +27,15 @@ public class Product {
     private String storage;
     private String imageUrl;
 
+    private String cabinet;
+    private String casefan;
+    private String cpucooler;
+    private String hdd;
+    private String modcable;
+    private String motherboard;
+    private String powersupply;
+    private String ssd;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -62,6 +71,14 @@ public class Product {
                 ", graphicsCard='" + graphicsCard + '\'' +
                 ", storage='" + storage + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
+                ", cabinet='" + cabinet + '\'' +
+                ", casefan='" + casefan + '\'' +
+                ", cpucooler='" + cpucooler + '\'' +
+                ", hdd='" + hdd + '\'' +
+                ", modcable='" + modcable + '\'' +
+                ", motherboard='" + motherboard + '\'' +
+                ", powersupply='" + powersupply + '\'' +
+                ", ssd='" + ssd + '\'' +
                 ", createdAt='" + createdAt + '\'' +
                 ", updatedAt='" + updatedAt + '\'' +
                 '}';
