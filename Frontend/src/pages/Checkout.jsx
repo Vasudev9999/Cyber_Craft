@@ -16,6 +16,8 @@ const Checkout = ({ user }) => {
   const [cartItems, setCartItems] = useState([]);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  
+  const imagePath = '/assets/product-images/'; // Updated image path
 
   useEffect(() => {
     if (user) {
@@ -76,17 +78,17 @@ const Checkout = ({ user }) => {
   }, 0);
 
   return (
-    <div className="checkout-container">
-      <button onClick={() => navigate(-1)} className="back-button">Back</button>
+    <div className="checkout-wrapper">
+      <button onClick={() => navigate(-1)} className="checkout-back-button">Back</button>
       <h2 className="checkout-title">Checkout</h2>
 
-      <section className="order-details">
+      <section className="checkout-order-details">
         <h3>Order Details</h3>
-        <div className="products-list">
+        <div className="checkout-products-list">
           {cartItems.map(item => (
-            <div key={item.id} className="product-item">
-              <img src={item.product.imageUrl || '/default-image.png'} alt={item.product.name || 'Product'} className="product-image" />
-              <div className="product-info">
+            <div key={item.id} className="checkout-product-item">
+              
+              <div className="checkout-product-info">
                 <p>{item.product.name || 'Unnamed Product'}</p>
                 <p>Price: ₹{item.product.price.toFixed(2)}</p>
                 <p>Quantity: {item.quantity}</p>
@@ -94,12 +96,12 @@ const Checkout = ({ user }) => {
             </div>
           ))}
         </div>
-        <p className="total-amount">Total: ₹{totalAmount.toFixed(2)}</p>
+        <p className="checkout-total-amount">Total: ₹{totalAmount.toFixed(2)}</p>
       </section>
 
-      <section className="delivery-options">
+      <section className="checkout-delivery-options">
         <h3>Delivery Options</h3>
-        <label className="radio-label">
+        <label className="checkout-radio-label">
           <input
             type="radio"
             value="Store Delivery"
@@ -108,7 +110,7 @@ const Checkout = ({ user }) => {
           />
           Store Delivery (Free)
         </label>
-        <label className="radio-label">
+        <label className="checkout-radio-label">
           <input
             type="radio"
             value="Home Delivery"
@@ -118,7 +120,7 @@ const Checkout = ({ user }) => {
           Home Delivery (Free)
         </label>
         {deliveryOption === 'Home Delivery' && (
-          <div className="address-field">
+          <div className="checkout-address-field">
             <label htmlFor="street">Street:</label>
             <input
               id="street"
@@ -159,7 +161,7 @@ const Checkout = ({ user }) => {
         )}
       </section>
 
-      <section className="payment-options">
+      <section className="checkout-payment-options">
         <h3>Payment Options</h3>
         <select value={paymentOption} onChange={(e) => setPaymentOption(e.target.value)}>
           <option value="Credit Card">Credit Card</option>
@@ -168,9 +170,9 @@ const Checkout = ({ user }) => {
         </select>
       </section>
 
-      {error && <div className="error-message">{error}</div>}
+      {error && <div className="checkout-error-message">{error}</div>}
 
-      <button onClick={handleProceed} className="next-button">Next</button>
+      <button onClick={handleProceed} className="checkout-next-button">Next</button>
     </div>
   );
 };

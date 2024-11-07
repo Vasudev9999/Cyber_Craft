@@ -1,6 +1,5 @@
 package org.cybercraft.backend.service;
 
-import org.cybercraft.backend.entity.*;
 import org.cybercraft.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

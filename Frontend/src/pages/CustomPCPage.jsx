@@ -24,9 +24,7 @@ const CustomPCPage = () => {
   const [totalBudget, setTotalBudget] = useState(0);
   const [warningMessage, setWarningMessage] = useState("");
 
-  const maxBudget = 150000;
-  const midRangeBudget = 80000;
-  const highEndBudget = 150000;
+  const maxBudget = 200000;
 
   useEffect(() => {
     fetch("http://localhost:8080/api/components")
@@ -35,17 +33,17 @@ const CustomPCPage = () => {
         setComponents(data);
 
         setSelectedComponents({
-          processor: data.processors ? data.processors.find(p => p.id === preselectedConfig.processor) || data.processors[0] : null,
-          motherboard: data.motherboards ? data.motherboards.find(m => m.id === preselectedConfig.motherboard) || data.motherboards[0] : null,
-          cabinet: data.cabinets ? data.cabinets.find(c => c.id === preselectedConfig.cabinet) || data.cabinets[0] : null,
-          cpuCooler: data.cpuCoolers ? data.cpuCoolers.find(c => c.id === preselectedConfig.cpuCooler) || data.cpuCoolers[0] : null,
-          ram: data.rams ? data.rams.find(r => r.id === preselectedConfig.ram) || data.rams[0] : null,
-          graphicsCard: data.graphicsCards ? data.graphicsCards.find(g => g.id === preselectedConfig.graphicsCard) || data.graphicsCards[0] : null,
-          ssd: data.ssds ? data.ssds.find(s => s.id === preselectedConfig.ssd) || data.ssds[0] : null,
-          hdd: data.hdds ? data.hdds.find(h => h.id === preselectedConfig.hdd) || data.hdds[0] : null,
-          powerSupply: data.powerSupplies ? data.powerSupplies.find(p => p.id === preselectedConfig.powerSupply) || data.powerSupplies[0] : null,
-          caseFan: data.caseFans ? data.caseFans.find(f => f.id === preselectedConfig.caseFan) || data.caseFans[0] : null,
-          modCable: data.modCables ? data.modCables.find(c => c.id === preselectedConfig.modCable) || data.modCables[0] : null,
+          processor: data.processors.find(p => p.id === preselectedConfig.processor) || data.processors[0],
+          motherboard: data.motherboards.find(m => m.id === preselectedConfig.motherboard) || data.motherboards[0],
+          cabinet: data.cabinets.find(c => c.id === preselectedConfig.cabinet) || data.cabinets[0],
+          cpuCooler: data.cpuCoolers.find(c => c.id === preselectedConfig.cpuCooler) || data.cpuCoolers[0],
+          ram: data.rams.find(r => r.id === preselectedConfig.ram) || data.rams[0],
+          graphicsCard: data.graphicsCards.find(g => g.id === preselectedConfig.graphicsCard) || data.graphicsCards[0],
+          ssd: data.ssds.find(s => s.id === preselectedConfig.ssd) || data.ssds[0],
+          hdd: data.hdds.find(h => h.id === preselectedConfig.hdd) || data.hdds[0],
+          powerSupply: data.powerSupplies.find(p => p.id === preselectedConfig.powerSupply) || data.powerSupplies[0],
+          caseFan: data.caseFans.find(f => f.id === preselectedConfig.caseFan) || data.caseFans[0],
+          modCable: data.modCables.find(c => c.id === preselectedConfig.modCable) || data.modCables[0],
         });
       })
       .catch((error) => console.error("Error fetching data:", error));
@@ -80,41 +78,55 @@ const CustomPCPage = () => {
       </div>
 
       <div className="custom-pc-page-content-container">
-        <div className="custom-pc-page-image-and-dropdowns">
-          <div className="custom-pc-page-left-side">
+        <div className="custom-pc-page-left-side">
+          <div className="custom-pc-page-images">
             {selectedComponents.cabinet && (
               <img
-              src={('src/assets/file.png')}
-              alt="Selected Cabinet"
-              className="custom-pc-page-cabinet-image"
-            />
+                src={selectedComponents.cabinet.image_path}
+                alt={selectedComponents.cabinet.name}
+                className="cabinet-image"
+              />
             )}
+            <div className="components-images">
+              {Object.keys(selectedComponents).map((componentType) => {
+                if (componentType === 'cabinet') return null;
+                const component = selectedComponents[componentType];
+                return component ? (
+                  <img
+                    key={componentType}
+                    src={component.image_path}
+                    alt={component.name}
+                    className="component-image"
+                  />
+                ) : null;
+              })}
+            </div>
           </div>
+        </div>
 
-          <div className="custom-pc-page-right-side">
-            {Object.keys(selectedComponents).map((componentType) => {
-              const componentCategory = componentType.charAt(0).toUpperCase() + componentType.slice(1);
-              const componentList = components[componentType + 's'] || [];
-              return (
-                <div key={componentType} className="custom-pc-page-component-select">
-                  <label>{componentCategory}</label>
-                  <select
-                    value={selectedComponents[componentType]?.id || ''}
-                    onChange={(e) =>
-                      handleComponentChange(componentType, e.target.value)
-                    }
-                  >
-                    <option value="null">None</option>
-                    {componentList.map((component) => (
-                      <option key={component.id} value={component.id}>
-                        {component.name} - ₹{component.price}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              );
-            })}
-          </div>
+        <div className="custom-pc-page-right-side">
+          {Object.keys(selectedComponents).map((componentType) => {
+            const componentCategory = componentType.charAt(0).toUpperCase() + componentType.slice(1);
+            const componentList = components[componentType + 's'] || [];
+            return (
+              <div key={componentType} className="custom-pc-page-component-select">
+                <label>{componentCategory}</label>
+                <select
+                  value={selectedComponents[componentType]?.id || ''}
+                  onChange={(e) =>
+                    handleComponentChange(componentType, e.target.value)
+                  }
+                >
+                  <option value="null">None</option>
+                  {componentList.map((component) => (
+                    <option key={component.id} value={component.id}>
+                      {component.name} - ₹{component.price}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

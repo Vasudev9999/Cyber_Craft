@@ -1,0 +1,150 @@
+/* Checkout.css */
+
+.checkout-wrapper {
+  max-width: 800px; /* Main cart width - change this to adjust the width */
+  margin-left: 30%;
+  margin-right: 30%;
+  padding: 20px;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+}
+
+.checkout-back-button {
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.checkout-title {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 30px;
+  color: #2c3e50;
+}
+
+.checkout-order-details,
+.checkout-delivery-options,
+.checkout-payment-options {
+  margin-bottom: 30px;
+}
+
+.checkout-order-details h3,
+.checkout-delivery-options h3,
+.checkout-payment-options h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.checkout-products-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.checkout-product-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  background-color: #fff;
+  border: 1px solid #e1e1e1;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.checkout-product-info p {
+  margin: 5px 0;
+  color: #333;
+}
+
+.checkout-total-amount {
+  text-align: right;
+  font-size: 20px;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-top: 10px;
+}
+
+.checkout-radio-label {
+  display: block;
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #333;
+}
+
+.checkout-radio-label input {
+  margin-right: 10px;
+}
+
+.checkout-address-field {
+  margin-top: 20px;
+}
+
+.checkout-address-field label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #333;
+}
+
+.checkout-address-field input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.checkout-address-field input:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+.checkout-payment-options select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.checkout-payment-options select:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+.checkout-error-message {
+  color: #e74c3c;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.checkout-next-button {
+  background-color: #2ecc71;
+  color: #fff;
+  padding: 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+.checkout-next-button:hover {
+  background-color: #27ae60;
+}
+
+@media (max-width: 768px) {
+  .checkout-product-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .checkout-next-button {
+    font-size: 16px;
+  }
+}
