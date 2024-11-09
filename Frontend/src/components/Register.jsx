@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+// src/components/Register.js
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './RegisterPage.css';
 import { FaGoogle, FaFacebookF, FaTwitter } from 'react-icons/fa';
+import { AuthContext } from '../context/AuthContext';
 
-const RegisterPage = ({ setUser }) => {
+const RegisterPage = () => {
+  const { setUser } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -14,13 +17,16 @@ const RegisterPage = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/api/auth/register', { username, password, email });
-      if (response.status === 200) {
-        setUser(response.data);
-        sessionStorage.setItem('username', response.data.username); // Store username in sessionStorage
-        sessionStorage.setItem('token', response.data.token); // Store token in sessionStorage
-        localStorage.setItem('user', JSON.stringify(response.data)); // Store user data
-
+      const response = await axios.post(
+        'http://localhost:8080/api/auth/register',
+        { username, password, email },
+        { withCredentials: true }
+      );
+      if (response.data) {
+        setUser({
+          username: response.data.username,
+          isAdmin: response.data.isAdmin,
+        });
         navigate('/dashboard');
       } else {
         setError('Registration failed');

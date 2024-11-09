@@ -1,11 +1,13 @@
-// src/components/LoginPage.js
-import React, { useState } from 'react';
+// src/components/Login.js
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 import { FaGoogle, FaFacebookF, FaTwitter } from 'react-icons/fa';
+import { AuthContext } from '../context/AuthContext';
 
-const LoginPage = ({ setUser }) => {
+const LoginPage = () => {
+  const { setUser } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -14,16 +16,16 @@ const LoginPage = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/api/auth/login', { username, password });
-      const userData = response.data;
-      
-      if (userData.username) {
-        const isAdmin = username === 'admin';
-        setUser({ username, isAdmin });
-        sessionStorage.setItem('username', userData.username);
-        sessionStorage.setItem('token', userData.token);
-        sessionStorage.setItem('isAdmin', isAdmin);
-        localStorage.setItem('user', JSON.stringify(response.data));
+      const response = await axios.post(
+        'http://localhost:8080/api/auth/login',
+        { username, password },
+        { withCredentials: true }
+      );
+      if (response.data) {
+        setUser({
+          username: response.data.username,
+          isAdmin: response.data.isAdmin,
+        });
         navigate('/dashboard');
       } else {
         setError('Invalid credentials');

@@ -1,3 +1,4 @@
+// src/main/java/org/cybercraft/backend/service/OrderService.java
 package org.cybercraft.backend.service;
 
 import org.cybercraft.backend.entity.CartItem;
@@ -78,6 +79,20 @@ public class OrderService {
         savedOrder.setOrderItems(orderItems);
 
         return savedOrder;
+    }
+
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
+
+    public Order markOrderAsCompleted(Long orderId) {
+        Optional<Order> optionalOrder = orderRepository.findById(orderId);
+        if (optionalOrder.isPresent()) {
+            Order order = optionalOrder.get();
+            order.setCompleted(true);
+            return orderRepository.save(order);
+        }
+        return null;
     }
 
     /**

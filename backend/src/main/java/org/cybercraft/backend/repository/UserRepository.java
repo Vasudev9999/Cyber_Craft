@@ -1,3 +1,4 @@
+// src/main/java/org/cybercraft/backend/repository/UserRepository.java
 package org.cybercraft.backend.repository;
 
 import org.cybercraft.backend.entity.User;

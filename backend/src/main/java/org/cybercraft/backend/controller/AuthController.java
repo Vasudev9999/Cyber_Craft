@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RequestMapping("/api/auth")
 public class AuthController {
 
@@ -26,7 +26,10 @@ public class AuthController {
         try {
             User registeredUser = userService.registerUser(user);
             session.setAttribute("token", registeredUser.getToken());
-            return ResponseEntity.ok(registeredUser);
+            Map<String, Object> response = new HashMap<>();
+            response.put("username", registeredUser.getUsername());
+            response.put("isAdmin", registeredUser.isAdmin());
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Registration failed: " + e.getMessage());
         }
@@ -38,10 +41,8 @@ public class AuthController {
         if (isAuthenticated) {
             User loggedInUser = userService.userRepository.findByUsername(user.getUsername());
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Login successful");
-            response.put("userId", loggedInUser.getId());
             response.put("username", loggedInUser.getUsername());
-            response.put("token", loggedInUser.getToken());
+            response.put("isAdmin", loggedInUser.isAdmin());
 
             session.setAttribute("token", loggedInUser.getToken());
             return ResponseEntity.ok(response);
@@ -58,21 +59,9 @@ public class AuthController {
             User user = userService.userRepository.findByUsername(username);
             Map<String, Object> response = new HashMap<>();
             response.put("userId", user.getId());
-            response.put("username", username);
-            return ResponseEntity.ok(response);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid session");
-        }
-    }
-
-    @GetMapping("/check-admin")
-    public ResponseEntity<?> checkAdmin(HttpSession session) {
-        String token = (String) session.getAttribute("token");
-        if (userService.validateToken(token)) {
-            String username = userService.getUsernameFromToken(token);
-            boolean isAdmin = userService.isAdmin(username);
-            Map<String, Boolean> response = new HashMap<>();
-            response.put("isAdmin", isAdmin);
+            response.put("username", user.getUsername());
+            response.put("isAdmin", user.isAdmin());
+            response.put("cartItemCount", user.getCart() != null ? user.getCart().size() : 0);
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid session");

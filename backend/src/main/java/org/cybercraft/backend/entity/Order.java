@@ -30,6 +30,8 @@ public class Order {
 
     private LocalDateTime orderedAt;
 
+    private boolean completed; // New field to indicate if the order is completed
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -43,5 +45,6 @@ public class Order {
         this.orderedAt = LocalDateTime.now();
         this.paymentStatus = "Pending";
         this.deliveryStatus = "Processing";
+        this.completed = false; // Initialize as not completed
     }
 }

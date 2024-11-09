@@ -89,4 +89,36 @@ public class OrderController {
             return ResponseEntity.status(401).build();
         }
     }
+
+    // Admin endpoint to get all orders
+    @GetMapping("/admin/all")
+    public ResponseEntity<List<Order>> getAllOrdersAdmin(HttpSession session) {
+        String token = (String) session.getAttribute("token");
+        if (token != null && userService.validateToken(token)) {
+            User user = userService.getUserFromToken(token);
+            if (user.isAdmin()) {
+                List<Order> orders = orderService.getAllOrders();
+                return ResponseEntity.ok(orders);
+            }
+        }
+        return ResponseEntity.status(401).build();
+    }
+
+    // Admin endpoint to mark order as completed
+    @PostMapping("/admin/complete/{orderId}")
+    public ResponseEntity<Order> markOrderAsCompleted(@PathVariable Long orderId, HttpSession session) {
+        String token = (String) session.getAttribute("token");
+        if (token != null && userService.validateToken(token)) {
+            User user = userService.getUserFromToken(token);
+            if (user.isAdmin()) {
+                Order updatedOrder = orderService.markOrderAsCompleted(orderId);
+                if (updatedOrder != null) {
+                    return ResponseEntity.ok(updatedOrder);
+                } else {
+                    return ResponseEntity.status(404).build();
+                }
+            }
+        }
+        return ResponseEntity.status(401).build();
+    }
 }
