@@ -1,4 +1,3 @@
-// src/main/java/org/cybercraft/backend/service/OrderService.java
 package org.cybercraft.backend.service;
 
 import org.cybercraft.backend.entity.CartItem;
@@ -81,10 +80,23 @@ public class OrderService {
         return savedOrder;
     }
 
+    /**
+     * Retrieves all orders placed by a specific user.
+     *
+     * @param user The user whose orders are to be retrieved.
+     * @return List of Orders.
+     */
     public List<Order> getUserOrders(User user) {
         return orderRepository.findByUser(user);
     }
 
+    /**
+     * Retrieves a specific order by ID for a specific user.
+     *
+     * @param orderId The ID of the order.
+     * @param user    The user requesting the order.
+     * @return The Order if found and belongs to the user, else null.
+     */
     public Order getOrderByIdAndUser(Long orderId, User user) {
         Optional<Order> optionalOrder = orderRepository.findByIdAndUser(orderId, user);
         return optionalOrder.orElse(null);
