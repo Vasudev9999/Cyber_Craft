@@ -1,15 +1,26 @@
 // src/components/CustomPCPage.jsx
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './CustomPCPageStyles.css';
 import axios from 'axios';
 
 const CustomPCPage = () => {
-  const location = useLocation();
   const navigate = useNavigate();
-  const preselectedConfig = location.state?.preselectedConfig || {};
 
-  const [components, setComponents] = useState({});
+  const [components, setComponents] = useState({
+    processors: [],
+    motherboards: [],
+    cabinets: [],
+    cpuCoolers: [],
+    rams: [],
+    graphicsCards: [],
+    ssds: [],
+    hdds: [],
+    powerSupplies: [],
+    caseFans: [],
+    modCables: []
+  });
+
   const [selectedComponents, setSelectedComponents] = useState({
     processor: null,
     motherboard: null,
@@ -24,136 +35,193 @@ const CustomPCPage = () => {
     modCable: null,
   });
 
-  const [totalBudget, setTotalBudget] = useState(0);
-  const [warningMessage, setWarningMessage] = useState("");
-
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [warning, setWarning] = useState("");
+  const [user, setUser] = useState(null);
   const maxBudget = 200000;
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/components")
-      .then((res) => res.json())
-      .then((data) => {
-        setComponents(data);
+    // Check user session
+    const checkSession = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/auth/check-session', { withCredentials: true });
+        if (response.status === 200) {
+          setUser(response.data);
+        } else {
+          navigate('/login');
+        }
+      } catch (error) {
+        console.error("Session check failed:", error);
+        navigate('/login');
+      }
+    };
 
-        setSelectedComponents({
-          processor: data.processors.find(p => p.id === preselectedConfig.processor) || data.processors[0],
-          motherboard: data.motherboards.find(m => m.id === preselectedConfig.motherboard) || data.motherboards[0],
-          cabinet: data.cabinets.find(c => c.id === preselectedConfig.cabinet) || data.cabinets[0],
-          cpuCooler: data.cpuCoolers.find(c => c.id === preselectedConfig.cpuCooler) || data.cpuCoolers[0],
-          ram: data.rams.find(r => r.id === preselectedConfig.ram) || data.rams[0],
-          graphicsCard: data.graphicsCards.find(g => g.id === preselectedConfig.graphicsCard) || data.graphicsCards[0],
-          ssd: data.ssds.find(s => s.id === preselectedConfig.ssd) || data.ssds[0],
-          hdd: data.hdds.find(h => h.id === preselectedConfig.hdd) || data.hdds[0],
-          powerSupply: data.powerSupplies.find(p => p.id === preselectedConfig.powerSupply) || data.powerSupplies[0],
-          caseFan: data.caseFans.find(f => f.id === preselectedConfig.caseFan) || data.caseFans[0],
-          modCable: data.modCables.find(c => c.id === preselectedConfig.modCable) || data.modCables[0],
-        });
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  }, [preselectedConfig]);
+    checkSession();
 
-  const handleComponentChange = (componentType, selectedId) => {
-    const selectedOption = components[componentType + 's'].find(component => component.id == selectedId);
-    setSelectedComponents((prevState) => ({
+    // Fetch available components from the backend
+    const fetchComponents = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/components', { withCredentials: true });
+        if (response.status === 200) {
+          setComponents(response.data);
+          // Initialize with the first option of each component
+          setSelectedComponents({
+            processor: response.data.processors[0] || null,
+            motherboard: response.data.motherboards[0] || null,
+            cabinet: response.data.cabinets[0] || null,
+            cpuCooler: response.data.cpuCoolers[0] || null,
+            ram: response.data.rams[0] || null,
+            graphicsCard: response.data.graphicsCards[0] || null,
+            ssd: response.data.ssds[0] || null,
+            hdd: response.data.hdds[0] || null,
+            powerSupply: response.data.powerSupplies[0] || null,
+            caseFan: response.data.caseFans[0] || null,
+            modCable: response.data.modCables[0] || null,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching components:", error);
+      }
+    };
+
+    fetchComponents();
+  }, [navigate]);
+
+  useEffect(() => {
+    // Calculate total price whenever selected components change
+    const calculateTotal = () => {
+      let total = 0;
+      Object.values(selectedComponents).forEach(component => {
+        if (component && component.price) {
+          total += component.price;
+        }
+      });
+      setTotalPrice(total);
+      if (total > maxBudget) {
+        setWarning("Warning: Total exceeds the maximum budget!");
+      } else {
+        setWarning("");
+      }
+    };
+
+    calculateTotal();
+  }, [selectedComponents]);
+
+  const handleChange = (componentType, event) => {
+    const selectedId = event.target.value;
+    const selectedComponent = components[`${componentType}s`].find(comp => comp.id === parseInt(selectedId));
+    setSelectedComponents(prevState => ({
       ...prevState,
-      [componentType]: selectedId === "null" ? null : selectedOption,
+      [componentType]: selectedComponent || null
     }));
   };
 
-  useEffect(() => {
-    const total = Object.values(selectedComponents).reduce((sum, component) => {
-      return sum + (component ? component.price : 0);
-    }, 0);
-    setTotalBudget(total);
-
-    if (total > maxBudget) {
-      setWarningMessage("Warning: Budget exceeded!");
-    } else {
-      setWarningMessage("");
-    }
-  }, [selectedComponents]);
-
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     // Prepare the product data
     const productData = {
       name: 'Custom PC',
-      price: totalBudget,
       description: 'Custom built PC with selected components',
+      price: totalPrice,
       category: 'Custom PC',
-      imageUrl: 'custom_pc_image.jpg', // You can set an appropriate image
-      components: selectedComponents,
+      processor: selectedComponents.processor ? selectedComponents.processor.name : '',
+      ram: selectedComponents.ram ? selectedComponents.ram.name : '',
+      graphicsCard: selectedComponents.graphicsCard ? selectedComponents.graphicsCard.name : '',
+      storage: selectedComponents.ssd ? `SSD: ${selectedComponents.ssd.name}, HDD: ${selectedComponents.hdd ? selectedComponents.hdd.name : 'None'}` : '',
+      imageUrl: 'custom_pc_default.jpg', // Ensure this image exists in frontend assets
+      cabinet: selectedComponents.cabinet ? selectedComponents.cabinet.name : '',
+      casefan: selectedComponents.caseFan ? selectedComponents.caseFan.name : '',
+      cpucooler: selectedComponents.cpuCooler ? selectedComponents.cpuCooler.name : '',
+      hdd: selectedComponents.hdd ? selectedComponents.hdd.name : '',
+      modcable: selectedComponents.modCable ? selectedComponents.modCable.name : '',
+      motherboard: selectedComponents.motherboard ? selectedComponents.motherboard.name : '',
+      powersupply: selectedComponents.powerSupply ? selectedComponents.powerSupply.name : '',
+      ssd: selectedComponents.ssd ? selectedComponents.ssd.name : '',
     };
 
-    // Send a request to the backend to create a new product and add it to the cart
-    axios.post('http://localhost:8080/api/products/custom', productData, { withCredentials: true })
-      .then(response => {
-        // Redirect to the cart page
-        navigate('/cart');
-      })
-      .catch(error => {
-        console.error('Error adding custom PC to cart:', error);
-        alert('Please log in to add items to your cart.');
-        navigate('/login');
-      });
+    try {
+      // Create the custom product in the backend
+      const createProductResponse = await axios.post('http://localhost:8080/api/custom-products/add', productData, { withCredentials: true });
+      if (createProductResponse.status === 200) {
+        const customProduct = createProductResponse.data;
+        // Add the custom product to the cart
+        const addToCartResponse = await axios.post('http://localhost:8080/api/cart/add', null, {
+          params: {
+            customProductId: customProduct.id,
+            quantity: 1
+          },
+          withCredentials: true
+        });
+        if (addToCartResponse.status === 200) {
+          navigate('/cart');
+        } else {
+          alert('Failed to add custom PC to cart.');
+        }
+      } else {
+        alert('Failed to create custom PC.');
+      }
+    } catch (error) {
+      console.error("Error adding custom PC to cart:", error);
+      alert('An error occurred while adding the custom PC to the cart.');
+    }
+  };
+
+  const proceedToCheckout = () => {
+    navigate('/checkout');
   };
 
   return (
     <div className="custom-pc-page-container">
-      <div className="custom-pc-page-price-container">
-        <h2>Total Price: ₹{totalBudget}</h2>
-        {warningMessage && <p className="custom-pc-page-warning">{warningMessage}</p>}
-        <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
+      <h2>Build Your Custom PC</h2>
+      <div className="selectors-container">
+        {Object.keys(selectedComponents).map((componentType) => {
+          const componentCategory = componentType.charAt(0).toUpperCase() + componentType.slice(1);
+          const componentList = components[`${componentType}s`] || [];
+          return (
+            <div key={componentType} className="selector">
+              <label>{componentCategory}</label>
+              <select
+                value={selectedComponents[componentType]?.id || 'null'}
+                onChange={(e) => handleChange(componentType, e)}
+              >
+                <option value="null">None</option>
+                {componentList.map((component) => (
+                  <option key={component.id} value={component.id}>
+                    {component.name} - ₹{component.price}
+                  </option>
+                ))}
+              </select>
+            </div>
+          );
+        })}
       </div>
 
-      <div className="custom-pc-page-content-container">
-        <div className="custom-pc-page-left-side">
-          <div className="custom-pc-page-images">
-            {selectedComponents.cabinet && (
-              <img
-                src={selectedComponents.cabinet.image_path}
-                alt={selectedComponents.cabinet.name}
-                className="cabinet-image"
-              />
-            )}
-            <div className="components-images">
-              {Object.keys(selectedComponents).map((componentType) => {
-                if (componentType === 'cabinet') return null;
-                const component = selectedComponents[componentType];
-                return component ? (
-                  <img
-                    key={componentType}
-                    src={component.image_path}
-                    alt={component.name}
-                    className="component-image"
-                  />
-                ) : null;
-              })}
-            </div>
-          </div>
-        </div>
+      <div className="summary-container">
+        <h3>Total Price: ₹{totalPrice}</h3>
+        {warning && <p className="warning">{warning}</p>}
+        <button onClick={handleAddToCart} className="add-to-cart-btn">Add to Cart</button>
+        <button onClick={proceedToCheckout} className="checkout-btn">Proceed to Checkout</button>
+      </div>
 
-        <div className="custom-pc-page-right-side">
+      <div className="custom-pc-page-images">
+        {selectedComponents.cabinet && (
+          <img
+            src={selectedComponents.cabinet.image_path}
+            alt={selectedComponents.cabinet.name}
+            className="cabinet-image"
+          />
+        )}
+        <div className="components-images">
           {Object.keys(selectedComponents).map((componentType) => {
-            const componentCategory = componentType.charAt(0).toUpperCase() + componentType.slice(1);
-            const componentList = components[componentType + 's'] || [];
-            return (
-              <div key={componentType} className="custom-pc-page-component-select">
-                <label>{componentCategory}</label>
-                <select
-                  value={selectedComponents[componentType]?.id || ''}
-                  onChange={(e) =>
-                    handleComponentChange(componentType, e.target.value)
-                  }
-                >
-                  <option value="null">None</option>
-                  {componentList.map((component) => (
-                    <option key={component.id} value={component.id}>
-                      {component.name} - ₹{component.price}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            );
+            if (componentType === 'cabinet') return null;
+            const component = selectedComponents[componentType];
+            return component ? (
+              <img
+                key={componentType}
+                src={component.image_path}
+                alt={component.name}
+                className="component-image"
+              />
+            ) : null;
           })}
         </div>
       </div>

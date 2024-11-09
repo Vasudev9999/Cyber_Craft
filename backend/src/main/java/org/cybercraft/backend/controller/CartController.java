@@ -1,18 +1,13 @@
-// CartController.java
+// src/main/java/org/cybercraft/backend/controller/CartController.java
 package org.cybercraft.backend.controller;
 
-import org.cybercraft.backend.entity.CartItem;
-import org.cybercraft.backend.entity.Product;
-import org.cybercraft.backend.entity.User;
-import org.cybercraft.backend.repository.CartItemRepository;
-import org.cybercraft.backend.repository.ProductRepository;
-import org.cybercraft.backend.repository.UserRepository;
+import org.cybercraft.backend.entity.*;
+import org.cybercraft.backend.repository.*;
 import org.cybercraft.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
-
 import java.util.List;
 
 @RestController
@@ -27,43 +22,45 @@ public class CartController {
     private ProductRepository productRepository;
 
     @Autowired
+    private CustomProductRepository customProductRepository;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
     private UserRepository userRepository;
 
     @PostMapping("/add")
-    public ResponseEntity<String> addToCart(@RequestParam Long productId, @RequestParam int quantity, HttpSession session) {
+    public ResponseEntity<String> addToCart(@RequestParam(required = false) Long productId,
+                                            @RequestParam(required = false) Long customProductId,
+                                            @RequestParam int quantity,
+                                            HttpSession session) {
         String token = (String) session.getAttribute("token");
         if (userService.validateToken(token)) {
             String username = userService.getUsernameFromToken(token);
             User user = userRepository.findByUsername(username);
-            Product product = productRepository.findById(productId).orElse(null);
 
-            if (product == null) {
-                return ResponseEntity.badRequest().body("Product not found");
-            }
+            CartItem cartItem = new CartItem();
+            cartItem.setQuantity(quantity);
+            cartItem.setUser(user);
 
-            // Check if the product is already in the cart
-            List<CartItem> userCartItems = cartItemRepository.findByUser(user);
-            CartItem existingItem = userCartItems.stream()
-                    .filter(item -> item.getProduct().getId().equals(productId))
-                    .findFirst()
-                    .orElse(null);
-
-            if (existingItem != null) {
-                // Update quantity if the item already exists
-                existingItem.setQuantity(existingItem.getQuantity() + quantity);
-                cartItemRepository.save(existingItem);
-            } else {
-                // Add new cart item
-                CartItem cartItem = new CartItem();
+            if (productId != null) {
+                Product product = productRepository.findById(productId).orElse(null);
+                if (product == null) {
+                    return ResponseEntity.badRequest().body("Product not found");
+                }
                 cartItem.setProduct(product);
-                cartItem.setQuantity(quantity);
-                cartItem.setUser(user);
-                cartItemRepository.save(cartItem);
+            } else if (customProductId != null) {
+                CustomProduct customProduct = customProductRepository.findById(customProductId).orElse(null);
+                if (customProduct == null) {
+                    return ResponseEntity.badRequest().body("Custom product not found");
+                }
+                cartItem.setCustomProduct(customProduct);
+            } else {
+                return ResponseEntity.badRequest().body("Product ID or Custom Product ID must be provided");
             }
 
+            cartItemRepository.save(cartItem);
             return ResponseEntity.ok("Product added to cart");
         } else {
             return ResponseEntity.status(401).body("Unauthorized");

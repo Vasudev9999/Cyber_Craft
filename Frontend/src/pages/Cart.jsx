@@ -47,10 +47,10 @@ const Cart = ({ user }) => {
     }
   };
 
-  const totalPrice = cartItems.reduce(
-    (total, item) => total + item.product.price * item.quantity,
-    0
-  );
+  const totalPrice = cartItems.reduce((total, item) => {
+    const product = item.product || item.customProduct;
+    return total + product.price * item.quantity;
+  }, 0);
 
   const proceedToCheckout = () => {
     navigate('/checkout');
@@ -63,34 +63,41 @@ const Cart = ({ user }) => {
         <p>Your cart is empty.</p>
       ) : (
         <div className="cart-items">
-          {cartItems.map((item) => (
-            <div
-              key={item.id}
-              className={classNames('cart-item', { 'swipe-out': removingItem === item.id })}
-            >
-              <img
-                src={`${imagePath}${item.product.imageUrl}`}
-                alt={item.product.name}
-                className="cart-item-image"
-              />
-              <div className="cart-item-details">
-                <h3>{item.product.name}</h3>
-                <p>Price: ₹{item.product.price.toFixed(2)}</p>
-                <p>Quantity: {item.quantity}</p>
-                <p>Cabinet: {item.product.cabinet}</p>
-                <p>Case Fan: {item.product.casefan}</p>
-                <p>CPU Cooler: {item.product.cpucooler}</p>
-                <p>HDD: {item.product.hdd}</p>
-                <p>Mod Cable: {item.product.modcable}</p>
-                <p>Motherboard: {item.product.motherboard}</p>
-                <p>Power Supply: {item.product.powersupply}</p>
-                <p>SSD: {item.product.ssd}</p>
+          {cartItems.map((item) => {
+            const product = item.product || item.customProduct;
+            return (
+              <div
+                key={item.id}
+                className={classNames('cart-item', { 'swipe-out': removingItem === item.id })}
+              >
+                <img
+                  src={`${imagePath}${product.imageUrl}`}
+                  alt={product.name}
+                  className="cart-item-image"
+                />
+                <div className="cart-item-details">
+                  <h3>{product.name}</h3>
+                  <p>Price: ₹{product.price.toFixed(2)}</p>
+                  <p>Quantity: {item.quantity}</p>
+                  {product.processor && <p>Processor: {product.processor}</p>}
+                  {product.ram && <p>RAM: {product.ram}</p>}
+                  {product.graphicsCard && <p>Graphics Card: {product.graphicsCard}</p>}
+                  {product.storage && <p>Storage: {product.storage}</p>}
+                  {product.cabinet && <p>Cabinet: {product.cabinet}</p>}
+                  {product.caseFan && <p>Case Fan: {product.caseFan}</p>}
+                  {product.cpuCooler && <p>CPU Cooler: {product.cpuCooler}</p>}
+                  {product.hdd && <p>HDD: {product.hdd}</p>}
+                  {product.modCable && <p>Mod Cable: {product.modCable}</p>}
+                  {product.motherboard && <p>Motherboard: {product.motherboard}</p>}
+                  {product.powerSupply && <p>Power Supply: {product.powerSupply}</p>}
+                  {product.ssd && <p>SSD: {product.ssd}</p>}
+                </div>
+                <button onClick={() => removeFromCart(item.id)} className="remove-button">
+                  Remove
+                </button>
               </div>
-              <button onClick={() => removeFromCart(item.id)} className="remove-button">
-                Remove
-              </button>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
       {cartItems.length > 0 && (
