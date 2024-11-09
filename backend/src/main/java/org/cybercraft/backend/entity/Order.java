@@ -30,7 +30,7 @@ public class Order {
 
     private LocalDateTime orderedAt;
 
-    private boolean completed; // New field to indicate if the order is completed
+    private boolean completed; // Indicates if the order is completed
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

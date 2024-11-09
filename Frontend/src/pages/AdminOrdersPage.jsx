@@ -20,17 +20,22 @@ const AdminOrdersPage = () => {
     }
 
     try {
-      const response = await axios.get('http://localhost:8080/api/orders/admin/all', { withCredentials: true });
+      const response = await axios.get('http://localhost:8080/api/orders/admin/all', {
+        withCredentials: true,
+      });
       setOrders(response.data);
     } catch (error) {
       console.error('Error fetching orders:', error);
-      alert('Failed to fetch orders. Please ensure you are logged in as admin.');
     }
   };
 
   const markAsDone = async (orderId) => {
     try {
-      await axios.post(`http://localhost:8080/api/orders/admin/complete/${orderId}`, {}, { withCredentials: true });
+      await axios.post(
+        `http://localhost:8080/api/orders/admin/complete/${orderId}`,
+        {},
+        { withCredentials: true }
+      );
       fetchOrders(); // Refresh the orders list
     } catch (error) {
       console.error('Error marking order as done:', error);
@@ -62,7 +67,7 @@ const AdminOrdersPage = () => {
               <td colSpan="10">No orders found.</td>
             </tr>
           ) : (
-            orders.map(order => (
+            orders.map((order) => (
               <tr key={order.id}>
                 <td>{order.id}</td>
                 <td>{order.user?.id}</td>
@@ -75,7 +80,9 @@ const AdminOrdersPage = () => {
                 <td>{order.completed ? 'Yes' : 'No'}</td>
                 <td>
                   {!order.completed && (
-                    <button className="done-button" onClick={() => markAsDone(order.id)}>Done</button>
+                    <button className="done-button" onClick={() => markAsDone(order.id)}>
+                      Done
+                    </button>
                   )}
                 </td>
               </tr>

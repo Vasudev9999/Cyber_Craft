@@ -2,47 +2,41 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
-// Create the Auth Context
-export const AuthContext = createContext();
+// Create the AuthContext with default values
+export const AuthContext = createContext({
+  user: null,
+  setUser: () => {},
+});
 
-// Auth Provider Component
+// AuthProvider component to wrap around the app
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  // Check session on component mount
+  // Optionally, check for existing session on mount
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/auth/check-session', { withCredentials: true });
+        const response = await axios.get('http://localhost:8080/api/auth/check-session', {
+          withCredentials: true,
+        });
         if (response.data) {
           setUser({
-            id: response.data.userId,
+            userId: response.data.userId,
             username: response.data.username,
             isAdmin: response.data.isAdmin,
-            cartItemCount: response.data.cartItemCount || 0,
+            cartItemCount: response.data.cartItemCount,
           });
         }
       } catch (error) {
         console.error('Session check failed:', error);
-        setUser(null);
       }
     };
+
     checkSession();
   }, []);
 
-  // Logout Handler
-  const handleLogout = async () => {
-    try {
-      await axios.post('http://localhost:8080/api/auth/logout', {}, { withCredentials: true });
-      setUser(null);
-      window.location.reload();
-    } catch (error) {
-      console.error('Logout error:', error);
-    }
-  };
-
   return (
-    <AuthContext.Provider value={{ user, setUser, handleLogout }}>
+    <AuthContext.Provider value={{ user, setUser }}>
       {children}
     </AuthContext.Provider>
   );

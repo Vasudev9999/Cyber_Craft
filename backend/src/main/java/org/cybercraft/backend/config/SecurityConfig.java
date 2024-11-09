@@ -13,8 +13,8 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeRequests(authorize -> authorize
-                        .requestMatchers("/api/**","/api/auth/**","/api/admin/**","api/custom-products", "/api/cart/**").permitAll()
-                        .requestMatchers("/api/orders/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/api/**","/api/auth/**","/api/orders/admin/**","api/custom-products", "/api/cart/**").permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 );
 

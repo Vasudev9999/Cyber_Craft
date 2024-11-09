@@ -1,13 +1,13 @@
-// src/components/Login.js
+// src/components/Login.jsx
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 import { FaGoogle, FaFacebookF, FaTwitter } from 'react-icons/fa';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/AuthContext'; // Correct import
 
 const LoginPage = () => {
-  const { setUser } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext); // Destructure 'setUser'
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -77,7 +77,9 @@ const LoginPage = () => {
           <input type="checkbox" id="remember-me" />
           <label htmlFor="remember-me">Remember Me</label>
         </div>
-        <button type="submit" id="login-btn">Login</button>
+        <button type="submit" id="login-btn">
+          Login
+        </button>
       </form>
       {error && <p className="error-message">{error}</p>}
       <a href="/forgot-password" className="forgot-password">
