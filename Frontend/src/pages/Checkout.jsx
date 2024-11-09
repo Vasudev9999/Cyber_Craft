@@ -1,164 +1,274 @@
-// src/components/CustomPCPage.jsx
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import './CustomPCPageStyles.css';
+// src/pages/Checkout.jsx
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './Checkout.css';
 import axios from 'axios';
 
-const CustomPCPage = () => {
-  const location = useLocation();
+const Checkout = () => {
   const navigate = useNavigate();
-  const preselectedConfig = location.state?.preselectedConfig || {};
-
-  const [components, setComponents] = useState({});
-  const [selectedComponents, setSelectedComponents] = useState({
-    processor: null,
-    motherboard: null,
-    cabinet: null,
-    cpuCooler: null,
-    ram: null,
-    graphicsCard: null,
-    ssd: null,
-    hdd: null,
-    powerSupply: null,
-    caseFan: null,
-    modCable: null,
+  const [user, setUser] = useState(null);
+  const [cartItems, setCartItems] = useState([]);
+  
+  const [deliveryOption, setDeliveryOption] = useState('Home Delivery');
+  const [address, setAddress] = useState({
+    street: '',
+    city: '',
+    state: '',
+    zipCode: '',
   });
+  const [paymentOption, setPaymentOption] = useState('Credit Card');
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [orderError, setOrderError] = useState('');
 
-  const [totalBudget, setTotalBudget] = useState(0);
-  const [warningMessage, setWarningMessage] = useState("");
-
-  const maxBudget = 200000;
-
+  // Fetch user session
   useEffect(() => {
-    fetch("http://localhost:8080/api/components")
-      .then((res) => res.json())
-      .then((data) => {
-        setComponents(data);
+    const checkSession = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/auth/check-session', { withCredentials: true });
+        if (response.status === 200) {
+          setUser(response.data);
+        } else {
+          navigate('/login');
+        }
+      } catch (error) {
+        console.error("Session check failed:", error);
+        navigate('/login');
+      }
+    };
 
-        setSelectedComponents({
-          processor: data.processors.find(p => p.id === preselectedConfig.processor) || data.processors[0],
-          motherboard: data.motherboards.find(m => m.id === preselectedConfig.motherboard) || data.motherboards[0],
-          cabinet: data.cabinets.find(c => c.id === preselectedConfig.cabinet) || data.cabinets[0],
-          cpuCooler: data.cpuCoolers.find(c => c.id === preselectedConfig.cpuCooler) || data.cpuCoolers[0],
-          ram: data.rams.find(r => r.id === preselectedConfig.ram) || data.rams[0],
-          graphicsCard: data.graphicsCards.find(g => g.id === preselectedConfig.graphicsCard) || data.graphicsCards[0],
-          ssd: data.ssds.find(s => s.id === preselectedConfig.ssd) || data.ssds[0],
-          hdd: data.hdds.find(h => h.id === preselectedConfig.hdd) || data.hdds[0],
-          powerSupply: data.powerSupplies.find(p => p.id === preselectedConfig.powerSupply) || data.powerSupplies[0],
-          caseFan: data.caseFans.find(f => f.id === preselectedConfig.caseFan) || data.caseFans[0],
-          modCable: data.modCables.find(c => c.id === preselectedConfig.modCable) || data.modCables[0],
-        });
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  }, [preselectedConfig]);
+    checkSession();
+  }, [navigate]);
 
-  const handleComponentChange = (componentType, selectedId) => {
-    const selectedOption = components[componentType + 's'].find(component => component.id == selectedId);
-    setSelectedComponents((prevState) => ({
+  // Fetch cart items
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/cart', { withCredentials: true });
+        if (response.status === 200) {
+          setCartItems(response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching cart:', error);
+      }
+    };
+
+    fetchCart();
+  }, []);
+
+  const handleAddressChange = (e) => {
+    const { name, value } = e.target;
+    setAddress(prevState => ({
       ...prevState,
-      [componentType]: selectedId === "null" ? null : selectedOption,
+      [name]: value,
     }));
   };
 
-  useEffect(() => {
-    const total = Object.values(selectedComponents).reduce((sum, component) => {
-      return sum + (component ? component.price : 0);
-    }, 0);
-    setTotalBudget(total);
-
-    if (total > maxBudget) {
-      setWarningMessage("Warning: Budget exceeded!");
-    } else {
-      setWarningMessage("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setOrderError('');
+    
+    // Validate form
+    if (deliveryOption === 'Home Delivery') {
+      const { street, city, state, zipCode } = address;
+      if (!street || !city || !state || !zipCode) {
+        setOrderError('Please fill in all address fields for Home Delivery.');
+        setIsSubmitting(false);
+        return;
+      }
     }
-  }, [selectedComponents]);
 
-  const handleAddToCart = () => {
-    // Prepare the product data
-    const productData = {
-      name: 'Custom PC',
-      price: totalBudget,
-      description: 'Custom built PC with selected components',
-      category: 'Custom PC',
-      imageUrl: 'custom_pc_image.jpg', // You can set an appropriate image
-      components: selectedComponents,
-    };
+    try {
+      const params = {
+        deliveryOption,
+        paymentOption,
+      };
+      
+      if (deliveryOption === 'Home Delivery') {
+        params.street = address.street;
+        params.city = address.city;
+        params.state = address.state;
+        params.zipCode = address.zipCode;
+      }
 
-    // Send a request to the backend to create a new product and add it to the cart
-    axios.post('http://localhost:8080/api/products/custom', productData, { withCredentials: true })
-      .then(response => {
-        // Redirect to the cart page
-        navigate('/cart');
-      })
-      .catch(error => {
-        console.error('Error adding custom PC to cart:', error);
-        alert('Please log in to add items to your cart.');
-        navigate('/login');
+      const response = await axios.post('http://localhost:8080/api/orders/create', null, {
+        params,
+        withCredentials: true,
       });
+
+      if (response.status === 200) {
+        const orderId = response.data.id;
+        navigate(`/order-status/${orderId}`);
+      } else {
+        setOrderError('Failed to place the order. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error placing order:', error);
+      setOrderError('An error occurred while placing the order.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  return (
-    <div className="custom-pc-page-container">
-      <div className="custom-pc-page-price-container">
-        <h2>Total Price: ₹{totalBudget}</h2>
-        {warningMessage && <p className="custom-pc-page-warning">{warningMessage}</p>}
-        <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
+  if (orderError.includes('Empty')) { // Optionally handle empty cart
+    return (
+      <div className="checkout-container">
+        <h2>Checkout</h2>
+        <p>Your cart is empty. Please add items to your cart before proceeding to checkout.</p>
+        <button onClick={() => navigate('/cart')} className="back-to-cart-btn">Back to Cart</button>
       </div>
+    );
+  }
 
-      <div className="custom-pc-page-content-container">
-        <div className="custom-pc-page-left-side">
-          <div className="custom-pc-page-images">
-            {selectedComponents.cabinet && (
-              <img
-                src={selectedComponents.cabinet.image_path}
-                alt={selectedComponents.cabinet.name}
-                className="cabinet-image"
-              />
-            )}
-            <div className="components-images">
-              {Object.keys(selectedComponents).map((componentType) => {
-                if (componentType === 'cabinet') return null;
-                const component = selectedComponents[componentType];
-                return component ? (
-                  <img
-                    key={componentType}
-                    src={component.image_path}
-                    alt={component.name}
-                    className="component-image"
-                  />
-                ) : null;
+  return (
+    <div className="checkout-container">
+      <h2>Checkout</h2>
+      <div className="checkout-content">
+        <div className="order-summary">
+          <h3>Order Summary</h3>
+          {cartItems.length === 0 ? (
+            <p>Your cart is empty.</p>
+          ) : (
+            <ul>
+              {cartItems.map(item => {
+                const product = item.product || item.customProduct;
+                return (
+                  <li key={item.id} className="order-item">
+                    <div className="item-details">
+                      <span className="item-name">{product.name}</span>
+                      <span className="item-quantity">x {item.quantity}</span>
+                    </div>
+                    <div className="item-price">
+                      ₹{(product.price * item.quantity).toFixed(2)}
+                    </div>
+                    <div className="item-info">
+                      {product.processor && <p>Processor: {product.processor}</p>}
+                      {product.ram && <p>RAM: {product.ram}</p>}
+                      {product.graphicsCard && <p>Graphics Card: {product.graphicsCard}</p>}
+                      {product.storage && <p>Storage: {product.storage}</p>}
+                      {product.cabinet && <p>Cabinet: {product.cabinet}</p>}
+                      {product.caseFan && <p>Case Fan: {product.caseFan}</p>}
+                      {product.cpuCooler && <p>CPU Cooler: {product.cpuCooler}</p>}
+                      {product.hdd && <p>HDD: {product.hdd}</p>}
+                      {product.modCable && <p>Mod Cable: {product.modCable}</p>}
+                      {product.motherboard && <p>Motherboard: {product.motherboard}</p>}
+                      {product.powerSupply && <p>Power Supply: {product.powerSupply}</p>}
+                      {product.ssd && <p>SSD: {product.ssd}</p>}
+                      {/* Add more product-specific details as needed */}
+                    </div>
+                  </li>
+                );
               })}
-            </div>
+            </ul>
+          )}
+          <div className="total-price">
+            <span>Total:</span>
+            <span>₹{cartItems.reduce((total, item) => {
+              const product = item.product || item.customProduct;
+              return total + (product.price * item.quantity);
+            }, 0).toFixed(2)}</span>
           </div>
         </div>
 
-        <div className="custom-pc-page-right-side">
-          {Object.keys(selectedComponents).map((componentType) => {
-            const componentCategory = componentType.charAt(0).toUpperCase() + componentType.slice(1);
-            const componentList = components[componentType + 's'] || [];
-            return (
-              <div key={componentType} className="custom-pc-page-component-select">
-                <label>{componentCategory}</label>
-                <select
-                  value={selectedComponents[componentType]?.id || ''}
-                  onChange={(e) =>
-                    handleComponentChange(componentType, e.target.value)
-                  }
-                >
-                  <option value="null">None</option>
-                  {componentList.map((component) => (
-                    <option key={component.id} value={component.id}>
-                      {component.name} - ₹{component.price}
-                    </option>
-                  ))}
-                </select>
+        <form className="checkout-form" onSubmit={handleSubmit}>
+          <h3>Delivery Options</h3>
+          <div className="form-group delivery-options">
+            <label className="radio-label">
+              <input
+                type="radio"
+                value="Home Delivery"
+                checked={deliveryOption === 'Home Delivery'}
+                onChange={(e) => setDeliveryOption(e.target.value)}
+              />
+              Home Delivery
+            </label>
+            <label className="radio-label">
+              <input
+                type="radio"
+                value="Store Pickup"
+                checked={deliveryOption === 'Store Pickup'}
+                onChange={(e) => setDeliveryOption(e.target.value)}
+              />
+              Store Pickup
+            </label>
+          </div>
+
+          {deliveryOption === 'Home Delivery' && (
+            <div className="address-fields">
+              <div className="form-group">
+                <label htmlFor="street">Street:</label>
+                <input
+                  type="text"
+                  id="street"
+                  name="street"
+                  value={address.street}
+                  onChange={handleAddressChange}
+                  required
+                  placeholder="123 Main St"
+                />
               </div>
-            );
-          })}
-        </div>
+              <div className="form-group">
+                <label htmlFor="city">City:</label>
+                <input
+                  type="text"
+                  id="city"
+                  name="city"
+                  value={address.city}
+                  onChange={handleAddressChange}
+                  required
+                  placeholder="Mumbai"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="state">State:</label>
+                <input
+                  type="text"
+                  id="state"
+                  name="state"
+                  value={address.state}
+                  onChange={handleAddressChange}
+                  required
+                  placeholder="Maharashtra"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="zipCode">Zip Code:</label>
+                <input
+                  type="text"
+                  id="zipCode"
+                  name="zipCode"
+                  value={address.zipCode}
+                  onChange={handleAddressChange}
+                  required
+                  placeholder="400001"
+                />
+              </div>
+            </div>
+          )}
+
+          <h3>Payment Options</h3>
+          <div className="form-group">
+            <select
+              value={paymentOption}
+              onChange={(e) => setPaymentOption(e.target.value)}
+              required
+            >
+              <option value="Credit Card">Credit Card</option>
+              <option value="PayPal">PayPal</option>
+              <option value="Cash on Delivery">Cash on Delivery</option>
+            </select>
+          </div>
+
+          {orderError && <p className="error-message">{orderError}</p>}
+
+          <button type="submit" className="place-order-btn" disabled={isSubmitting || cartItems.length === 0}>
+            {isSubmitting ? 'Placing Order...' : 'Place Order'}
+          </button>
+        </form>
       </div>
     </div>
   );
 };
 
-export default CustomPCPage;
+export default Checkout;

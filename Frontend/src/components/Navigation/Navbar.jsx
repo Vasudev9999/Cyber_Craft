@@ -86,6 +86,18 @@ const Navbar = ({ user, handleLogout }) => {
           <img src="src/assets/cart.png" alt="Cart" />
         </Link>
 
+        {/* Admin Link */}
+        {user && user.isAdmin && (
+          <Link
+            to="/admin/dashboard"
+            className={`navbar-link ${
+              location.pathname === '/admin/dashboard' ? 'active' : ''
+            }`}
+          >
+            Admin Dashboard
+          </Link>
+        )}
+
         {/* User Section */}
         {user ? (
           <div

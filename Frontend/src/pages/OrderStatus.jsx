@@ -5,23 +5,39 @@ import { useNavigate, useParams } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import './OrderStatus.css';
 
-const OrderStatus = ({ user }) => {
+const OrderStatus = () => {
   const { orderId } = useParams();
-  const [order, setOrder] = useState(null);
   const navigate = useNavigate();
+  const [order, setOrder] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    if (user) {
-      fetchOrder();
-    } else {
-      navigate('/login');
-    }
-  }, [user, navigate]);
+    const checkSessionAndFetchOrder = async () => {
+      try {
+        const sessionResponse = await axios.get('http://localhost:8080/api/auth/check-session', { withCredentials: true });
+        if (sessionResponse.status === 200) {
+          setUser(sessionResponse.data);
+          fetchOrder(orderId);
+        } else {
+          navigate('/login');
+        }
+      } catch (error) {
+        console.error("Session check failed:", error);
+        navigate('/login');
+      }
+    };
 
-  const fetchOrder = async () => {
+    checkSessionAndFetchOrder();
+  }, [navigate, orderId]);
+
+  const fetchOrder = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/orders/${orderId}`, { withCredentials: true });
-      setOrder(response.data);
+      const response = await axios.get(`http://localhost:8080/api/orders/${id}`, { withCredentials: true });
+      if (response.status === 200) {
+        setOrder(response.data);
+      } else {
+        console.error('Failed to fetch order details:', response.statusText);
+      }
     } catch (error) {
       console.error('Error fetching order:', error);
     }
@@ -30,10 +46,10 @@ const OrderStatus = ({ user }) => {
   const handlePayment = async () => {
     try {
       await axios.post('http://localhost:8080/api/orders/update-payment', null, {
-        params: { orderId, status: 'Completed' },
+        params: { orderId: order.id, status: 'Completed' },
         withCredentials: true,
       });
-      fetchOrder();
+      fetchOrder(order.id);
     } catch (error) {
       console.error('Error updating payment status:', error);
     }
@@ -42,10 +58,10 @@ const OrderStatus = ({ user }) => {
   const handlePlaceOrder = async () => {
     try {
       await axios.post('http://localhost:8080/api/orders/place-order', null, {
-        params: { orderId },
+        params: { orderId: order.id },
         withCredentials: true,
       });
-      fetchOrder();
+      fetchOrder(order.id);
     } catch (error) {
       console.error('Error placing order:', error);
     }
@@ -74,10 +90,12 @@ const OrderStatus = ({ user }) => {
     doc.text('Products:', 14, 70);
     order.orderItems.forEach((item, index) => {
       const y = 80 + index * 10;
-      doc.text(`${index + 1}. ${item.product.name} - ₹${item.price.toFixed(2)} x ${item.quantity}`, 14, y);
+      const productName = item.product ? item.product.name : item.customProduct.name;
+      doc.text(`${index + 1}. ${productName} - ₹${item.price.toFixed(2)} x ${item.quantity}`, 14, y);
     });
 
-    doc.text(`Total Paid: ₹${order.orderItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}`, 14, 90 + order.orderItems.length * 10);
+    const totalAmount = order.orderItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    doc.text(`Total Paid: ₹${totalAmount.toFixed(2)}`, 14, 90 + order.orderItems.length * 10);
     doc.text(`Payment Status: ${order.paymentStatus}`, 14, 100 + order.orderItems.length * 10);
     const deliveryDate = new Date();
     deliveryDate.setDate(deliveryDate.getDate() + 3);
@@ -135,7 +153,7 @@ const OrderStatus = ({ user }) => {
             {order.orderItems.map(item => (
               <div key={item.id} className="order-status-invoice-item">
                 <div className="order-status-invoice-info">
-                  <p>{item.product.name}</p>
+                  <p>{item.product ? item.product.name : item.customProduct.name}</p>
                   <p>Price: ₹{item.price.toFixed(2)}</p>
                   <p>Quantity: {item.quantity}</p>
                 </div>

@@ -2,6 +2,7 @@
 package org.cybercraft.backend.service;
 
 import org.cybercraft.backend.entity.CartItem;
+import org.cybercraft.backend.entity.CustomProduct;
 import org.cybercraft.backend.entity.Order;
 import org.cybercraft.backend.entity.OrderItem;
 import org.cybercraft.backend.entity.User;
@@ -54,9 +55,17 @@ public class OrderService {
         List<OrderItem> orderItems = cartItems.stream().map(cartItem -> {
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(savedOrder); // Use savedOrder to ensure proper association
-            orderItem.setProduct(cartItem.getProduct());
+
+            if (cartItem.getProduct() != null) {
+                orderItem.setProduct(cartItem.getProduct());
+                orderItem.setPrice(cartItem.getProduct().getPrice());
+            } else if (cartItem.getCustomProduct() != null) {
+                CustomProduct customProduct = cartItem.getCustomProduct();
+                orderItem.setCustomProduct(customProduct);
+                orderItem.setPrice(customProduct.getPrice()); // Ensure CustomProduct has a price field
+            }
+
             orderItem.setQuantity(cartItem.getQuantity());
-            orderItem.setPrice(cartItem.getProduct().getPrice());
             return orderItem;
         }).collect(Collectors.toList());
 

@@ -8,6 +8,7 @@ import Footer from './components/Footer/Footer';
 
 // Page Components
 import Dashboard from './pages/Dashboard';
+import AdminDashboard from './pages/AdminDashboard'; // New Admin Dashboard
 import NotFound from './pages/NotFound';
 import LoginPage from './components/Login';
 import RegisterPage from './components/Register';
@@ -19,7 +20,7 @@ import ProductDetailsPage from './pages/ProductDetailsPage';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import OrderStatus from './pages/OrderStatus';
-import MyOrders from './pages/MyOrders'; // Added MyOrders import
+import MyOrders from './pages/MyOrders';
 
 import './App.css';
 
@@ -41,7 +42,10 @@ const App = () => {
               id: response.data.userId,
               username: response.data.username,
               isAdmin: response.data.isAdmin,
+              cartItemCount: response.data.cartItemCount || 0,
             });
+            sessionStorage.setItem('username', response.data.username);
+            sessionStorage.setItem('token', token);
           } else {
             setUser(null);
             sessionStorage.removeItem('username');
@@ -90,8 +94,16 @@ const App = () => {
           {/* Shopping Flow */}
           <Route path="/cart" element={<Cart user={user} />} />
           <Route path="/checkout" element={<Checkout user={user} />} />
-          <Route path="/my-orders" element={<MyOrders user={user} />} /> {/* Added MyOrders route */}
+          <Route path="/my-orders" element={<MyOrders user={user} />} />
           <Route path="/order-status/:orderId" element={<OrderStatus user={user} />} />
+
+          {/* Admin Dashboard */}
+          <Route
+            path="/admin/dashboard"
+            element={
+              user && user.isAdmin ? <AdminDashboard /> : <Navigate to="/login" />
+            }
+          />
 
           {/* 404 */}
           <Route path="*" element={<NotFound />} />
@@ -100,6 +112,14 @@ const App = () => {
       </div>
     </Router>
   );
+};
+
+// ProtectedRoute Component (Optional)
+const ProtectedRoute = ({ children, user }) => {
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+  return children;
 };
 
 export default App;

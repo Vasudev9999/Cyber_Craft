@@ -30,4 +30,8 @@ public class OrderItem {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="product_id")
     private Product product;
+
+    @ManyToOne
+    @JoinColumn(name = "custom_product_id", nullable=true)
+    private CustomProduct customProduct;
 }

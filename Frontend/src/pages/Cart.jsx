@@ -4,6 +4,7 @@ import axios from 'axios';
 import './Cart.css';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
+import fileImage from '../assets/file.png'; // Import fallback image
 
 const Cart = ({ user }) => {
   const [cartItems, setCartItems] = useState([]);
@@ -74,6 +75,7 @@ const Cart = ({ user }) => {
                   src={`${imagePath}${product.imageUrl}`}
                   alt={product.name}
                   className="cart-item-image"
+                  onError={(e) => { e.target.onerror = null; e.target.src = fileImage; }}
                 />
                 <div className="cart-item-details">
                   <h3>{product.name}</h3>
