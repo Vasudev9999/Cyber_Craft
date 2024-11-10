@@ -89,9 +89,9 @@ const Navbar = ({ user, handleLogout }) => {
         {/* Admin Link */}
         {user && user.isAdmin && (
           <Link
-            to="/admin/dashboard"
+            to="/admin-dashboard"
             className={`navbar-link ${
-              location.pathname === '/admin/dashboard' ? 'active' : ''
+              location.pathname === '/admin-dashboard' ? 'active' : ''
             }`}
           >
             Admin Dashboard

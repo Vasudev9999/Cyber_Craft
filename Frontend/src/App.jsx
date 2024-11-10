@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import axios from 'axios';
@@ -9,8 +8,6 @@ import Footer from './components/Footer/Footer';
 
 // Page Components
 import Dashboard from './pages/Dashboard';
-import AdminDashboard from './pages/AdminDashboard';
-import AdminOrdersPage from './pages/AdminOrdersPage';
 import NotFound from './pages/NotFound';
 import LoginPage from './components/Login';
 import RegisterPage from './components/Register';
@@ -23,6 +20,7 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import OrderStatus from './pages/OrderStatus';
 import MyOrders from './pages/MyOrders';
+import AdminDashboard from './pages/AdminDashboard'; // Import AdminDashboard
 
 import './App.css';
 
@@ -85,18 +83,7 @@ const App = () => {
           <Route path="/order-status/:orderId" element={<OrderStatus user={user} />} />
 
           {/* Admin Dashboard */}
-          <Route
-            path="/admin/dashboard"
-            element={
-              user && user.isAdmin ? <AdminDashboard /> : <Navigate to="/login" />
-            }
-          />
-          <Route
-            path="/admin/orders"
-            element={
-              user && user.isAdmin ? <AdminOrdersPage /> : <Navigate to="/login" />
-            }
-          />
+          <Route path="/admin-dashboard" element={<ProtectedRoute user={user} isAdminRoute={true}><AdminDashboard /></ProtectedRoute>} />
 
           {/* 404 */}
           <Route path="*" element={<NotFound />} />
@@ -110,7 +97,7 @@ const App = () => {
 // ProtectedRoute Component
 const ProtectedRoute = ({ children, user, isAdminRoute = false }) => {
   if (!user) {
-    return <Navigate to="/login" />;
+    return ;
   }
   if (isAdminRoute && !user.isAdmin) {
     return <Navigate to="/dashboard" />;

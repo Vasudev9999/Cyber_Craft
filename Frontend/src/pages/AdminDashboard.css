@@ -1,29 +1,225 @@
 /* src/pages/AdminDashboard.css */
 
 .admin-dashboard {
-  padding: 20px;
-  text-align: center;
-}
-
-.admin-dashboard h1 {
-  margin-bottom: 20px;
-}
-
-.admin-dashboard ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.admin-dashboard li {
-  margin: 10px 0;
-}
-
-.admin-dashboard a {
-  text-decoration: none;
-  color: #007BFF;
-  font-size: 18px;
-}
-
-.admin-dashboard a:hover {
-  text-decoration: underline;
-}
+    padding: 20px;
+    background-color: #f5f5f5;
+  }
+  
+  .admin-dashboard h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 2.5em;
+    font-weight: bold;
+  }
+  
+  .orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+  }
+  
+  .orders-table th,
+  .orders-table td {
+    padding: 15px 20px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 1em;
+  }
+  
+  .orders-table th {
+    background-color: #4CAF50;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+  
+  .orders-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .orders-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .status-button {
+    padding: 10px 15px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+  }
+  
+  .status-button.shipped {
+    background-color: #2196F3;
+  }
+  
+  .status-button.shipped:hover {
+    background-color: #0b7dda;
+  }
+  
+  .status-button.delivered {
+    background-color: #4CAF50;
+  }
+  
+  .status-button.delivered:hover {
+    background-color: #45a049;
+  }
+  
+  .done-label {
+    padding: 10px 15px;
+    background-color: #9E9E9E;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 0.9em;
+  }
+  
+  .completed {
+    background-color: #e0f7fa;
+  }
+  
+  .error-message {
+    color: red;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1.2em;
+  }
+  
+  @media screen and (max-width: 1200px) {
+    .orders-table th,
+    .orders-table td {
+      padding: 12px 15px;
+      font-size: 0.95em;
+    }
+  
+    .status-button {
+      padding: 8px 12px;
+      font-size: 0.85em;
+    }
+  
+    .done-label {
+      padding: 8px 12px;
+      font-size: 0.85em;
+    }
+  }
+  
+  @media screen and (max-width: 992px) {
+    .orders-table th,
+    .orders-table td {
+      padding: 10px 12px;
+      font-size: 0.9em;
+    }
+  
+    .status-button {
+      padding: 6px 10px;
+      font-size: 0.8em;
+    }
+  
+    .done-label {
+      padding: 6px 10px;
+      font-size: 0.8em;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .orders-table th,
+    .orders-table td {
+      padding: 8px 10px;
+      font-size: 0.85em;
+    }
+  
+    .status-button {
+      padding: 5px 8px;
+      font-size: 0.75em;
+    }
+  
+    .done-label {
+      padding: 5px 8px;
+      font-size: 0.75em;
+    }
+  }
+  
+  .orders-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .status-button:disabled {
+    background-color: #bdbdbd;
+    cursor: not-allowed;
+  }
+  
+  .status-button.shipped:disabled:hover,
+  .status-button.delivered:disabled:hover {
+    background-color: #bdbdbd;
+  }
+  
+  .done-label {
+    background-color: #8BC34A;
+  }
+  
+  .done-label:hover {
+    background-color: #7CB342;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .admin-dashboard {
+    animation: fadeIn 0.6s ease-out;
+  }
+  
+  .orders-table th:first-child,
+  .orders-table td:first-child {
+    border-left: none;
+  }
+  
+  .orders-table th:last-child,
+  .orders-table td:last-child {
+    border-right: none;
+  }
+  
+  .status-button {
+    outline: none;
+  }
+  
+  .status-button:focus {
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.5);
+  }
+  
+  .done-label {
+    cursor: default;
+  }
+  
+  .completed .done-label {
+    background-color: #607d8b;
+  }
+  
+  @media screen and (max-width: 576px) {
+    .admin-dashboard h1 {
+      font-size: 2em;
+    }
+  
+    .orders-table th,
+    .orders-table td {
+      padding: 6px 8px;
+      font-size: 0.8em;
+    }
+  
+    .status-button {
+      padding: 4px 6px;
+      font-size: 0.7em;
+    }
+  
+    .done-label {
+      padding: 4px 6px;
+      font-size: 0.7em;
+    }
+  }

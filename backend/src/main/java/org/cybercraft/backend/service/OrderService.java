@@ -85,17 +85,6 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public Order markOrderAsCompleted(Long orderId) {
-        Optional<Order> optionalOrder = orderRepository.findById(orderId);
-        if (optionalOrder.isPresent()) {
-            Order order = optionalOrder.get();
-            order.setCompleted(true);
-            return orderRepository.save(order);
-        }
-        return null;
-    }
-
-
     /**
      * Retrieves all orders placed by a specific user.
      *
@@ -103,7 +92,7 @@ public class OrderService {
      * @return List of Orders.
      */
     public List<Order> getUserOrders(User user) {
-        return orderRepository.findByUser(user);
+        return orderRepository.findByUserOrderByOrderedAtDesc(user);
     }
 
     /**
@@ -126,6 +115,19 @@ public class OrderService {
                 order.setPaymentStatus(status);
                 orderRepository.save(order);
             }
+        }
+        return order;
+    }
+
+    @Transactional
+    public Order updateOrderStatus(Long orderId, String status) {
+        Order order = orderRepository.findById(orderId).orElse(null);
+        if (order != null) {
+            order.setDeliveryStatus(status);
+            if ("Delivered".equalsIgnoreCase(status)) {
+                order.setCompleted(true);
+            }
+            orderRepository.save(order);
         }
         return order;
     }
