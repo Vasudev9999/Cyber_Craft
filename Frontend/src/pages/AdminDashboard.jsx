@@ -1,91 +1,120 @@
 // src/pages/AdminDashboard.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './AdminDashboard.css';
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Button from '@mui/material/Button';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl';
 
 const AdminDashboard = () => {
   const [orders, setOrders] = useState([]);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/api/orders/admin/all', { withCredentials: true });
-        setOrders(response.data);
-      } catch (error) {
-        setError('You are not authorized to view this page.');
-        console.error('Error fetching orders:', error);
-      }
-    };
     fetchOrders();
   }, []);
 
-  const handleOrderStatusChange = async (orderId, status) => {
+  const fetchOrders = async () => {
     try {
-      await axios.post(`http://localhost:8080/api/orders/admin/update-status`, null, {
-        params: { orderId, status },
-        withCredentials: true,
+      const response = await axios.get('http://localhost:8080/api/admin/orders', {
+        withCredentials: true
       });
-      setOrders(orders.map(order => order.id === orderId ? { ...order, deliveryStatus: status } : order));
+      setOrders(response.data);
     } catch (error) {
-      console.error('Error updating order status:', error);
+      console.error('Error fetching orders:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  if (error) {
-    return <div className="error-message">{error}</div>;
+  const handleStatusChange = async (orderId, newStatus) => {
+    try {
+      await axios.put(`http://localhost:8080/api/admin/orders/${orderId}/status`, 
+        { status: newStatus },
+        { withCredentials: true }
+      );
+      fetchOrders();
+    } catch (error) {
+      console.error('Error updating status:', error);
+    }
+  };
+
+  const handleComplete = async (orderId, completed) => {
+    try {
+      await axios.put(`http://localhost:8080/api/admin/orders/${orderId}/complete`,
+        { completed: !completed },
+        { withCredentials: true }
+      );
+      fetchOrders();
+    } catch (error) {
+      console.error('Error updating completion:', error);
+    }
+  };
+
+  if (loading) {
+    return <Typography>Loading...</Typography>;
   }
 
   return (
-    <div className="admin-dashboard">
-      <h1>Admin Dashboard</h1>
-      <table className="orders-table">
-        <thead>
-          <tr>
-            <th>Order ID</th>
-            <th>User</th>
-            <th>Delivery Option</th>
-            <th>Address</th>
-            <th>Payment Option</th>
-            <th>Payment Status</th>
-            <th>Delivery Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map(order => (
-            <tr key={order.id} className={order.completed ? 'completed' : ''}>
-              <td>{order.id}</td>
-              <td>{order.user.username}</td>
-              <td>{order.deliveryOption}</td>
-              <td>{order.address}</td>
-              <td>{order.paymentOption}</td>
-              <td>{order.paymentStatus}</td>
-              <td>{order.deliveryStatus}</td>
-              <td>
-                {!order.completed && (
-                  <>
-                    <button
-                      className="status-button shipped"
-                      onClick={() => handleOrderStatusChange(order.id, 'Shipped')}
+    <Box sx={{ p: 3 }}>
+      <Typography variant="h4" gutterBottom>
+        Order Management Dashboard
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Order ID</TableCell>
+              <TableCell>Customer</TableCell>
+              <TableCell>Delivery Method</TableCell>
+              <TableCell>Payment Status</TableCell>
+              <TableCell>Order Status</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {orders.map((order) => (
+              <TableRow key={order.id}>
+                <TableCell>{order.id}</TableCell>
+                <TableCell>{order.user?.username}</TableCell>
+                <TableCell>{order.deliveryOption}</TableCell>
+                <TableCell>{order.paymentStatus}</TableCell>
+                <TableCell>
+                  <FormControl size="small">
+                    <Select
+                      value={order.deliveryStatus}
+                      onChange={(e) => handleStatusChange(order.id, e.target.value)}
                     >
-                      Mark as Shipped
-                    </button>
-                    <button
-                      className="status-button delivered"
-                      onClick={() => handleOrderStatusChange(order.id, 'Delivered')}
-                    >
-                      Mark as Delivered
-                    </button>
-                  </>
-                )}
-                {order.completed && <span className="done-label">Done</span>}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+                      <MenuItem value="Processing">Processing</MenuItem>
+                      <MenuItem value="Shipped">Shipped</MenuItem>
+                      <MenuItem value="Delivered">Delivered</MenuItem>
+                    </Select>
+                  </FormControl>
+                </TableCell>
+                <TableCell>
+                  <Button
+                    variant="contained"
+                    color={order.completed ? "error" : "success"}
+                    onClick={() => handleComplete(order.id, order.completed)}
+                  >
+                    {order.completed ? "Mark Incomplete" : "Mark Complete"}
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   );
 };
 

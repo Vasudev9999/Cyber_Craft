@@ -1,4 +1,3 @@
-// src/main/java/org/cybercraft/backend/entity/Order.java
 package org.cybercraft.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -32,7 +31,7 @@ public class Order {
 
     private boolean completed; // Indicates if the order is completed
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER) // Changed from LAZY to EAGER
     @JoinColumn(name = "user_id")
     private User user;
 

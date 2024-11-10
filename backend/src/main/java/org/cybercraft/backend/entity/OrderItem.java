@@ -1,4 +1,3 @@
-// src/main/java/org/cybercraft/backend/entity/OrderItem.java
 package org.cybercraft.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;

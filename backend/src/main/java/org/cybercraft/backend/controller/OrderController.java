@@ -1,4 +1,3 @@
-// src/main/java/org/cybercraft/backend/controller/OrderController.java
 package org.cybercraft.backend.controller;
 
 import org.cybercraft.backend.entity.Order;
@@ -23,6 +22,9 @@ public class OrderController {
     @Autowired
     private UserService userService;
 
+    /**
+     * Create a new order.
+     */
     @PostMapping("/create")
     public ResponseEntity<Order> createOrder(
             @RequestParam String deliveryOption,
@@ -46,6 +48,9 @@ public class OrderController {
         }
     }
 
+    /**
+     * Get a specific order by ID for the authenticated user.
+     */
     @GetMapping("/{orderId}")
     public ResponseEntity<Order> getOrderById(@PathVariable Long orderId, HttpSession session) {
         String token = (String) session.getAttribute("token");
@@ -58,6 +63,9 @@ public class OrderController {
         }
     }
 
+    /**
+     * Get all orders for the authenticated user.
+     */
     @GetMapping
     public ResponseEntity<List<Order>> getUserOrders(HttpSession session) {
         String token = (String) session.getAttribute("token");
@@ -70,6 +78,9 @@ public class OrderController {
         }
     }
 
+    /**
+     * Update the payment status of an order.
+     */
     @PostMapping("/update-payment")
     public ResponseEntity<Order> updatePaymentStatus(
             @RequestParam Long orderId,
@@ -90,38 +101,61 @@ public class OrderController {
         }
     }
 
-    // Admin endpoint to get all orders
-    @GetMapping("/admin/all")
-    public ResponseEntity<List<Order>> getAllOrdersAdmin(HttpSession session) {
+    /**
+     * Fetch all orders. **No admin check for development purposes.**
+     *
+     * @return List of all orders.
+     */
+    @GetMapping("/all")
+    public ResponseEntity<List<Order>> getAllOrders(HttpSession session) {
         String token = (String) session.getAttribute("token");
         if (token != null && userService.validateToken(token)) {
-            User user = userService.getUserFromToken(token);
-            if (user.isAdmin()) {
-                List<Order> orders = orderService.getAllOrders();
-                return ResponseEntity.ok(orders);
-            }
+            // Admin check removed for development
+            List<Order> orders = orderService.getAllOrders();
+            return ResponseEntity.ok(orders);
+        } else {
+            return ResponseEntity.status(401).build();
         }
-        return ResponseEntity.status(403).build();
     }
 
-    // Admin endpoint to update order status
-    @PostMapping("/admin/update-status")
-    public ResponseEntity<Order> updateOrderStatusAdmin(
-            @RequestParam Long orderId,
-            @RequestParam String status,
+    /**
+     * Update the completion status of an order. **No admin check for development purposes.**
+     *
+     * @param orderId The ID of the order to update.
+     * @param status  The new completion status.
+     * @return The updated order.
+     */
+    @PostMapping("/{orderId}/complete")
+    public ResponseEntity<Order> updateOrderCompletion(
+            @PathVariable Long orderId,
+            @RequestBody CompletionStatus status,
             HttpSession session) {
         String token = (String) session.getAttribute("token");
         if (token != null && userService.validateToken(token)) {
-            User user = userService.getUserFromToken(token);
-            if (user.isAdmin()) {
-                Order updatedOrder = orderService.updateOrderStatus(orderId, status);
-                if (updatedOrder != null) {
-                    return ResponseEntity.ok(updatedOrder);
-                } else {
-                    return ResponseEntity.status(404).build();
-                }
+            // Admin check removed for development
+            Order updatedOrder = orderService.updateOrderCompletion(orderId, status.isCompleted());
+            if (updatedOrder != null) {
+                return ResponseEntity.ok(updatedOrder);
+            } else {
+                return ResponseEntity.status(404).build();
             }
+        } else {
+            return ResponseEntity.status(401).build();
         }
-        return ResponseEntity.status(403).build();
+    }
+
+    /**
+     * DTO for completion status.
+     */
+    public static class CompletionStatus {
+        private boolean completed;
+
+        public boolean isCompleted() {
+            return completed;
+        }
+
+        public void setCompleted(boolean completed) {
+            this.completed = completed;
+        }
     }
 }

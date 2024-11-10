@@ -1,4 +1,3 @@
-// src/main/java/org/cybercraft/backend/repository/OrderRepository.java
 package org.cybercraft.backend.repository;
 
 import org.cybercraft.backend.entity.Order;
@@ -18,5 +17,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> findAll();
 
-    List<Order> findByUser(User user); // Added to resolve the method
+    List<Order> findByUser(User user); // Additional method
 }

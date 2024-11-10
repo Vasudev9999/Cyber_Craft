@@ -1,4 +1,3 @@
-// src/main/java/org/cybercraft/backend/service/OrderService.java
 package org.cybercraft.backend.service;
 
 import org.cybercraft.backend.entity.CartItem;
@@ -32,6 +31,9 @@ public class OrderService {
     @Autowired
     private UserService userService;
 
+    /**
+     * Create a new order based on the user's cart items.
+     */
     @Transactional
     public Order createOrder(Long userId, String deliveryOption, String address, String paymentOption) {
         User user = userService.getUserById(userId);
@@ -81,6 +83,9 @@ public class OrderService {
         return savedOrder;
     }
 
+    /**
+     * Retrieve all orders in the system.
+     */
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
@@ -107,18 +112,24 @@ public class OrderService {
         return optionalOrder.orElse(null);
     }
 
+    /**
+     * Update the payment status of an order.
+     */
     @Transactional
     public Order updatePaymentStatus(Long orderId, String status) {
         Order order = orderRepository.findById(orderId).orElse(null);
         if (order != null) {
             if (!"Cash on Delivery".equalsIgnoreCase(order.getPaymentOption())) {
                 order.setPaymentStatus(status);
-                orderRepository.save(order);
+                return orderRepository.save(order);
             }
         }
         return order;
     }
 
+    /**
+     * Update the delivery status of an order.
+     */
     @Transactional
     public Order updateOrderStatus(Long orderId, String status) {
         Order order = orderRepository.findById(orderId).orElse(null);
@@ -127,18 +138,33 @@ public class OrderService {
             if ("Delivered".equalsIgnoreCase(status)) {
                 order.setCompleted(true);
             }
-            orderRepository.save(order);
+            return orderRepository.save(order);
         }
         return order;
     }
 
+    /**
+     * Mark an order as completed if the payment option is "Cash on Delivery".
+     */
     @Transactional
     public Order placeOrder(Long orderId) {
         Order order = orderRepository.findById(orderId).orElse(null);
         if (order != null && "Cash on Delivery".equalsIgnoreCase(order.getPaymentOption())) {
             order.setPaymentStatus("Completed");
-            orderRepository.save(order);
+            return orderRepository.save(order);
         }
         return order;
+    }
+
+    /**
+     * Update the completion status of an order.
+     */
+    public Order updateOrderCompletion(Long orderId, boolean completed) {
+        Order order = orderRepository.findById(orderId).orElse(null);
+        if (order != null) {
+            order.setCompleted(completed);
+            return orderRepository.save(order);
+        }
+        return null;
     }
 }
