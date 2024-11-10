@@ -1,40 +1,138 @@
-@import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap');
+/* src/components/PrebuildPC.css */
 
+/* --- Container Styles --- */
 .prebuild-pc {
+  width: 100%;
   padding: 20px;
-  font-family: 'Oxanium', sans-serif;
+  background-color: #ffffff;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  color: #333;
 }
 
-.prebuild-pc input,
-.prebuild-pc select {
-  margin: 10px;
-  padding: 10px;
+/* --- Filters Section --- */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.filters label {
+  margin-right: 15px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.filters select,
+.filters input {
+  margin-left: 5px;
+  padding: 5px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 
-.prebuild-pc button {
-  padding: 10px 20px;
+.add-product-button {
+  padding: 8px 12px;
+  background-color: #008cba;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-product-button:hover {
+  background-color: #005f5f;
+}
+
+/* --- Product List Styles --- */
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.product-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  width: 220px;
+  margin: 15px;
+  border-radius: 5px;
+  text-align: center;
+  padding: 15px;
+  transition: box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.product-card img {
+  max-width: 100%;
+  height: auto;
+}
+
+.product-card h2 {
+  font-size: 18px;
   margin: 10px 0;
-  background-color: #007bff;
-  color: white;
+}
+
+.product-card p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.product-card .button-group {
+  display: flex;
+  justify-content: space-around;
+}
+
+.product-card button {
+  padding: 8px 12px;
+  font-size: 14px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.2s;
 }
 
-.prebuild-pc button:hover {
-  background-color: #0056b3;
+.product-card .add-to-cart-btn {
+  background-color: #008cba;
+  color: #fff;
 }
-.product-item .delete {
-  background-color: red;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-  margin-top: 5px;
+
+.product-card .add-to-cart-btn:hover {
+  background-color: #005f5f;
 }
-.product-item .delete:hover {
-  opacity: 0.8;
+
+.product-card .edit-btn,
+.product-card .delete-btn {
+  background-color: #f0ad4e;
+  color: #fff;
+}
+
+.product-card .edit-btn:hover,
+.product-card .delete-btn:hover {
+  background-color: #ec971f;
+}
+
+.product-card .delete-btn {
+  background-color: #d9534f;
+}
+
+.product-card .delete-btn:hover {
+  background-color: #c9302c;
+}
+
+/* --- Responsive Styles --- */
+@media screen and (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+  }
+
+  .filters label {
+    margin-right: 0;
+  }
+
+  .product-card {
+    width: 90%;
+  }
 }

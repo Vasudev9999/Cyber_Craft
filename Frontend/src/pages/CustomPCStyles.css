@@ -1,51 +1,82 @@
+/* src/components/CustomPCStyles.css */
+
+/* --- Container Styles --- */
 .custom-pc-container {
+  width: 100%;
   padding: 20px;
+  background-color: #ffffff;
+  min-height: 100vh;
 }
 
 .custom-pc-row {
   display: flex;
-  margin-bottom: 40px;
-}
-
-.custom-pc-left-side {
-  flex: 1;
-  display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
+/* --- Left Side Label --- */
 .custom-pc-left-side label {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 20px;
 }
 
+/* --- Right Side Cards --- */
 .custom-pc-right-side {
-  flex: 3;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .custom-pc-card {
-  width: 200px;
-  margin: 10px;
-  text-align: center;
+  background-color: #f9f9f9;
+  margin: 15px;
+  width: 220px;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid #ddd;
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.custom-pc-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .custom-pc-card img {
   width: 100%;
-  height: auto;
+  height: 180px;
+  object-fit: cover;
+}
+
+.custom-pc-card p {
+  padding: 10px;
+  font-size: 16px;
+  color: #333;
+  text-align: center;
 }
 
 .custom-pc-button {
-  margin-top: 10px;
-  padding: 8px 12px;
-  background-color: #007acc;
-  color: white;
+  display: block;
+  width: calc(100% - 20px);
+  margin: 10px;
+  padding: 10px;
+  background-color: #008cba;
+  color: #fff;
   border: none;
+  border-radius: 5px;
+  font-size: 14px;
   cursor: pointer;
 }
 
 .custom-pc-button:hover {
-  background-color: #005f99;
+  background-color: #005f5f;
+}
+
+/* --- Media Queries --- */
+@media screen and (max-width: 768px) {
+  .custom-pc-card {
+    width: 90%;
+  }
 }

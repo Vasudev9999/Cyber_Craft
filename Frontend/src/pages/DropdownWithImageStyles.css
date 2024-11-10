@@ -1,0 +1,102 @@
+/* src/components/DropdownWithImageStyles.css */
+
+/* --- Container Styles --- */
+.dropdown-with-image-container {
+    margin-bottom: 15px;
+    position: relative;
+    width: 100%;
+  }
+  
+  .dropdown-with-image-container label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  /* --- Selected Option Styles --- */
+  .dropdown-selected {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px;
+    cursor: pointer;
+    background-color: #fafafa;
+  }
+  
+  .dropdown-selected .option-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .dropdown-selected .option-content span {
+    color: #333;
+    font-size: 14px;
+  }
+  
+  /* --- Option Image Styles --- */
+  .option-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
+  
+  /* --- Dropdown Options Styles --- */
+  .dropdown-options {
+    position: absolute;
+    top: calc(100% + 5px);
+    z-index: 10;
+    background: #fff;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+    border-radius: 5px;
+  }
+  
+  .dropdown-option {
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s ease;
+  }
+  
+  .dropdown-option:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .dropdown-option span {
+    color: #333;
+    font-size: 14px;
+  }
+  
+  /* --- Scrollbar Styles --- */
+  .dropdown-options::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .dropdown-options::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+  }
+  
+  .dropdown-options::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+  }
+  
+  /* --- Media Queries --- */
+  @media screen and (max-width: 768px) {
+    .option-image {
+      width: 40px;
+      height: 40px;
+    }
+  
+    .dropdown-selected .option-content span,
+    .dropdown-option span {
+      font-size: 12px;
+    }
+  }

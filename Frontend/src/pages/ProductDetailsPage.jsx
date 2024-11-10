@@ -106,8 +106,7 @@ const ProductDetailsPage = () => {
         </table>
 
         <div className="product-actions">
-          <button onClick={addToCart} className="add-to-cart-button">Add to Cart</button>
-          <button onClick={() => navigate('/checkout')} className="buy-now-button">Buy Now</button>
+          <button onClick={addToCart} className="buy-now-button">Add to Cart</button>
         </div>
 
         <div className="product-description">

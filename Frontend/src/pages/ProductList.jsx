@@ -25,7 +25,7 @@ const ProductList = ({ products, isAdmin, onEditProduct, onDeleteProduct, onAddT
           <h3>{product.name}</h3>
           <p className="description">{product.description}</p>
           <p className="price">₹{product.price}</p>
-          <button onClick={() => onAddToCart(product.id)}>Add to Cart</button>
+          <button className="buy-now" onClick={() => onAddToCart(product.id)}>Add to Cart</button>
           <button className="buy-now" onClick={() => handleBuyNow(product.id)}>More</button>
           {isAdmin && ( // Conditionally render Edit and Delete buttons for admin only
             <>

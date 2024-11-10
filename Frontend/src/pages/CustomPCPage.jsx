@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import './CustomPCPageStyles.css';
 import axios from 'axios';
+import DropdownWithImage from './DropdownWithImage';
 
 const CustomPCPage = () => {
   const navigate = useNavigate();
@@ -40,9 +41,9 @@ const CustomPCPage = () => {
   const [warning, setWarning] = useState("");
   const [user, setUser] = useState(null);
   const maxBudget = 200000;
+  const noneImagePath = 'src/assets/Custom-assets/block/2057530.png';
 
   useEffect(() => {
-    // Check user session
     const checkSession = async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/auth/check-session', { withCredentials: true });
@@ -59,26 +60,24 @@ const CustomPCPage = () => {
 
     checkSession();
 
-    // Fetch available components from the backend
     const fetchComponents = async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/components', { withCredentials: true });
         if (response.status === 200) {
           setComponents(response.data);
-          // Initialize with preselected configuration or first option
           const preselectedConfig = location.state?.preselectedConfig || {};
           setSelectedComponents({
-            processor: response.data.processors.find(p => p.id === preselectedConfig.processor) || response.data.processors[0] || null,
-            motherboard: response.data.motherboards.find(m => m.id === preselectedConfig.motherboard) || response.data.motherboards[0] || null,
-            cabinet: response.data.cabinets.find(c => c.id === preselectedConfig.cabinet) || response.data.cabinets[0] || null,
-            cpuCooler: response.data.cpuCoolers.find(c => c.id === preselectedConfig.cpuCooler) || response.data.cpuCoolers[0] || null,
-            ram: response.data.rams.find(r => r.id === preselectedConfig.ram) || response.data.rams[0] || null,
-            graphicsCard: response.data.graphicsCards.find(g => g.id === preselectedConfig.graphicsCard) || response.data.graphicsCards[0] || null,
-            ssd: response.data.ssds.find(s => s.id === preselectedConfig.ssd) || response.data.ssds[0] || null,
-            hdd: response.data.hdds.find(h => h.id === preselectedConfig.hdd) || response.data.hdds[0] || null,
-            powerSupply: response.data.powerSupplies.find(p => p.id === preselectedConfig.powerSupply) || response.data.powerSupplies[0] || null,
-            caseFan: response.data.caseFans.find(c => c.id === preselectedConfig.caseFan) || response.data.caseFans[0] || null,
-            modCable: response.data.modCables.find(m => m.id === preselectedConfig.modCable) || response.data.modCables[0] || null,
+            processor: response.data.processors.find(p => p.id === preselectedConfig.processor) || null,
+            motherboard: response.data.motherboards.find(m => m.id === preselectedConfig.motherboard) || null,
+            cabinet: response.data.cabinets.find(c => c.id === preselectedConfig.cabinet) || null,
+            cpuCooler: response.data.cpuCoolers.find(c => c.id === preselectedConfig.cpuCooler) || null,
+            ram: response.data.rams.find(r => r.id === preselectedConfig.ram) || null,
+            graphicsCard: response.data.graphicsCards.find(g => g.id === preselectedConfig.graphicsCard) || null,
+            ssd: response.data.ssds.find(s => s.id === preselectedConfig.ssd) || null,
+            hdd: response.data.hdds.find(h => h.id === preselectedConfig.hdd) || null,
+            powerSupply: response.data.powerSupplies.find(p => p.id === preselectedConfig.powerSupply) || null,
+            caseFan: response.data.caseFans.find(c => c.id === preselectedConfig.caseFan) || null,
+            modCable: response.data.modCables.find(m => m.id === preselectedConfig.modCable) || null,
           });
         }
       } catch (error) {
@@ -90,7 +89,6 @@ const CustomPCPage = () => {
   }, [navigate, location.state]);
 
   useEffect(() => {
-    // Calculate total price whenever selected components change
     const calculateTotal = () => {
       let total = 0;
       Object.values(selectedComponents).forEach(component => {
@@ -109,9 +107,7 @@ const CustomPCPage = () => {
     calculateTotal();
   }, [selectedComponents]);
 
-  const handleChange = (componentType, event) => {
-    const selectedId = event.target.value;
-    const selectedComponent = components[`${componentType}s`].find(comp => comp.id === parseInt(selectedId));
+  const handleComponentChange = (componentType, selectedComponent) => {
     setSelectedComponents(prevState => ({
       ...prevState,
       [componentType]: selectedComponent || null
@@ -119,7 +115,6 @@ const CustomPCPage = () => {
   };
 
   const handleAddToCart = async () => {
-    // Prepare the product data
     const productData = {
       name: 'Custom PC',
       description: 'Custom built PC with selected components',
@@ -129,7 +124,7 @@ const CustomPCPage = () => {
       ram: selectedComponents.ram ? selectedComponents.ram.name : '',
       graphicsCard: selectedComponents.graphicsCard ? selectedComponents.graphicsCard.name : '',
       storage: selectedComponents.ssd ? `SSD: ${selectedComponents.ssd.name}, HDD: ${selectedComponents.hdd ? selectedComponents.hdd.name : 'None'}` : '',
-      imageUrl: selectedComponents.cabinet ? selectedComponents.cabinet.image_path : 'assets/custom_pc_default.jpg',
+      imageUrl: selectedComponents.cabinet ? selectedComponents.cabinet.image_path : noneImagePath,
       cabinet: selectedComponents.cabinet ? selectedComponents.cabinet.name : '',
       casefan: selectedComponents.caseFan ? selectedComponents.caseFan.name : '',
       cpucooler: selectedComponents.cpuCooler ? selectedComponents.cpuCooler.name : '',
@@ -141,11 +136,9 @@ const CustomPCPage = () => {
     };
 
     try {
-      // Create the custom product in the backend
       const createProductResponse = await axios.post('http://localhost:8080/api/custom-products/add', productData, { withCredentials: true });
       if (createProductResponse.status === 200) {
         const customProduct = createProductResponse.data;
-        // Add the custom product to the cart
         const addToCartResponse = await axios.post('http://localhost:8080/api/cart/add', null, {
           params: {
             customProductId: customProduct.id,
@@ -174,57 +167,43 @@ const CustomPCPage = () => {
   return (
     <div className="custom-pc-page-container">
       <h2>Build Your Custom PC</h2>
-      <div className="selectors-container">
-        {Object.keys(selectedComponents).map((componentType) => {
-          const componentCategory = componentType.charAt(0).toUpperCase() + componentType.slice(1);
-          const componentList = components[`${componentType}s`] || [];
-          return (
-            <div key={componentType} className="selector">
-              <label>{componentCategory}</label>
-              <select
-                value={selectedComponents[componentType]?.id || 'null'}
-                onChange={(e) => handleChange(componentType, e)}
-              >
-                <option value="null">None</option>
-                {componentList.map((component) => (
-                  <option key={component.id} value={component.id}>
-                    {component.name} - ₹{component.price}
-                  </option>
-                ))}
-              </select>
-            </div>
-          );
-        })}
-      </div>
-
-      <div className="summary-container">
-        <h3>Total Price: ₹{totalPrice}</h3>
-        {warning && <p className="warning">{warning}</p>}
-        <button onClick={handleAddToCart} className="add-to-cart-btn">Add to Cart</button>
-        <button onClick={proceedToCheckout} className="checkout-btn">Proceed to Checkout</button>
-      </div>
-
-      <div className="custom-pc-page-images">
-        {selectedComponents.cabinet && (
-          <img
-            src={`/${selectedComponents.cabinet.image_path}`}
-            alt={selectedComponents.cabinet.name}
-            className="cabinet-image"
-          />
-        )}
-        <div className="components-images">
+      <div className="custom-pc-content">
+        <div className="cabinet-image-container">
+          {selectedComponents.cabinet ? (
+            <img
+              src={`/${selectedComponents.cabinet.image_path}`}
+              alt={selectedComponents.cabinet.name}
+              className="cabinet-image-large"
+            />
+          ) : (
+            <img
+              src={`/${noneImagePath}`}
+              alt="No Cabinet Selected"
+              className="cabinet-image-large"
+            />
+          )}
+        </div>
+        <div className="selectors-container">
           {Object.keys(selectedComponents).map((componentType) => {
-            if (componentType === 'cabinet') return null;
-            const component = selectedComponents[componentType];
-            return component ? (
-              <img
+            const componentCategory = componentType.charAt(0).toUpperCase() + componentType.slice(1);
+            const componentList = components[`${componentType}s`] || [];
+            return (
+              <DropdownWithImage
                 key={componentType}
-                src={`/${component.image_path}`}
-                alt={component.name}
-                className="component-image"
+                label={componentCategory}
+                options={componentList}
+                selectedOption={selectedComponents[componentType]}
+                onChange={(option) => handleComponentChange(componentType, option)}
+                noneImagePath={noneImagePath}
               />
-            ) : null;
+            );
           })}
+          <div className="summary-container">
+            <h3>Total Price: ₹{totalPrice}</h3>
+            {warning && <p className="warning">{warning}</p>}
+            <button onClick={handleAddToCart} className="add-to-cart-btn">Add to Cart</button>
+            <button onClick={proceedToCheckout} className="checkout-btn">Proceed to Checkout</button>
+          </div>
         </div>
       </div>
     </div>

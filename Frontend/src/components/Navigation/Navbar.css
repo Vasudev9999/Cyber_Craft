@@ -10,7 +10,7 @@
   padding: 10px 20px;
   font-family: 'Fredoka', sans-serif; /* Apply Fredoka font */
   position: sticky;
-  top: 0px;
+  top: 3px;
   z-index: 10;
   height: 10px;
   width: 100%;
