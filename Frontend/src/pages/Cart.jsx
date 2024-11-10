@@ -10,7 +10,6 @@ const Cart = ({ user }) => {
   const [cartItems, setCartItems] = useState([]);
   const [removingItem, setRemovingItem] = useState(null);
   const navigate = useNavigate();
-  const imagePath = '/src/assets/product-images/';
 
   useEffect(() => {
     if (user) {
@@ -57,6 +56,20 @@ const Cart = ({ user }) => {
     navigate('/checkout');
   };
 
+  const renderProductImage = (product) => {
+    if (product.imageUrl) {
+      if (product.imageUrl.startsWith('')) {
+        // For custom products
+        return `/${product.imageUrl}`;
+      } else {
+        // For standard products
+        return `/assets/product-images/${product.imageUrl}`;
+      }
+    } else {
+      return fileImage;
+    }
+  };
+
   return (
     <div className="cart">
       <h2>Your Cart</h2>
@@ -72,7 +85,7 @@ const Cart = ({ user }) => {
                 className={classNames('cart-item', { 'swipe-out': removingItem === item.id })}
               >
                 <img
-                  src={`${imagePath}${product.imageUrl}`}
+                  src={renderProductImage(product)}
                   alt={product.name}
                   className="cart-item-image"
                   onError={(e) => { e.target.onerror = null; e.target.src = fileImage; }}
@@ -86,12 +99,12 @@ const Cart = ({ user }) => {
                   {product.graphicsCard && <p>Graphics Card: {product.graphicsCard}</p>}
                   {product.storage && <p>Storage: {product.storage}</p>}
                   {product.cabinet && <p>Cabinet: {product.cabinet}</p>}
-                  {product.caseFan && <p>Case Fan: {product.caseFan}</p>}
-                  {product.cpuCooler && <p>CPU Cooler: {product.cpuCooler}</p>}
+                  {product.casefan && <p>Case Fan: {product.casefan}</p>}
+                  {product.cpucooler && <p>CPU Cooler: {product.cpucooler}</p>}
                   {product.hdd && <p>HDD: {product.hdd}</p>}
-                  {product.modCable && <p>Mod Cable: {product.modCable}</p>}
+                  {product.modcable && <p>Mod Cable: {product.modcable}</p>}
                   {product.motherboard && <p>Motherboard: {product.motherboard}</p>}
-                  {product.powerSupply && <p>Power Supply: {product.powerSupply}</p>}
+                  {product.powersupply && <p>Power Supply: {product.powersupply}</p>}
                   {product.ssd && <p>SSD: {product.ssd}</p>}
                 </div>
                 <button onClick={() => removeFromCart(item.id)} className="remove-button">

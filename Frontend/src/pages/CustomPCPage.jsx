@@ -1,11 +1,12 @@
 // src/components/CustomPCPage.jsx
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import './CustomPCPageStyles.css';
 import axios from 'axios';
 
 const CustomPCPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [components, setComponents] = useState({
     processors: [],
@@ -64,19 +65,20 @@ const CustomPCPage = () => {
         const response = await axios.get('http://localhost:8080/api/components', { withCredentials: true });
         if (response.status === 200) {
           setComponents(response.data);
-          // Initialize with the first option of each component
+          // Initialize with preselected configuration or first option
+          const preselectedConfig = location.state?.preselectedConfig || {};
           setSelectedComponents({
-            processor: response.data.processors[0] || null,
-            motherboard: response.data.motherboards[0] || null,
-            cabinet: response.data.cabinets[0] || null,
-            cpuCooler: response.data.cpuCoolers[0] || null,
-            ram: response.data.rams[0] || null,
-            graphicsCard: response.data.graphicsCards[0] || null,
-            ssd: response.data.ssds[0] || null,
-            hdd: response.data.hdds[0] || null,
-            powerSupply: response.data.powerSupplies[0] || null,
-            caseFan: response.data.caseFans[0] || null,
-            modCable: response.data.modCables[0] || null,
+            processor: response.data.processors.find(p => p.id === preselectedConfig.processor) || response.data.processors[0] || null,
+            motherboard: response.data.motherboards.find(m => m.id === preselectedConfig.motherboard) || response.data.motherboards[0] || null,
+            cabinet: response.data.cabinets.find(c => c.id === preselectedConfig.cabinet) || response.data.cabinets[0] || null,
+            cpuCooler: response.data.cpuCoolers.find(c => c.id === preselectedConfig.cpuCooler) || response.data.cpuCoolers[0] || null,
+            ram: response.data.rams.find(r => r.id === preselectedConfig.ram) || response.data.rams[0] || null,
+            graphicsCard: response.data.graphicsCards.find(g => g.id === preselectedConfig.graphicsCard) || response.data.graphicsCards[0] || null,
+            ssd: response.data.ssds.find(s => s.id === preselectedConfig.ssd) || response.data.ssds[0] || null,
+            hdd: response.data.hdds.find(h => h.id === preselectedConfig.hdd) || response.data.hdds[0] || null,
+            powerSupply: response.data.powerSupplies.find(p => p.id === preselectedConfig.powerSupply) || response.data.powerSupplies[0] || null,
+            caseFan: response.data.caseFans.find(c => c.id === preselectedConfig.caseFan) || response.data.caseFans[0] || null,
+            modCable: response.data.modCables.find(m => m.id === preselectedConfig.modCable) || response.data.modCables[0] || null,
           });
         }
       } catch (error) {
@@ -85,7 +87,7 @@ const CustomPCPage = () => {
     };
 
     fetchComponents();
-  }, [navigate]);
+  }, [navigate, location.state]);
 
   useEffect(() => {
     // Calculate total price whenever selected components change
@@ -127,7 +129,7 @@ const CustomPCPage = () => {
       ram: selectedComponents.ram ? selectedComponents.ram.name : '',
       graphicsCard: selectedComponents.graphicsCard ? selectedComponents.graphicsCard.name : '',
       storage: selectedComponents.ssd ? `SSD: ${selectedComponents.ssd.name}, HDD: ${selectedComponents.hdd ? selectedComponents.hdd.name : 'None'}` : '',
-      imageUrl: 'custom_pc_default.jpg', // Ensure this image exists in frontend assets
+      imageUrl: selectedComponents.cabinet ? selectedComponents.cabinet.image_path : 'assets/custom_pc_default.jpg',
       cabinet: selectedComponents.cabinet ? selectedComponents.cabinet.name : '',
       casefan: selectedComponents.caseFan ? selectedComponents.caseFan.name : '',
       cpucooler: selectedComponents.cpuCooler ? selectedComponents.cpuCooler.name : '',
@@ -205,7 +207,7 @@ const CustomPCPage = () => {
       <div className="custom-pc-page-images">
         {selectedComponents.cabinet && (
           <img
-            src={selectedComponents.cabinet.image_path}
+            src={`/${selectedComponents.cabinet.image_path}`}
             alt={selectedComponents.cabinet.name}
             className="cabinet-image"
           />
@@ -217,7 +219,7 @@ const CustomPCPage = () => {
             return component ? (
               <img
                 key={componentType}
-                src={component.image_path}
+                src={`/${component.image_path}`}
                 alt={component.name}
                 className="component-image"
               />
