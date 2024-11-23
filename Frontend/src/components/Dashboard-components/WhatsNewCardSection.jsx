@@ -17,7 +17,7 @@ const WhatsNewCardSection = ({ cards }) => {
 
   return (
     <div className="whats-new-section">
-      <h3 className="whats-new-title">The latest. Take a look at what’s new right now</h3>
+      <h3 className="whats-new-title">Take a look at what’s upcomming</h3>
       <div className="whats-new-carousel-wrapper">
         <button className="scroll-arrow left-arrow" onClick={() => scroll("left")}>
           &#10094; {/* Left Arrow Icon */}

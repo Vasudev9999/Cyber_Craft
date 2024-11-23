@@ -162,8 +162,9 @@ const PrebuildPC = ({ user }) => {
           RAM:
           <select name="ram" value={filters.ram} onChange={handleFilterChange}>
             <option value="">All</option>
-            <option value="8GB">8GB</option>
-            <option value="16GB">16GB</option>
+            <option value="8 GB">8 GB</option>
+            <option value="16 GB">16 GB</option>
+            <option value="32 GB">32 GB</option>
           </select>
         </label>
 
@@ -172,81 +173,10 @@ const PrebuildPC = ({ user }) => {
           <select name="storage" value={filters.storage} onChange={handleFilterChange}>
             <option value="">All</option>
             <option value="256GB SSD">256GB SSD</option>
-            <option value="1TB HDD">1TB HDD</option>
+            <option value="1TB SSD">1TB SSD</option>
           </select>
         </label>
 
-        <label>
-          Cabinet:
-          <select name="cabinet" value={filters.cabinet} onChange={handleFilterChange}>
-            <option value="">All</option>
-            <option value="Mid Tower">Mid Tower</option>
-            <option value="Full Tower">Full Tower</option>
-          </select>
-        </label>
-
-        <label>
-          Case Fan:
-          <select name="casefan" value={filters.casefan} onChange={handleFilterChange}>
-            <option value="">All</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </label>
-
-        <label>
-          CPU Cooler:
-          <select name="cpucooler" value={filters.cpucooler} onChange={handleFilterChange}>
-            <option value="">All</option>
-            <option value="Air Cooler">Air Cooler</option>
-            <option value="Liquid Cooler">Liquid Cooler</option>
-          </select>
-        </label>
-
-        <label>
-          HDD:
-          <select name="hdd" value={filters.hdd} onChange={handleFilterChange}>
-            <option value="">All</option>
-            <option value="1TB">1TB</option>
-            <option value="2TB">2TB</option>
-          </select>
-        </label>
-
-        <label>
-          Mod Cable:
-          <select name="modcable" value={filters.modcable} onChange={handleFilterChange}>
-            <option value="">All</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </label>
-
-        <label>
-          Motherboard:
-          <select name="motherboard" value={filters.motherboard} onChange={handleFilterChange}>
-            <option value="">All</option>
-            <option value="ATX">ATX</option>
-            <option value="Micro ATX">Micro ATX</option>
-          </select>
-        </label>
-
-        <label>
-          Power Supply:
-          <select name="powersupply" value={filters.powersupply} onChange={handleFilterChange}>
-            <option value="">All</option>
-            <option value="500W">500W</option>
-            <option value="750W">750W</option>
-          </select>
-        </label>
-
-        <label>
-          SSD:
-          <select name="ssd" value={filters.ssd} onChange={handleFilterChange}>
-            <option value="">All</option>
-            <option value="256GB">256GB</option>
-            <option value="512GB">512GB</option>
-          </select>
-        </label>
 
         <label>
           Sort By:

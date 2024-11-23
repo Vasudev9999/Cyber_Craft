@@ -56,17 +56,18 @@ const Cart = ({ user }) => {
     navigate('/checkout');
   };
 
-  const renderProductImage = (product) => {
+  const renderProductImage = (item) => {
+    const product = item.product || item.customProduct;
     if (product.imageUrl) {
-      if (product.imageUrl.startsWith('')) {
+      if (item.customProduct) {
         // For custom products
-        return `/${product.imageUrl}`;
+        return product.imageUrl.startsWith('/') ? product.imageUrl : `/${product.imageUrl}`;
       } else {
         // For standard products
-        return `/assets/product-images/${product.imageUrl}`;
+        return `/src/assets/product-images/${product.imageUrl}`;
       }
     } else {
-      return fileImage;
+      return fileImage; // Fallback image
     }
   };
 
@@ -85,10 +86,13 @@ const Cart = ({ user }) => {
                 className={classNames('cart-item', { 'swipe-out': removingItem === item.id })}
               >
                 <img
-                  src={renderProductImage(product)}
+                  src={renderProductImage(item)}
                   alt={product.name}
                   className="cart-item-image"
-                  onError={(e) => { e.target.onerror = null; e.target.src = fileImage; }}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = fileImage;
+                  }}
                 />
                 <div className="cart-item-details">
                   <h3>{product.name}</h3>
